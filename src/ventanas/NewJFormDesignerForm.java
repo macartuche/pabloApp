@@ -6,7 +6,7 @@ package ventanas;
 
 import java.awt.*;
 import javax.swing.*;
-import com.jgoodies.forms.layout.*;
+//import com.jgoodies.forms.layout.*;
 
 /**
  * @author unknown
@@ -22,9 +22,9 @@ public class NewJFormDesignerForm extends JFrame {
 
         //======== this ========
         Container contentPane = getContentPane();
-        contentPane.setLayout(new FormLayout(
-            "default, $lcgap, default",
-            "2*(default, $lgap), default"));
+//        contentPane.setLayout(new FormLayout(
+//            "default, $lcgap, default",
+//            "2*(default, $lgap), default"));
         pack();
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
