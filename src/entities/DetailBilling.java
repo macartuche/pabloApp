@@ -228,4 +228,25 @@ public class DetailBilling implements Serializable {
         return "entities.DetailBilling[ id=" + id + " ]";
     }
 
+    
+    public String getProducto(){
+        return productId.getName();
+    }
+    
+    public String getCantidad(){
+        return quantity.toString();
+    }
+    
+    public String getPrecioUnitario(){
+        return productId.getSaleprice().toString();
+    }
+       
+    
+    public String getDescuento(){
+        return valueDiscount.toString();
+    }
+    
+    public String getPrecioTotal(){
+        return total.toString();
+    }
 }

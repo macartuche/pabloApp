@@ -38,6 +38,7 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
     private List<String> list = new ArrayList<>();
 //    static List<String> products;
     private List<Product> products = new ArrayList<>();
+    private List<DetailBilling> details;
 
     /**
      * Creates new form VentasForm
@@ -48,10 +49,11 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         initComponents();
     }
 
-    public ItemForm(java.awt.Frame parent, boolean modal, DetailBilling db) {
+    public ItemForm(java.awt.Frame parent, boolean modal, DetailBilling db, List<DetailBilling> details) {
         super(parent, modal);
         controllerProducto = new ProductJpaController();
         initComponents();
+        this.details = details;
         this.detailBilling = db;
         fijarEntidad();
     }
@@ -308,6 +310,9 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        details.add(detailBilling);
+        this.dispose();
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
@@ -474,6 +479,7 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
 
     private DetailBilling detailBilling;
     private Product product;
+    
 
     public DetailBilling getDetailBilling() {
         return detailBilling;
