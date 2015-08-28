@@ -66,7 +66,8 @@ public class Utilitario {
      * @return
      */
     public static boolean campoVacio(String campo) {
-        return (campo.trim().isEmpty()) ? true : false;
+//        return (campo.trim().isEmpty()) ? true : false;
+        return (campo.trim().isEmpty());
     }
 
     /**
@@ -99,4 +100,8 @@ public class Utilitario {
     	}
     	return  hexString.toString();
     }
+    
+    
+    
+    
 }

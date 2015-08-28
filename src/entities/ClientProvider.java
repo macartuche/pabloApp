@@ -34,11 +34,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ClientProvider.findAll", query = "SELECT c FROM ClientProvider c"),
     @NamedQuery(name = "ClientProvider.findById", query = "SELECT c FROM ClientProvider c WHERE c.id = :id"),
     @NamedQuery(name = "ClientProvider.findByActiveclient", query = "SELECT c FROM ClientProvider c WHERE c.activeclient = :activeclient"),
-    @NamedQuery(name = "ClientProvider.findByClient", 
+    @NamedQuery(name = "ClientProvider.findByClient",
             query = "SELECT c FROM ClientProvider c WHERE c.client = :client"),
+    @NamedQuery(name = "ClientProvider.findByClientCriteria",
+            query = "SELECT c FROM ClientProvider c"
+            + " WHERE c.client = :client "
+            + " and (c.personId.passport like :criteria or "
+            + "lower(c.personId.names) like :criteria or "
+            + "lower(c.personId.lastname) like :criteria)"),
     @NamedQuery(name = "ClientProvider.findByProvider", query = "SELECT c FROM ClientProvider c WHERE c.provider = :provider"),
     @NamedQuery(name = "ClientProvider.findByActiveprovider", query = "SELECT c FROM ClientProvider c WHERE c.activeprovider = :activeprovider")})
 public class ClientProvider implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -147,17 +154,21 @@ public class ClientProvider implements Serializable {
     public String toString() {
         return "entities.ClientProvider[ id=" + id + " ]";
     }
-    
-    public String getNombres(){
-        return personId.getNames()+" "+personId.getLastname();
+
+    public String getNombres() {
+        return personId.getNames();
     }
-    
-    public String getIdentificacion(){
+
+    public String getApellidos() {
+        return personId.getLastname();
+    }
+
+    public String getIdentificacion() {
         return personId.getPassport();
     }
-    
-    public String getEstado(){
-        return (activeclient)? "Activo" : "Inactivo";
+
+    public String getEstado() {
+        return (activeclient) ? "Activo" : "Inactivo";
     }
-    
+
 }

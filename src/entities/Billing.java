@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -21,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,9 +38,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Billing.findById", query = "SELECT b FROM Billing b WHERE b.id = :id"),
     @NamedQuery(name = "Billing.findByType", query = "SELECT b FROM Billing b WHERE b.type = :type"),
     @NamedQuery(name = "Billing.findBySubtotal", query = "SELECT b FROM Billing b WHERE b.subtotal = :subtotal"),
-    @NamedQuery(name = "Billing.findByTaxes", query = "SELECT b FROM Billing b WHERE b.taxes = :taxes"),
+    @NamedQuery(name = "Billing.findByFilter",
+            query = "SELECT b FROM Billing b"
+            + " WHERE b.emissiondate between :startDate"
+            + " and :endDate"
+            + " and (b.clientProviderid.personId.passport like :rucci or"
+            + " lower(b.number) like :numReceipt)"),
+    @NamedQuery(name = "Billing.findByTaxes", query = "SELECT b FROM Billing b WHERE b.totaliva = :totaliva"),
     @NamedQuery(name = "Billing.findByTotal", query = "SELECT b FROM Billing b WHERE b.total = :total")})
+@SuppressWarnings("ValidAttributes")
 public class Billing implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,13 +57,28 @@ public class Billing implements Serializable {
     private Integer id;
     @Column(name = "type")
     private String type;
+    @Column(name = "emissiondate")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date emissiondate;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "subtotal")
     private BigDecimal subtotal;
-    @Column(name = "taxes")
-    private BigDecimal taxes;
+    @Column(name = "totaliva")
+    private BigDecimal totaliva;
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "totaldiscount")
+    private BigDecimal totaldiscount;
+    @Column(name = "state")
+    private String state;
+    @Column(name = "sequential")
+    private String sequential;
+    @Column(name = "number")
+    private String number;
+    @Column(name = "emissionpoint_id")
+    private Integer emissionpoint_id;
+    @Column(name = "shop_id")
+    private Integer shop_id;
     @JoinColumn(name = "clientProvider_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ClientProvider clientProviderid;
@@ -85,6 +110,22 @@ public class Billing implements Serializable {
         this.type = type;
     }
 
+    public Date getEmissiondate() {
+        return emissiondate;
+    }
+
+    public void setEmissiondate(Date emissiondate) {
+        this.emissiondate = emissiondate;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     public BigDecimal getSubtotal() {
         return subtotal;
     }
@@ -93,20 +134,60 @@ public class Billing implements Serializable {
         this.subtotal = subtotal;
     }
 
-    public BigDecimal getTaxes() {
-        return taxes;
-    }
-
-    public void setTaxes(BigDecimal taxes) {
-        this.taxes = taxes;
-    }
-
     public BigDecimal getTotal() {
         return total;
     }
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public BigDecimal getTotaldiscount() {
+        return totaldiscount;
+    }
+
+    public void setTotaldiscount(BigDecimal totaldiscount) {
+        this.totaldiscount = totaldiscount;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getSequential() {
+        return sequential;
+    }
+
+    public void setSequential(String sequential) {
+        this.sequential = sequential;
+    }
+
+    public BigDecimal getTotaliva() {
+        return totaliva;
+    }
+
+    public void setTotaliva(BigDecimal totaliva) {
+        this.totaliva = totaliva;
+    }
+
+    public Integer getEmissionpoint_id() {
+        return emissionpoint_id;
+    }
+
+    public void setEmissionpoint_id(Integer emissionpoint_id) {
+        this.emissionpoint_id = emissionpoint_id;
+    }
+
+    public Integer getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(Integer shop_id) {
+        this.shop_id = shop_id;
     }
 
     public ClientProvider getClientProviderid() {
@@ -159,5 +240,21 @@ public class Billing implements Serializable {
     public String toString() {
         return "entities.Billing[ id=" + id + " ]";
     }
-    
+
+    public String getFecha() {
+        return emissiondate.toString();
+    }
+
+    public String getCliente() {
+        return clientProviderid.getNombres() + " " + clientProviderid.getApellidos();
+    }
+
+    public String getNumero() {
+        return number;
+    }
+
+    public String getEstado() {
+        return state;
+    }
+
 }

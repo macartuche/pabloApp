@@ -8,7 +8,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-08-20T06:11:18")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-08-27T19:13:49")
 @StaticMetamodel(Product.class)
 public class Product_ { 
 
@@ -19,8 +19,9 @@ public class Product_ {
     public static volatile ListAttribute<Product, Inventary> inventaryList;
     public static volatile SingularAttribute<Product, String> name;
     public static volatile SingularAttribute<Product, BigDecimal> purchaseprice;
-    public static volatile SingularAttribute<Product, Short> active;
+    public static volatile SingularAttribute<Product, Boolean> active;
     public static volatile SingularAttribute<Product, String> code;
+    public static volatile SingularAttribute<Product, BigDecimal> percentageIva;
     public static volatile ListAttribute<Product, DetailBilling> detailBillingList;
 
 }

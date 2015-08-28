@@ -30,7 +30,7 @@ public class ClientProviderJpaController extends EntityManagerProj implements Se
 
     public ClientProviderJpaController() {
         super();
-    } 
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -229,22 +229,39 @@ public class ClientProviderJpaController extends EntityManagerProj implements Se
             em.close();
         }
     }
-    
-        public List<ClientProvider> getClients(String query, Map<String, Object> filters ){
+
+    public List<ClientProvider> getClients(String query, Map<String, Object> filters) {
         EntityManager em = super.getEmf().createEntityManager();
-        try { 
-            
+        try {
+
             Query q = em.createNamedQuery(query);
             for (Map.Entry<String, Object> entrySet : filters.entrySet()) {
                 String key = entrySet.getKey();
                 Object value = entrySet.getValue();
-                q.setParameter(key, value);                
+                q.setParameter(key, value);
             }
             return q.getResultList();
         } finally {
             em.close();
-        } 
-        
+        }
+
     }
-    
+
+    public List<ClientProvider> namedQuery(String query, Map<String, Object> filters) {
+        EntityManager em = super.getEmf().createEntityManager();
+        try {
+
+            Query q = em.createNamedQuery(query);
+            for (Map.Entry<String, Object> entrySet : filters.entrySet()) {
+                String key = entrySet.getKey();
+                Object value = entrySet.getValue();
+                q.setParameter(key, value);
+            }
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+
+    }
+
 }

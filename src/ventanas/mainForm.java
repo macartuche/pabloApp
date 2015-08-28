@@ -5,12 +5,20 @@
  */
 package ventanas;
 
+import java.awt.Frame;
 import javax.swing.JPanel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import ventanas.administracion.usuarios;
+import ventanas.compras.Compras;
+import ventanas.compras.CtasPagar;
+import ventanas.compras.Proveedores;
+import ventanas.inventario.productos;
+import ventanas.inventario.products;
 import ventanas.ventas.clientes;
+import ventanas.ventas.ctasCobrar;
+import ventanas.ventas.ventas;
 
 /**
  *
@@ -34,22 +42,35 @@ public class mainForm extends javax.swing.JFrame {
                 String option = nodeInfo.toString();
                 switch (option) {
                     case "Facturas de compra":
+                        Compras comp = new Compras();
+                        crearPestana(comp, "Compras ");
                         break;
                     case "Proveedores":
+                        Proveedores prov = new Proveedores();
+                        crearPestana(prov, "Proveedores     ");
                         break;
                     case "Clientes":
                         clientes panel = new clientes();
                         crearPestana(panel, "Clientes     ");
                         break;
                     case "Facturas de venta":
+                        ventas ven = new ventas();
+                        crearPestana(ven, "Facturas de venta");
                         break;
                     case "Kardex":
                         break;
                     case "Cuentas por cobrar":
+                        ctasCobrar ctaCobrar = new ctasCobrar();
+                        crearPestana(ctaCobrar, "Cuentas por cobrar");
                         break;
                     case "Cuentas por pagar":
+                        CtasPagar ctaPagar = new CtasPagar();
+                        crearPestana(ctaPagar, "Cuentas por pagar");
                         break;
-                    case "Por producto":
+                    case "Productos":
+//                        productos prod = new productos();
+                        products prod = new products();
+                        crearPestana(prod, "Productos     ");
                         break;
                     case "Por cliente":
                         break;
@@ -60,6 +81,8 @@ public class mainForm extends javax.swing.JFrame {
                 }
             }
         });
+//        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        this.setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
     private void crearPestana(JPanel panel, String titulo) {

@@ -5,6 +5,9 @@
  */
 package ventanas.ventas;
 
+import entities.Billing;
+import entities.DetailBilling;
+
 /**
  *
  * @author macbookpro
@@ -17,6 +20,42 @@ public class VentasForm extends javax.swing.JDialog {
     public VentasForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public VentasForm(java.awt.Frame parent, boolean modal, Billing b) {
+        super(parent, modal);
+        initComponents();
+        this.billing = b;
+        fijarEntidad();
+    }
+
+    private void fijarEntidad() {
+//        nombres.setText(this.user.getPersonId().getNames());
+//        apellidos.setText(this.user.getPersonId().getLastname());
+//        identificacion.setText(this.user.getPersonId().getPassport());
+//        direccion.setText(this.user.getPersonId().getAddress());
+//        correo.setText(this.user.getPersonId().getEmail());
+//        usuario.setText(this.user.getNick());
+//        rol.setSelectedItem(this.user.getRol());
+//        if (this.user.getId() == null) {
+//            clave.setEnabled(true);
+//            cambiarClave.setVisible(false);
+//        } else {
+//            clave.setEnabled(false);
+//            cambiarClave.setVisible(true);
+//        }
+//
+//        if (this.user.getPersonId().getSex().equals("M")) {
+//            sexo = "M";
+//            masculino.setSelected(true);
+//        } else {
+//            sexo = "F";
+//            femenino.setSelected(true);
+//        }
+//
+//        if (this.user.getActive()) {
+//            estado.setSelected(true);
+//        }
     }
 
     /**
@@ -42,7 +81,7 @@ public class VentasForm extends javax.swing.JDialog {
         jTextField4 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton2 = new javax.swing.JButton();
+        butonAgregarFila = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jTextField5 = new javax.swing.JTextField();
@@ -52,8 +91,9 @@ public class VentasForm extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        jComboBox2 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Factura de venta");
@@ -87,8 +127,13 @@ public class VentasForm extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Detalle");
 
-        jButton2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton2.setText("Agregar filas");
+        butonAgregarFila.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        butonAgregarFila.setText("Agregar filas");
+        butonAgregarFila.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butonAgregarFilaActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,11 +180,28 @@ public class VentasForm extends javax.swing.JDialog {
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("0,00");
 
-        jButton3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton3.setText("Guardar");
+        btnGuardar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton4.setText("Cancelar");
+        btnCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -181,8 +243,10 @@ public class VentasForm extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSeparator2))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(178, 178, 178)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(butonAgregarFila, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -202,9 +266,9 @@ public class VentasForm extends javax.swing.JDialog {
                                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3)
+                                .addComponent(btnGuardar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)))))
+                                .addComponent(btnCancelar)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -234,10 +298,14 @@ public class VentasForm extends javax.swing.JDialog {
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(butonAgregarFila))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -254,8 +322,8 @@ public class VentasForm extends javax.swing.JDialog {
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)))
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancelar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -277,6 +345,40 @@ public class VentasForm extends javax.swing.JDialog {
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void butonAgregarFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonAgregarFilaActionPerformed
+        // TODO add your handling code here:
+        DetailBilling db = new DetailBilling();
+        abrirVentana(db);
+    }//GEN-LAST:event_butonAgregarFilaActionPerformed
+
+    private void jComboBox2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MouseClicked
+        System.out.println("OKOK");
+    }//GEN-LAST:event_jComboBox2MouseClicked
+
+    private void abrirVentana(final DetailBilling db) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                final ItemForm dialog = new ItemForm(new javax.swing.JFrame(), true, db);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        dialog.dispose();
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     /**
      * @param args the command line arguments
@@ -320,12 +422,24 @@ public class VentasForm extends javax.swing.JDialog {
         });
     }
 
+    private Billing billing;
+
+    public Billing getBilling() {
+        return billing;
+    }
+
+    public void setBilling(Billing billing) {
+        this.billing = billing;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton butonAgregarFila;
     private quick.dbtable.DBTable dBTable1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

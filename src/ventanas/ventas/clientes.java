@@ -7,12 +7,17 @@ package ventanas.ventas;
 
 import controllers.ClientProviderJpaController;
 import controllers.PersonJpaController;
+import controllers.exceptions.NonexistentEntityException;
 import entities.ClientProvider;
+import entities.Person;
+import entities.Users;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import ventanas.administracion.UsuarioForm;
 import ventanas.administracion.usuarios;
 
 /**
@@ -44,43 +49,43 @@ public class clientes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        criteria = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        txtCriterio = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         resultados = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        btnActivarDesativar = new javax.swing.JButton();
         dBTable1 = new quick.dbtable.DBTable();
-        jButton6 = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton1.setText("Nuevo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNuevoActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton2.setText("Editar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel1.setText("Criterio: ");
 
-        jButton4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton4.setText("Buscar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -90,19 +95,19 @@ public class clientes extends javax.swing.JPanel {
         resultados.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         resultados.setText("Resultados: ");
 
-        jButton5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton5.setText("Activar/Desactivar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnActivarDesativar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnActivarDesativar.setText("Activar/Desactivar");
+        btnActivarDesativar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnActivarDesativarActionPerformed(evt);
             }
         });
 
-        jButton6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton6.setText("Limpiar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnLimpiar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnLimpiarActionPerformed(evt);
             }
         });
 
@@ -120,11 +125,11 @@ public class clientes extends javax.swing.JPanel {
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnActivarDesativar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(288, 288, 288))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(dBTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -135,12 +140,12 @@ public class clientes extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(criteria, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(129, 129, 129))))))
         );
         layout.setVerticalGroup(
@@ -150,51 +155,54 @@ public class clientes extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(criteria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resultados, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dBTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnActivarDesativar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        int indice = dBTable1.getSelectedRow();
+        if (indice < 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            ClientProvider cp = clientProviders.get(indice);
+            abrirVentana(cp);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnActivarDesativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarDesativarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnActivarDesativarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ClienteForm dialog = new ClienteForm(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        ClientProvider cp = new ClientProvider();
+        cp.setClient(Boolean.TRUE);
+        cp.setActiveclient(Boolean.TRUE);
+        cp.setProvider(Boolean.FALSE);
+        cp.setActiveprovider(Boolean.FALSE);
+        cp.setPersonId(new Person());
+        cp.getPersonId().setSex("M");
+        abrirVentana(cp);
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        criteria.setText("");
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        txtCriterio.setText("");
         verTabla();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     public static void verTabla() {
         dBTable1.createControlPanel();
@@ -209,30 +217,76 @@ public class clientes extends javax.swing.JPanel {
     private static void fijarDatos(List<ClientProvider> clientProviders) {
         try {
             resultados.setText("Resultados: " + clientProviders.size());
-            String methodNames[] = {"getNombres", "getIdentificacion", "getEstado"};
+            String methodNames[] = {"getNombres", "getApellidos", "getIdentificacion", "getEstado"};
             dBTable1.refreshDataObject(clientProviders, methodNames);
             dBTable1.getColumn(0).setPreferredWidth(300);
-            dBTable1.getColumn(1).setPreferredWidth(100);
-            dBTable1.getColumn(2).setPreferredWidth(100); 
+            dBTable1.getColumn(1).setPreferredWidth(300);
+            dBTable1.getColumn(2).setPreferredWidth(100);
+            dBTable1.getColumn(3).setPreferredWidth(100);
+        } catch (Exception ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void abrirVentana(final ClientProvider cp) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                final ClienteForm dialog = new ClienteForm(new javax.swing.JFrame(), true, cp);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        dialog.dispose();
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        String ident = txtCriterio.getText();
+        if (!ident.trim().isEmpty()) {
+            Map<String, Object> variables = new HashMap<String, Object>();
+            variables.put("client", Boolean.TRUE);
+            variables.put("criteria", ident.toLowerCase() + "%");
+            List<ClientProvider> busqueda = controller.namedQuery("ClientProvider.findByClientCriteria", variables);
+            System.out.println("=>" + busqueda.size());
+            fijarDatos(busqueda);
+        }
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    public static void crear(ClientProvider cp) {
+        controllerPerson.create(cp.getPersonId());
+        controller.create(cp);
+        verTabla();
+    }
+
+    public static void actualizar(ClientProvider cp) {
+        try {
+            controllerPerson.edit(cp.getPersonId());
+            controller.edit(cp);
+            verTabla();
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(usuarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(usuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField criteria;
+    private javax.swing.JButton btnActivarDesativar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnNuevo;
     private static quick.dbtable.DBTable dBTable1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private static javax.swing.JLabel resultados;
+    private javax.swing.JTextField txtCriterio;
     // End of variables declaration//GEN-END:variables
 }

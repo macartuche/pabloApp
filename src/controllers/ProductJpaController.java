@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import entities.Inventary;
 import entities.Product;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -24,16 +25,20 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author macbookpro
  */
-public class ProductJpaController implements Serializable {
+public class ProductJpaController extends EntityManagerProj implements Serializable {
+
+    public ProductJpaController() {
+        super();
+    }
 
     public ProductJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+//    public EntityManager getEntityManager() {
+//        return emf.createEntityManager();
+//    }
 
     public void create(Product product) {
         if (product.getDetailBillingList() == null) {
@@ -44,7 +49,8 @@ public class ProductJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            em = getEntityManager();
+//            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             List<DetailBilling> attachedDetailBillingList = new ArrayList<DetailBilling>();
             for (DetailBilling detailBillingListDetailBillingToAttach : product.getDetailBillingList()) {
@@ -88,7 +94,8 @@ public class ProductJpaController implements Serializable {
     public void edit(Product product) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+//            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Product persistentProduct = em.find(Product.class, product.getId());
             List<DetailBilling> detailBillingListOld = persistentProduct.getDetailBillingList();
@@ -172,7 +179,8 @@ public class ProductJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+//            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Product product;
             try {
@@ -217,7 +225,8 @@ public class ProductJpaController implements Serializable {
     }
 
     private List<Product> findProductEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+//        EntityManager em = getEntityManager();
+        em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Product.class));
@@ -233,7 +242,8 @@ public class ProductJpaController implements Serializable {
     }
 
     public Product findProduct(Integer id) {
-        EntityManager em = getEntityManager();
+//        EntityManager em = getEntityManager();
+        em = super.getEmf().createEntityManager();
         try {
             return em.find(Product.class, id);
         } finally {
@@ -242,7 +252,8 @@ public class ProductJpaController implements Serializable {
     }
 
     public int getProductCount() {
-        EntityManager em = getEntityManager();
+//        EntityManager em = getEntityManager();
+        em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Product> rt = cq.from(Product.class);
@@ -253,5 +264,22 @@ public class ProductJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Product> namedQuery(String query, Map<String, Object> filters) {
+        EntityManager em = super.getEmf().createEntityManager();
+        try {
+
+            Query q = em.createNamedQuery(query);
+            for (Map.Entry<String, Object> entrySet : filters.entrySet()) {
+                String key = entrySet.getKey();
+                Object value = entrySet.getValue();
+                q.setParameter(key, value);
+            }
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+
+    }
+
 }

@@ -5,11 +5,22 @@
  */
 package ventanas.inventario;
 
+import controllers.ProductJpaController;
+import controllers.UsersJpaController;
+import controllers.exceptions.NonexistentEntityException;
+import entities.Product;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author macbookpro
  */
 public class productos extends javax.swing.JPanel {
+
+    static ProductJpaController controller;
+    static List<Product> products;
 
     /**
      * Creates new form productos
@@ -37,7 +48,7 @@ public class productos extends javax.swing.JPanel {
         jButton7 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaClientes1 = new javax.swing.JTable();
+        productsTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -77,8 +88,8 @@ public class productos extends javax.swing.JPanel {
             }
         });
 
-        tablaClientes1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tablaClientes1.setModel(new javax.swing.table.DefaultTableModel(
+        productsTable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        productsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -97,7 +108,7 @@ public class productos extends javax.swing.JPanel {
                 "Nombre", "Precio de compra", "Precio de venta", "Stock actual"
             }
         ));
-        jScrollPane2.setViewportView(tablaClientes1);
+        jScrollPane2.setViewportView(productsTable);
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton1.setText("Nuevo");
@@ -218,6 +229,30 @@ public class productos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    public static void crear(Product p) {
+        controller.create(p);
+        verTabla();
+    }
+
+    public static void actualizar(Product p) {
+        try {
+            controller.edit(p);
+            verTabla();
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void verTabla() {
+//        dBTable1.createControlPanel();
+//        usuarios = controller.findUsersEntities();
+//        fijarDatos(usuarios);
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -233,6 +268,6 @@ public class productos extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTable tablaClientes1;
+    private javax.swing.JTable productsTable;
     // End of variables declaration//GEN-END:variables
 }

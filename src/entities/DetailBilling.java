@@ -38,22 +38,34 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DetailBilling.findByAutorizationCode", query = "SELECT d FROM DetailBilling d WHERE d.autorizationCode = :autorizationCode"),
     @NamedQuery(name = "DetailBilling.findByDateauthorization", query = "SELECT d FROM DetailBilling d WHERE d.dateauthorization = :dateauthorization")})
 public class DetailBilling implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
     @Column(name = "quantity")
-    private Integer quantity;
+    private BigDecimal quantity;
+//    private Integer quantity;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "unitaryPrice")
+    @Column(name = "unitaryprice")
     private BigDecimal unitaryPrice;
+    @Column(name = "valuediscount")
+    private BigDecimal valueDiscount;
+    @Column(name = "percentagediscount")
+    private BigDecimal percentageDiscount;
+    @Column(name = "valueivazero")
+    private BigDecimal valueIvaZero;
+    @Column(name = "valueivatwelve")
+    private BigDecimal valueIvaTwelve;
+    @Column(name = "subtotal")
+    private BigDecimal subtotal;
     @Column(name = "total")
     private BigDecimal total;
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @Column(name = "autorizationCode")
+    @Column(name = "autorizationcode")
     private String autorizationCode;
     @Column(name = "dateauthorization")
     @Temporal(TemporalType.TIMESTAMP)
@@ -80,11 +92,18 @@ public class DetailBilling implements Serializable {
         this.id = id;
     }
 
-    public Integer getQuantity() {
+//    public Integer getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(Integer quantity) {
+//        this.quantity = quantity;
+//    }
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -94,6 +113,46 @@ public class DetailBilling implements Serializable {
 
     public void setUnitaryPrice(BigDecimal unitaryPrice) {
         this.unitaryPrice = unitaryPrice;
+    }
+
+    public BigDecimal getValueDiscount() {
+        return valueDiscount;
+    }
+
+    public void setValueDiscount(BigDecimal valueDiscount) {
+        this.valueDiscount = valueDiscount;
+    }
+
+    public BigDecimal getPercentageDiscount() {
+        return percentageDiscount;
+    }
+
+    public void setPercentageDiscount(BigDecimal percentageDiscount) {
+        this.percentageDiscount = percentageDiscount;
+    }
+
+    public BigDecimal getValueIvaZero() {
+        return valueIvaZero;
+    }
+
+    public void setValueIvaZero(BigDecimal valueIvaZero) {
+        this.valueIvaZero = valueIvaZero;
+    }
+
+    public BigDecimal getValueIvaTwelve() {
+        return valueIvaTwelve;
+    }
+
+    public void setValueIvaTwelve(BigDecimal valueIvaTwelve) {
+        this.valueIvaTwelve = valueIvaTwelve;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
     }
 
     public BigDecimal getTotal() {
@@ -168,5 +227,5 @@ public class DetailBilling implements Serializable {
     public String toString() {
         return "entities.DetailBilling[ id=" + id + " ]";
     }
-    
+
 }

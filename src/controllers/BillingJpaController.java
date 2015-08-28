@@ -18,6 +18,7 @@ import entities.DetailBilling;
 import java.util.ArrayList;
 import java.util.List;
 import entities.Inventary;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -25,12 +26,16 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author macbookpro
  */
-public class BillingJpaController implements Serializable {
+public class BillingJpaController extends EntityManagerProj implements Serializable {
 
-    public BillingJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public BillingJpaController() {
+        super();
     }
-    private EntityManagerFactory emf = null;
+
+//    public BillingJpaController(EntityManagerFactory emf) {
+//        this.emf = emf;
+//    }
+//    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -45,7 +50,8 @@ public class BillingJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            em = getEntityManager();
+//            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             ClientProvider clientProviderid = billing.getClientProviderid();
             if (clientProviderid != null) {
@@ -98,7 +104,8 @@ public class BillingJpaController implements Serializable {
     public void edit(Billing billing) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+//            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Billing persistentBilling = em.find(Billing.class, billing.getId());
             ClientProvider clientProvideridOld = persistentBilling.getClientProviderid();
@@ -196,7 +203,8 @@ public class BillingJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+//            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Billing billing;
             try {
@@ -246,7 +254,8 @@ public class BillingJpaController implements Serializable {
     }
 
     private List<Billing> findBillingEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+//        EntityManager em = getEntityManager();
+         em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Billing.class));
@@ -262,7 +271,8 @@ public class BillingJpaController implements Serializable {
     }
 
     public Billing findBilling(Integer id) {
-        EntityManager em = getEntityManager();
+//        EntityManager em = getEntityManager();
+         em = super.getEmf().createEntityManager();
         try {
             return em.find(Billing.class, id);
         } finally {
@@ -271,7 +281,8 @@ public class BillingJpaController implements Serializable {
     }
 
     public int getBillingCount() {
-        EntityManager em = getEntityManager();
+//        EntityManager em = getEntityManager();
+         em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Billing> rt = cq.from(Billing.class);
@@ -282,5 +293,22 @@ public class BillingJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Billing> namedQuery(String query, Map<String, Object> filters) {
+        EntityManager em = super.getEmf().createEntityManager();
+        try {
+
+            Query q = em.createNamedQuery(query);
+            for (Map.Entry<String, Object> entrySet : filters.entrySet()) {
+                String key = entrySet.getKey();
+                Object value = entrySet.getValue();
+                q.setParameter(key, value);
+            }
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+
+    }
+
 }
