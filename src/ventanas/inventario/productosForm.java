@@ -299,8 +299,8 @@ public class productosForm extends javax.swing.JDialog {
         );
         this.product.setName(txtNombre.getText());
         this.product.setCode(txtCodigo.getText());
-        this.product.setStock(Integer.parseInt(txtStockActual.getText()));
-        this.product.setMinvalue(Integer.parseInt(txtStockMinimo.getText()));
+        this.product.setStock(new BigDecimal(txtStockActual.getText()));
+        this.product.setMinvalue(new BigDecimal(txtStockMinimo.getText()));
         this.product.setActive(checkActivo.isSelected());
         this.product.setPurchaseprice(new BigDecimal(txtPrecioCompra.getText()));
         this.product.setSaleprice(new BigDecimal(txtPrecioVenta.getText()));

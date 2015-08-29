@@ -8,7 +8,9 @@ package ventanas.ventas;
 import controllers.BillingJpaController;
 import controllers.PersonJpaController;
 import entities.Billing;
+import entities.DetailBilling;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -283,6 +285,7 @@ public class ventas extends javax.swing.JPanel {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         Billing b = new Billing();
+        b.setDetailBillingList(new ArrayList<DetailBilling>());
         b.setEmissiondate(new Date());
         abrirVentana(b);
     }//GEN-LAST:event_btnNuevoActionPerformed

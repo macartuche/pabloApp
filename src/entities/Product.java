@@ -58,9 +58,9 @@ public class Product implements Serializable {
     @Column(name = "code")
     private String code;
     @Column(name = "stock")
-    private Integer stock;
+    private BigDecimal stock;
     @Column(name = "minvalue")
-    private Integer minvalue;
+    private BigDecimal minvalue;
     @Basic(optional = false)
     @Column(name = "active")
     private Boolean active;
@@ -107,19 +107,19 @@ public class Product implements Serializable {
         this.code = code;
     }
 
-    public Integer getStock() {
+    public BigDecimal getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(BigDecimal stock) {
         this.stock = stock;
     }
 
-    public Integer getMinvalue() {
+    public BigDecimal getMinvalue() {
         return minvalue;
     }
 
-    public void setMinvalue(Integer minvalue) {
+    public void setMinvalue(BigDecimal minvalue) {
         this.minvalue = minvalue;
     }
 

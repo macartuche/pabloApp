@@ -7,7 +7,6 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,10 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DetailBilling.findById", query = "SELECT d FROM DetailBilling d WHERE d.id = :id"),
     @NamedQuery(name = "DetailBilling.findByQuantity", query = "SELECT d FROM DetailBilling d WHERE d.quantity = :quantity"),
     @NamedQuery(name = "DetailBilling.findByUnitaryPrice", query = "SELECT d FROM DetailBilling d WHERE d.unitaryPrice = :unitaryPrice"),
-    @NamedQuery(name = "DetailBilling.findByTotal", query = "SELECT d FROM DetailBilling d WHERE d.total = :total"),
-    @NamedQuery(name = "DetailBilling.findByDate", query = "SELECT d FROM DetailBilling d WHERE d.date = :date"),
-    @NamedQuery(name = "DetailBilling.findByAutorizationCode", query = "SELECT d FROM DetailBilling d WHERE d.autorizationCode = :autorizationCode"),
-    @NamedQuery(name = "DetailBilling.findByDateauthorization", query = "SELECT d FROM DetailBilling d WHERE d.dateauthorization = :dateauthorization")})
+    @NamedQuery(name = "DetailBilling.findByTotal", query = "SELECT d FROM DetailBilling d WHERE d.total = :total")})
 public class DetailBilling implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,22 +48,14 @@ public class DetailBilling implements Serializable {
     private BigDecimal valueDiscount;
     @Column(name = "percentagediscount")
     private BigDecimal percentageDiscount;
-    @Column(name = "valueivazero")
-    private BigDecimal valueIvaZero;
-    @Column(name = "valueivatwelve")
-    private BigDecimal valueIvaTwelve;
+    @Column(name = "valueiva")
+    private BigDecimal valueIva;
+    @Column(name = "percentageiva")
+    private BigDecimal percentageIva;
     @Column(name = "subtotal")
     private BigDecimal subtotal;
     @Column(name = "total")
     private BigDecimal total;
-    @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-    @Column(name = "autorizationcode")
-    private String autorizationCode;
-    @Column(name = "dateauthorization")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateauthorization;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Product productId;
@@ -131,20 +117,20 @@ public class DetailBilling implements Serializable {
         this.percentageDiscount = percentageDiscount;
     }
 
-    public BigDecimal getValueIvaZero() {
-        return valueIvaZero;
+    public BigDecimal getValueIva() {
+        return valueIva;
     }
 
-    public void setValueIvaZero(BigDecimal valueIvaZero) {
-        this.valueIvaZero = valueIvaZero;
+    public void setValueIva(BigDecimal valueIva) {
+        this.valueIva = valueIva;
     }
 
-    public BigDecimal getValueIvaTwelve() {
-        return valueIvaTwelve;
+    public BigDecimal getPercentageIva() {
+        return percentageIva;
     }
 
-    public void setValueIvaTwelve(BigDecimal valueIvaTwelve) {
-        this.valueIvaTwelve = valueIvaTwelve;
+    public void setPercentageIva(BigDecimal percentageIva) {
+        this.percentageIva = percentageIva;
     }
 
     public BigDecimal getSubtotal() {
@@ -161,30 +147,6 @@ public class DetailBilling implements Serializable {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getAutorizationCode() {
-        return autorizationCode;
-    }
-
-    public void setAutorizationCode(String autorizationCode) {
-        this.autorizationCode = autorizationCode;
-    }
-
-    public Date getDateauthorization() {
-        return dateauthorization;
-    }
-
-    public void setDateauthorization(Date dateauthorization) {
-        this.dateauthorization = dateauthorization;
     }
 
     public Product getProductId() {
@@ -228,25 +190,23 @@ public class DetailBilling implements Serializable {
         return "entities.DetailBilling[ id=" + id + " ]";
     }
 
-    
-    public String getProducto(){
+    public String getProducto() {
         return productId.getName();
     }
-    
-    public String getCantidad(){
+
+    public String getCantidad() {
         return quantity.toString();
     }
-    
-    public String getPrecioUnitario(){
+
+    public String getPrecioUnitario() {
         return productId.getSaleprice().toString();
     }
-       
-    
-    public String getDescuento(){
+
+    public String getDescuento() {
         return valueDiscount.toString();
     }
-    
-    public String getPrecioTotal(){
+
+    public String getPrecioTotal() {
         return total.toString();
     }
 }

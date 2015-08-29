@@ -25,7 +25,6 @@ public class products extends javax.swing.JPanel {
 
     static ProductJpaController controller;
     static List<Product> products;
-    
 
     /**
      * Creates new form productos
@@ -175,6 +174,7 @@ public class products extends javax.swing.JPanel {
             public void run() {
 //                final UsuarioForm dialog = new UsuarioForm(new javax.swing.JFrame(), true, user);
                 final productosForm dialog = new productosForm(new javax.swing.JFrame(), true, product);
+//                final productosForm dialog = new productosForm(this, true, product);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
