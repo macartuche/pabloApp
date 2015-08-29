@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Family.findAll", query = "SELECT f FROM Family f"),
     @NamedQuery(name = "Family.findById", query = "SELECT f FROM Family f WHERE f.id = :id"),
-    @NamedQuery(name = "Family.findByName", query = "SELECT f FROM Family f WHERE f.name = :name"),
+    @NamedQuery(name = "Family.findByName", query = "SELECT f FROM Family f WHERE lower(f.name)  like :name"),
     @NamedQuery(name = "Family.findByDescription", query = "SELECT f FROM Family f WHERE f.description = :description")})
 public class Family implements Serializable {
     private static final long serialVersionUID = 1L;

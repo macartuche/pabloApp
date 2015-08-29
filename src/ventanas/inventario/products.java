@@ -181,13 +181,13 @@ public class products extends javax.swing.JPanel {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        int indice = dBTable1.getSelectedRow();
-        if (indice < 0) {
-            JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
-        } else {
-            Product p = products.get(indice);
-            abrirVentana(p);
-        }
+            int indice = dBTable1.getSelectedRow();
+            if (indice < 0) {
+                JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Product p = products.get(indice);
+                abrirVentana(p);
+            }
 
     }//GEN-LAST:event_btnEditarActionPerformed
 

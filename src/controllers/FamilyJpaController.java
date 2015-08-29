@@ -24,8 +24,7 @@ public class FamilyJpaController  extends EntityManagerProj implements Serializa
 
     public FamilyJpaController() {
           super();
-    }
-    private EntityManagerFactory emf = null;
+    } 
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
