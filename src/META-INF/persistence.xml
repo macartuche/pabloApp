@@ -10,6 +10,7 @@
     <class>entities.Inventary</class>
     <class>entities.DetailBilling</class>
     <class>entities.Provider</class>
+    <class>entities.Family</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/billingDB?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="root"/>

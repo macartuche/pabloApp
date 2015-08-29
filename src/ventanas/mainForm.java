@@ -14,6 +14,7 @@ import ventanas.administracion.usuarios;
 import ventanas.compras.Compras;
 import ventanas.compras.CtasPagar;
 import ventanas.compras.Proveedores;
+import ventanas.inventario.grupos;
 import ventanas.inventario.productos;
 import ventanas.inventario.products;
 import ventanas.ventas.clientes;
@@ -67,8 +68,7 @@ public class mainForm extends javax.swing.JFrame {
                         CtasPagar ctaPagar = new CtasPagar();
                         crearPestana(ctaPagar, "Cuentas por pagar");
                         break;
-                    case "Productos":
-//                        productos prod = new productos();
+                    case "Productos": 
                         products prod = new products();
                         crearPestana(prod, "Productos     ");
                         break;
@@ -77,6 +77,10 @@ public class mainForm extends javax.swing.JFrame {
                     case "Usuarios":
                         usuarios pan = new usuarios();
                         crearPestana(pan, "Usuarios     ");
+                        break;
+                    case "Familia": 
+                        grupos grup = new grupos();
+                        crearPestana(grup, "Grupos de productos     ");
                         break;
                 }
             }
