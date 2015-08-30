@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import ventanas.administracion.configuraciones;
 import ventanas.administracion.usuarios;
 import ventanas.compras.Compras;
 import ventanas.compras.CtasPagar;
 import ventanas.compras.Proveedores;
 import ventanas.inventario.grupos;
-import ventanas.inventario.productos;
 import ventanas.inventario.products;
 import ventanas.ventas.clientes;
 import ventanas.ventas.ctasCobrar;
@@ -81,6 +81,10 @@ public class mainForm extends javax.swing.JFrame {
                     case "Familia": 
                         grupos grup = new grupos();
                         crearPestana(grup, "Grupos de productos     ");
+                        break;
+                       case "Configuraciones": 
+                        configuraciones config = new configuraciones();
+                        crearPestana(config, "Configuraciones     ");
                         break;
                 }
             }
@@ -153,6 +157,8 @@ public class mainForm extends javax.swing.JFrame {
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Administración");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Usuarios");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Configuraciones");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));

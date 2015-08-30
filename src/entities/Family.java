@@ -102,7 +102,7 @@ public class Family implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Family[ id=" + id + " ]";
-    }
+        return name; 
+   }
     
 }

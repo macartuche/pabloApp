@@ -12,12 +12,15 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -75,6 +78,11 @@ public class Product implements Serializable {
     private List<DetailBilling> detailBillingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private List<Inventary> inventaryList;
+    
+    
+    @OneToOne
+  @JoinColumn(name="family_id")
+  private Family  family;
 
     public Product() {
     }
@@ -197,6 +205,15 @@ public class Product implements Serializable {
         return true;
     }
 
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
+    
     @Override
     public String toString() {
         return "entities.Product[ id=" + id + " ]";

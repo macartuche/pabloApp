@@ -46,6 +46,7 @@ public class productosForm extends javax.swing.JDialog {
             txtStockMinimo.setText(this.product.getMinvalue().toString());
             txtPrecioCompra.setText(this.product.getPurchaseprice().toString());
             txtPrecioVenta.setText(this.product.getSaleprice().toString());
+            comboFamilia.setSelectedItem(this.product.getFamily());
         }
 
     }
@@ -58,7 +59,12 @@ public class productosForm extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        entityManager1 = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("pabloAppPU").createEntityManager();
+        query1 = java.beans.Beans.isDesignTime() ? null : entityManager1.createQuery("SELECT f FROM Family f");
+        list1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : query1.getResultList();
+        skin1 = new quick.dbtable.Skin();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -142,7 +148,9 @@ public class productosForm extends javax.swing.JDialog {
         jLabel10.setText("Familia: ");
 
         comboFamilia.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        comboFamilia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Muebles", "Percheros", "Escritorios" }));
+
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, comboFamilia);
+        bindingGroup.addBinding(jComboBoxBinding);
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -294,6 +302,8 @@ public class productosForm extends javax.swing.JDialog {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -440,6 +450,7 @@ public class productosForm extends javax.swing.JDialog {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JCheckBox checkActivo;
     private javax.swing.JComboBox comboFamilia;
+    private javax.persistence.EntityManager entityManager1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -453,11 +464,15 @@ public class productosForm extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private java.util.List list1;
+    private javax.persistence.Query query1;
+    private quick.dbtable.Skin skin1;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecioCompra;
     private javax.swing.JTextField txtPrecioVenta;
     private javax.swing.JTextField txtStockActual;
     private javax.swing.JTextField txtStockMinimo;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

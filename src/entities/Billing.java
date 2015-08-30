@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -48,6 +49,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Billing.findByTotal", query = "SELECT b FROM Billing b WHERE b.total = :total")})
 @SuppressWarnings("ValidAttributes")
 public class Billing implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
+    private Collection<Account> accountCollection;
+ 
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -257,4 +261,13 @@ public class Billing implements Serializable {
         return state;
     }
 
+    @XmlTransient
+    public Collection<Account> getAccountCollection() {
+        return accountCollection;
+    }
+
+    public void setAccountCollection(Collection<Account> accountCollection) {
+        this.accountCollection = accountCollection;
+    }
+ 
 }
