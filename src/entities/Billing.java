@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @SuppressWarnings("ValidAttributes")
 public class Billing implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
-    private Collection<Account> accountCollection;
+    private List<Account> accountCollection;
  
 
     private static final long serialVersionUID = 1L;
@@ -262,11 +262,11 @@ public class Billing implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Account> getAccountCollection() {
+    public List<Account> getAccountCollection() {
         return accountCollection;
     }
 
-    public void setAccountCollection(Collection<Account> accountCollection) {
+    public void setAccountCollection(List<Account> accountCollection) {
         this.accountCollection = accountCollection;
     }
  

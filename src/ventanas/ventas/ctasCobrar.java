@@ -7,6 +7,7 @@ package ventanas.ventas;
 
 import controllers.AccountJpaController;
 import entities.Account;
+import entities.ClientProvider;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +25,7 @@ public class ctasCobrar extends javax.swing.JPanel {
 
     static AccountJpaController controller = null;
     public static List<Account> accounts;
+    public static ClientProvider client;
 
     /**
      * Creates new form ctasCobrar
@@ -49,7 +51,7 @@ public class ctasCobrar extends javax.swing.JPanel {
         rucTxt = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         nameTxt = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        searchClientBtn = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         fromDate = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
@@ -79,8 +81,13 @@ public class ctasCobrar extends javax.swing.JPanel {
 
         nameTxt.setEditable(false);
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton1.setText("Buscar cliente");
+        searchClientBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        searchClientBtn.setText("Buscar cliente");
+        searchClientBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchClientBtnActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton2.setText("Buscar");
@@ -153,7 +160,7 @@ public class ctasCobrar extends javax.swing.JPanel {
                                     .addGap(18, 18, 18)
                                     .addComponent(rucTxt)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton1))
+                                    .addComponent(searchClientBtn))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -200,7 +207,7 @@ public class ctasCobrar extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(rucTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(searchClientBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -268,11 +275,17 @@ public class ctasCobrar extends javax.swing.JPanel {
         Date end = untilDate.getDate();
         
         if(start !=null && end!=null){
-            
-            Query q = controller.getEntityManager().createQuery("");
+            String passport="";
+            if(client!=null){
+                passport = client.getPersonId().getPassport();
+            }
+            String query = "SELECT a FROM Account a  where a.dateCreation between :start and :end and "
+                    + "a.billingId.clientProviderid.personId.passport like :passport";
+            Query q = controller.getEntityManager().createQuery(query);
             q.setParameter("start", start);
             q.setParameter("end", end);
-            
+            q.setParameter("passport", passport); 
+            fijarDatos(q.getResultList());
         }else{
             JOptionPane.showMessageDialog(this, "Seleccione el rango de fechas","Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -283,8 +296,29 @@ public class ctasCobrar extends javax.swing.JPanel {
        nameTxt.setText("");
        fromDate.setDate(null);
        untilDate.setDate(null);
+       client=null;
        verTabla();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    public static void receiveClient( ClientProvider clientProvider){
+            client = clientProvider; 
+            rucTxt.setText(client.getPersonId().getPassport());
+            nameTxt.setText(client.getPersonId().getNames()+" "+client.getPersonId().getLastname());
+    }
+    private void searchClientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchClientBtnActionPerformed
+              java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                ClientSelector dialog = new ClientSelector(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });  
+    }//GEN-LAST:event_searchClientBtnActionPerformed
 
     public static void verTabla() {
         dBTable1.createControlPanel();
@@ -307,10 +341,19 @@ public class ctasCobrar extends javax.swing.JPanel {
             Logger.getLogger(configuraciones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public ClientProvider getClient() {
+        return client;
+    }
+
+    public void setClient(ClientProvider client) {
+        this.client = client;
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static quick.dbtable.DBTable dBTable1;
     private com.toedter.calendar.JDateChooser fromDate;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -324,10 +367,11 @@ public class ctasCobrar extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField nameTxt;
+    private static javax.swing.JTextField nameTxt;
     private static javax.swing.JLabel resultados;
     private static javax.swing.JLabel resultados1;
-    private javax.swing.JTextField rucTxt;
+    private static javax.swing.JTextField rucTxt;
+    private javax.swing.JButton searchClientBtn;
     private com.toedter.calendar.JDateChooser untilDate;
     // End of variables declaration//GEN-END:variables
 }

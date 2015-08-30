@@ -10,14 +10,12 @@ import controllers.PersonJpaController;
 import controllers.exceptions.NonexistentEntityException;
 import entities.ClientProvider;
 import entities.Person;
-import entities.Users;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import ventanas.administracion.UsuarioForm;
 import ventanas.administracion.usuarios;
 import ventanas.mainForm;
 
