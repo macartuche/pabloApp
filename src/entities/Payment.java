@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,8 +15,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,9 +45,11 @@ public class Payment implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "account_id")
-    private int accountId;
+    
+    @OneToOne
+    @JoinColumn(name="account_id") 
+    private Account accountId;
+    
     @Basic(optional = false)
     @Column(name = "datePayment")
     @Temporal(TemporalType.TIMESTAMP)
@@ -64,7 +69,7 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Payment(Integer id, int accountId, Date datePayment, BigDecimal balance, BigDecimal value) {
+    public Payment(Integer id, Account accountId, Date datePayment, BigDecimal balance, BigDecimal value) {
         this.id = id;
         this.accountId = accountId;
         this.datePayment = datePayment;
@@ -80,11 +85,11 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public int getAccountId() {
+    public Account getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(Account accountId) {
         this.accountId = accountId;
     }
 
@@ -137,4 +142,17 @@ public class Payment implements Serializable {
         return "entities.Payment[ id=" + id + " ]";
     }
     
+    
+    public String  getFechaPago(){
+        SimpleDateFormat  parser = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return parser.format(datePayment);
+    }
+    
+    public BigDecimal getValor(){
+        return value;
+    }
+    
+    public BigDecimal getSaldo(){
+        return balance;
+    }
 }

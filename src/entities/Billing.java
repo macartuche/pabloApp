@@ -45,7 +45,13 @@ import javax.xml.bind.annotation.XmlTransient;
             + " and :endDate"
             + " and (b.clientProviderid.personId.passport like :rucci or"
             + " lower(b.number) like :numReceipt)"),
-    @NamedQuery(name = "Billing.findByTaxes", query = "SELECT b FROM Billing b WHERE b.totaliva = :totaliva"),
+       @NamedQuery(name = "Billing.findByCriteriar",
+            query = "SELECT b FROM Billing b"
+            + " WHERE b.emissiondate between :startDate"
+            + " and :endDate"
+            + " and (b.clientProviderid.personId.passport like :criteria or"
+            + " lower(b.clientProviderid.personId.lastname ) like :criteria)"),
+    @NamedQuery(name = "Billing.findByTaxes", query = "SELECT b FROM Billing b WHERE b.totaliva = :totaliva"), 
     @NamedQuery(name = "Billing.findByTotal", query = "SELECT b FROM Billing b WHERE b.total = :total")})
 @SuppressWarnings("ValidAttributes")
 public class Billing implements Serializable {
@@ -261,6 +267,9 @@ public class Billing implements Serializable {
         return state;
     }
 
+    public String getFactura(){
+        return sequential;
+    }
     @XmlTransient
     public List<Account> getAccountCollection() {
         return accountCollection;

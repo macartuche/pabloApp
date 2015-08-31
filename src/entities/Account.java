@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -151,8 +152,9 @@ public class Account implements Serializable {
         return "entities.Account[ id=" + id + " ]";
     }
 
-    public Date getFecha() {
-        return dateCreation;
+    public String getFecha() {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        return format.format(dateCreation);
     }
   
     public BigDecimal getSaldo() {
@@ -165,5 +167,9 @@ public class Account implements Serializable {
  
     public String getEstado(){
         return state;
+    }
+    
+    public String getCliente(){
+        return billingId.getCliente();
     }
 }

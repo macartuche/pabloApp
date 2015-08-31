@@ -17,6 +17,7 @@ import ventanas.compras.CtasPagar;
 import ventanas.compras.Proveedores;
 import ventanas.inventario.grupos;
 import ventanas.inventario.products;
+import ventanas.reportes.reporteVentas;
 import ventanas.ventas.clientes;
 import ventanas.ventas.ctasCobrar;
 import ventanas.ventas.ventas;
@@ -86,6 +87,10 @@ public class mainForm extends javax.swing.JFrame {
                         configuraciones config = new configuraciones();
                         crearPestana(config, "Configuraciones     ");
                         break;
+                       case "Ventas realizadas":
+                           reporteVentas ventas = new reporteVentas();
+                           crearPestana(ventas, "Ventas realizadas  ");
+                           break;
                 }
             }
         });
@@ -150,6 +155,8 @@ public class mainForm extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Reportes");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ventas realizadas");
+        treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Por producto");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Por cliente");
