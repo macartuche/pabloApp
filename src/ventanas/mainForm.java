@@ -10,11 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import ventanas.administracion.configuraciones;
 import ventanas.administracion.usuarios;
 import ventanas.compras.Compras;
 import ventanas.compras.CtasPagar;
 import ventanas.compras.Proveedores;
-import ventanas.inventario.productos;
+import ventanas.inventario.grupos;
 import ventanas.inventario.products;
 import ventanas.ventas.clientes;
 import ventanas.ventas.ctasCobrar;
@@ -67,8 +68,7 @@ public class mainForm extends javax.swing.JFrame {
                         CtasPagar ctaPagar = new CtasPagar();
                         crearPestana(ctaPagar, "Cuentas por pagar");
                         break;
-                    case "Productos":
-//                        productos prod = new productos();
+                    case "Productos": 
                         products prod = new products();
                         crearPestana(prod, "Productos     ");
                         break;
@@ -77,6 +77,14 @@ public class mainForm extends javax.swing.JFrame {
                     case "Usuarios":
                         usuarios pan = new usuarios();
                         crearPestana(pan, "Usuarios     ");
+                        break;
+                    case "Familia": 
+                        grupos grup = new grupos();
+                        crearPestana(grup, "Grupos de productos     ");
+                        break;
+                       case "Configuraciones": 
+                        configuraciones config = new configuraciones();
+                        crearPestana(config, "Configuraciones     ");
                         break;
                 }
             }
@@ -150,6 +158,8 @@ public class mainForm extends javax.swing.JFrame {
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Administración");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Usuarios");
         treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Configuraciones");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         arbol.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -174,7 +184,9 @@ public class mainForm extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                         .addGap(92, 92, 92))
                     .addComponent(jSeparator1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                        .addGap(9, 9, 9)))
                 .addGap(18, 18, 18)
                 .addComponent(pestanias, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)
                 .addContainerGap())
@@ -241,6 +253,6 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTabbedPane pestanias;
+    public static javax.swing.JTabbedPane pestanias;
     // End of variables declaration//GEN-END:variables
 }

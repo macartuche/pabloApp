@@ -12,12 +12,11 @@ import entities.DetailBilling;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import ventanas.mainForm;
 
 /**
  *
@@ -92,6 +91,7 @@ public class ventas extends javax.swing.JPanel {
         labelResultado = new javax.swing.JLabel();
         btnPago = new javax.swing.JButton();
         dBTable1 = new quick.dbtable.DBTable();
+        btnPago1 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -169,6 +169,14 @@ public class ventas extends javax.swing.JPanel {
             }
         });
 
+        btnPago1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnPago1.setText("Salir");
+        btnPago1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPago1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -225,8 +233,10 @@ public class ventas extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnPago, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 190, Short.MAX_VALUE))
+                                        .addComponent(btnPago, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 59, Short.MAX_VALUE))
                     .addComponent(dBTable1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -267,7 +277,8 @@ public class ventas extends javax.swing.JPanel {
                     .addComponent(btnEditar)
                     .addComponent(btnAnular)
                     .addComponent(btnImprimir)
-                    .addComponent(btnPago))
+                    .addComponent(btnPago)
+                    .addComponent(btnPago1))
                 .addContainerGap())
         );
 
@@ -342,6 +353,13 @@ public class ventas extends javax.swing.JPanel {
         verTabla();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnPago1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPago1ActionPerformed
+        int index = mainForm.pestanias.getSelectedIndex();
+        if (index != -1) {
+            mainForm.pestanias.remove(index);
+        }
+    }//GEN-LAST:event_btnPago1ActionPerformed
+
     private void abrirVentana(final Billing b) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -366,6 +384,7 @@ public class ventas extends javax.swing.JPanel {
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPago;
+    private javax.swing.JButton btnPago1;
     private static quick.dbtable.DBTable dBTable1;
     private com.toedter.calendar.JDateChooser dateDesde;
     private com.toedter.calendar.JDateChooser dateHasta;

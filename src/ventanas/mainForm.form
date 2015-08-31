@@ -36,11 +36,14 @@
                       <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jSeparator1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane1" pref="175" max="32767" attributes="0"/>
+                      <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Component id="pestanias" pref="817" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -69,6 +72,9 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
     </Container>
@@ -93,7 +99,7 @@
               <Font name="Arial" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-              <TreeModel code="Productos&#xa;  Familia&#xa;  Productos&#xa;Compras&#xa;  Facturas de compra&#xa;  Proveedores&#xa;Ventas&#xa;  Clientes&#xa;  Facturas de venta&#xa;Inventario&#xa;  Kardex&#xa;Cuentas&#xa;  Cuentas por cobrar&#xa;Reportes&#xa;  Por producto&#xa;  Por cliente&#xa;Administraci&#xf3;n&#xa;  Usuarios"/>
+              <TreeModel code="Productos&#xa;  Familia&#xa;  Productos&#xa;Compras&#xa;  Facturas de compra&#xa;  Proveedores&#xa;Ventas&#xa;  Clientes&#xa;  Facturas de venta&#xa;Inventario&#xa;  Kardex&#xa;Cuentas&#xa;  Cuentas por cobrar&#xa;Reportes&#xa;  Por producto&#xa;  Por cliente&#xa;Administraci&#xf3;n&#xa;  Usuarios&#xa;  Configuraciones"/>
             </Property>
           </Properties>
           <Events>
