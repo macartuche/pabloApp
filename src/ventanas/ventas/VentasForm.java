@@ -462,10 +462,10 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         if (billing.getId() == null) {
             System.out.println("INTRO >>> ");
 //            controller.create(billing);
-            controller.createBilling(billing);
-//            for (DetailBilling db : details) {
-//                db.setBillingId(billing);
-//            }
+//            controller.createBilling(billing);
+            for (DetailBilling db : details) {
+                db.setBillingId(billing);
+            }
             billing.setDetailBillingList(details);
             controller.createBilling(billing);
         } else {
@@ -596,7 +596,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         billing.setSequential(null);
         billing.setEmissionpoint_id(null);
         billing.setShop_id(null);
-        
+
         lblSubtotal.setText(subTotal.toString());
         lblBaseIva0.setText(baseIva0.toString());
         lblValorIva0.setText(iva0.toString());
