@@ -7,8 +7,6 @@ package ventanas.ventas;
 
 import entities.ClientProvider;
 import java.awt.Frame;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 import utilitarios.Utilitario;
 

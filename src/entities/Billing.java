@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -46,9 +47,16 @@ import javax.xml.bind.annotation.XmlTransient;
             + " and (b.clientProviderid.personId.passport like :rucci or"
             + " lower(b.number) like :numReceipt)"),
     @NamedQuery(name = "Billing.findByState", query = "SELECT b FROM Billing b WHERE b.state = :state"),
+    @NamedQuery(name = "Billing.findByCriteria",
+            query = "SELECT b FROM Billing b"
+            + " WHERE b.emissiondate between :startDate"
+            + " and :endDate"
+            + " and (b.clientProviderid.personId.passport like :criteria or"
+            + " lower(b.clientProviderid.personId.lastname ) like :criteria)"),
     @NamedQuery(name = "Billing.findByTotal", query = "SELECT b FROM Billing b WHERE b.total = :total")})
 @SuppressWarnings("ValidAttributes")
 public class Billing implements Serializable {
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
     private List<Account> accountCollection;
     private static final long serialVersionUID = 1L;
@@ -285,7 +293,8 @@ public class Billing implements Serializable {
     }
 
     public String getFecha() {
-        return emissiondate.toString();
+        SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return parser.format(emissiondate);
     }
 
     public String getCliente() {
@@ -300,6 +309,10 @@ public class Billing implements Serializable {
         return state;
     }
 
+    public String getFactura() {
+        return sequential;
+    }
+
     @XmlTransient
     public List<Account> getAccountCollection() {
         return accountCollection;
@@ -308,5 +321,5 @@ public class Billing implements Serializable {
     public void setAccountCollection(List<Account> accountCollection) {
         this.accountCollection = accountCollection;
     }
- 
+
 }
