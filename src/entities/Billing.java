@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -252,7 +253,8 @@ public class Billing implements Serializable {
     }
 
     public String getFecha() {
-        return emissiondate.toString();
+         SimpleDateFormat  parser = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return parser.format(emissiondate);
     }
 
     public String getCliente() {
