@@ -60,29 +60,27 @@ public class Product implements Serializable {
     private String name;
     @Column(name = "code")
     private String code;
-    @Column(name = "stock")
+    @Column(name = "stock", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal stock;
-    @Column(name = "minvalue")
+    @Column(name = "minvalue", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal minvalue;
     @Basic(optional = false)
     @Column(name = "active")
     private Boolean active;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "purchaseprice")
+    @Column(name = "purchaseprice", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal purchaseprice;
-    @Column(name = "saleprice")
+    @Column(name = "saleprice", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal saleprice;
-    @Column(name = "percentageiva")
+    @Column(name = "percentageiva", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageIva;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private List<DetailBilling> detailBillingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private List<Inventary> inventaryList;
-    
-    
     @OneToOne
-  @JoinColumn(name="family_id")
-  private Family  family;
+    @JoinColumn(name = "family_id")
+    private Family family;
 
     public Product() {
     }
@@ -213,7 +211,6 @@ public class Product implements Serializable {
         this.family = family;
     }
 
-    
     @Override
     public String toString() {
         return "entities.Product[ id=" + id + " ]";

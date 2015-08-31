@@ -20,7 +20,6 @@ import java.util.List;
 import entities.Inventary;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -36,7 +35,6 @@ public class BillingJpaController extends EntityManagerProj implements Serializa
 //        this.emf = emf;
 //    }
 //    private EntityManagerFactory emf = null;
-
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -255,7 +253,7 @@ public class BillingJpaController extends EntityManagerProj implements Serializa
 
     private List<Billing> findBillingEntities(boolean all, int maxResults, int firstResult) {
 //        EntityManager em = getEntityManager();
-         em = super.getEmf().createEntityManager();
+        em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Billing.class));
@@ -272,7 +270,7 @@ public class BillingJpaController extends EntityManagerProj implements Serializa
 
     public Billing findBilling(Integer id) {
 //        EntityManager em = getEntityManager();
-         em = super.getEmf().createEntityManager();
+        em = super.getEmf().createEntityManager();
         try {
             return em.find(Billing.class, id);
         } finally {
@@ -282,7 +280,7 @@ public class BillingJpaController extends EntityManagerProj implements Serializa
 
     public int getBillingCount() {
 //        EntityManager em = getEntityManager();
-         em = super.getEmf().createEntityManager();
+        em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Billing> rt = cq.from(Billing.class);
@@ -309,6 +307,24 @@ public class BillingJpaController extends EntityManagerProj implements Serializa
             em.close();
         }
 
+    }
+
+    public void createBilling(Billing entity) {
+        EntityManager entitymanager;
+        try {
+            entitymanager = super.getEmf().createEntityManager();
+            entitymanager.getTransaction().begin();
+            entitymanager.persist(entity);
+            entitymanager.getTransaction().commit();
+            entitymanager.close();
+        } catch (Exception e) {
+            System.out.println("ERROR >>>");
+        }
+    }
+
+    public void updateBilling(Billing entity) {
+        EntityManager em = super.getEmf().createEntityManager();
+        em.merge(entity);
     }
 
 }

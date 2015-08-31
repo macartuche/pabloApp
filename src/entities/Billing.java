@@ -51,8 +51,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Billing implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
     private List<Account> accountCollection;
- 
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,21 +65,21 @@ public class Billing implements Serializable {
     @Column(name = "state")
     private String state;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "subtotal")
+    @Column(name = "subtotal", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal subtotal;
-    @Column(name = "baseiva0")
+    @Column(name = "baseiva0", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal baseiva0;
-    @Column(name = "iva0")
+    @Column(name = "iva0", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal iva0;
-    @Column(name = "baseiva12")
+    @Column(name = "baseiva12", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal baseiva12;
-    @Column(name = "iva12")
+    @Column(name = "iva12", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal iva12;
-    @Column(name = "percentagediscount")
+    @Column(name = "percentagediscount", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageDiscount;
-    @Column(name = "discount")
+    @Column(name = "discount", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal discount;
-    @Column(name = "total")
+    @Column(name = "total", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal total;
     @Column(name = "number")
     private String number;
@@ -95,7 +93,7 @@ public class Billing implements Serializable {
     @ManyToOne(optional = false)
     private ClientProvider clientProviderid;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "billingId")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "billingId")
     private List<DetailBilling> detailBillingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
     private List<Inventary> inventaryList;

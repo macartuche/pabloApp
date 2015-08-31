@@ -14,15 +14,14 @@ import javax.persistence.Persistence;
  * @author macbookpro
  */
 public class EntityManagerProj {
-    protected EntityManagerFactory emf; 
+
+    protected EntityManagerFactory emf;
     protected EntityManager em;
-    
+
     public EntityManagerProj() {
         emf = Persistence.createEntityManagerFactory("pabloAppPU");
         em = emf.createEntityManager();
     }
-    
-    
 
     public EntityManagerFactory getEmf() {
         return emf;
@@ -39,7 +38,5 @@ public class EntityManagerProj {
     public void setEm(EntityManager em) {
         this.em = em;
     }
-    
-    
-    
+
 }

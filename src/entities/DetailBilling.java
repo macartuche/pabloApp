@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,26 +37,27 @@ public class DetailBilling implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "quantity")
+    @Column(name = "quantity", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal quantity;
 //    private Integer quantity;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "unitaryprice")
+    @Column(name = "unitaryprice", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal unitaryPrice;
-    @Column(name = "valuediscount")
+    @Column(name = "valuediscount", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal valueDiscount;
-    @Column(name = "percentagediscount")
+    @Column(name = "percentagediscount", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageDiscount;
-    @Column(name = "valueiva")
+    @Column(name = "valueiva", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal valueIva;
-    @Column(name = "percentageiva")
+    @Column(name = "percentageiva", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageIva;
-    @Column(name = "total")
+    @Column(name = "total", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal total;
-    @Column(name = "totalwithtax")
+    @Column(name = "totalwithtax", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal totalWithTax;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

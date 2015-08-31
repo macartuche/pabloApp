@@ -32,8 +32,8 @@ public class productosForm extends javax.swing.JDialog {
         initComponents();
         this.product = product;
         fijarEntidad();
-        this.comboImpuesto.addItem(new Impuesto("IVA 0%", "IVA0"));
-        this.comboImpuesto.addItem(new Impuesto("IVA 12%", "IVA12"));
+        this.comboImpuesto.addItem(new Impuesto("IVA0", "IVA 0%"));
+        this.comboImpuesto.addItem(new Impuesto("IVA12", "IVA 12%"));
     }
     
     private void fijarEntidad() {

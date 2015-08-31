@@ -43,6 +43,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     private ClientProvider cliente;
     private List<ClientProvider> clients;
     private List<String> list = new ArrayList<>();
+    private List<DetailBilling> details = new ArrayList<>();
 
     /**
      * Creates new form VentasForm
@@ -81,7 +82,8 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         try {
 //            resultados.setText("Resultados: " + l.size());
             String methodNames[] = {"getProducto", "getCantidad", "getPrecioUnitario", "getDescuento", "getPrecioTotal"};
-            dBTable1.refreshDataObject(billing.getDetailBillingList(), methodNames);
+//            dBTable1.refreshDataObject(billing.getDetailBillingList(), methodNames);
+            dBTable1.refreshDataObject(details, methodNames);
             dBTable1.getColumn(0).setPreferredWidth(100);
             dBTable1.getColumn(1).setPreferredWidth(300);
             dBTable1.getColumn(2).setPreferredWidth(200);
@@ -293,11 +295,6 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(292, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(9, 9, 9)
@@ -335,8 +332,14 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                         .addComponent(btnCancelar)
                         .addGap(70, 70, 70))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(400, 400, 400)
-                        .addComponent(jLabel10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(400, 400, 400)
+                                .addComponent(jLabel10)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(113, 113, 113)
@@ -413,9 +416,9 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                                     .addComponent(lblValorIva12)))))
                     .addComponent(butonAgregarFila))
                 .addGap(4, 4, 4)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(lblDescuento))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblDescuento, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -456,6 +459,19 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
 
+        if (billing.getId() == null) {
+            System.out.println("INTRO >>> ");
+//            controller.create(billing);
+            controller.createBilling(billing);
+//            for (DetailBilling db : details) {
+//                db.setBillingId(billing);
+//            }
+            billing.setDetailBillingList(details);
+            controller.createBilling(billing);
+        } else {
+
+        }
+
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -467,7 +483,8 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
 
     private void abrirVentana() {
 
-        ItemForm dialog = new ItemForm(new javax.swing.JFrame(), true, d, billing.getDetailBillingList());
+//        ItemForm dialog = new ItemForm(new javax.swing.JFrame(), true, d, billing.getDetailBillingList());
+        ItemForm dialog = new ItemForm(new javax.swing.JFrame(), true, d, details);
         dialog.setVisible(Boolean.TRUE);
 
 //        java.awt.EventQueue.invokeLater(new Runnable() {
@@ -539,8 +556,8 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         this.billing = billing;
     }
 
+    @SuppressWarnings("UnusedAssignment")
     private void calcularTotales() {
-
         BigDecimal total = BigDecimal.ZERO;
         BigDecimal descuento = BigDecimal.ZERO;
         BigDecimal subTotal = BigDecimal.ZERO;
@@ -549,7 +566,8 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         BigDecimal baseIva0 = BigDecimal.ZERO;
         BigDecimal iva0 = BigDecimal.ZERO;
 
-        for (DetailBilling detail : billing.getDetailBillingList()) {
+//        for (DetailBilling detail : billing.getDetailBillingList()) {
+        for (DetailBilling detail : details) {
             subTotal = subTotal.add(detail.getTotal());
             descuento = descuento.add(detail.getValueDiscount());
             System.out.println("PORCENTAJE IVA >> " + detail.getPercentageIva());
@@ -564,9 +582,24 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         }
         total = subTotal.add(iva12);
 
+        billing.setType("FACTURA");
+        billing.setState("PAGADA");
+        billing.setSubtotal(subTotal);
+        billing.setBaseiva0(baseIva0);
+        billing.setIva0(iva0);
+        billing.setBaseiva12(baseIva12);
+        billing.setIva12(iva12);
+        billing.setPercentageDiscount(BigDecimal.ZERO);
+        billing.setDiscount(descuento);
+        billing.setTotal(total);
+        billing.setNumber(null);
+        billing.setSequential(null);
+        billing.setEmissionpoint_id(null);
+        billing.setShop_id(null);
+        
         lblSubtotal.setText(subTotal.toString());
         lblBaseIva0.setText(baseIva0.toString());
-//        lblValorIva0.setText(iva0.toString());
+        lblValorIva0.setText(iva0.toString());
         lblBaseIva12.setText(baseIva12.toString());
         lblValorIva12.setText(iva12.toString());
         lblDescuento.setText(descuento.toString());
@@ -617,6 +650,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         int clienteSel = combito.getSelectedIndex();
         if (clienteSel != -1) {
             cliente = clients.get(clienteSel);
+            billing.setClientProviderid(cliente);
             System.out.println("CLIENTE >>> " + cliente.getPersonId().getNames()
                     + " " + cliente.getPersonId().getPassport());
             txtRucCi.setText(cliente.getPersonId().getPassport());
