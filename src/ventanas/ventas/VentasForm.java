@@ -5,9 +5,11 @@
  */
 package ventanas.ventas;
 
+import controllers.AccountJpaController;
 import controllers.BillingJpaController;
 import controllers.ClientProviderJpaController;
 import controllers.DetailBillingJpaController;
+import entities.Account;
 import entities.Billing;
 import entities.ClientProvider;
 import entities.DetailBilling;
@@ -17,6 +19,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     static BillingJpaController controller = null;
     static DetailBillingJpaController controllerDetail = null;
     static ClientProviderJpaController controllerClient = null;
+    static AccountJpaController controllerAccount = null;
 //    private List<DetailBilling> details;
     private DetailBilling d;
     private ClientProvider cliente;
@@ -60,7 +64,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         controller = new BillingJpaController();
         controllerDetail = new DetailBillingJpaController();
         controllerClient = new ClientProviderJpaController();
-
+        controllerAccount = new AccountJpaController();
 //        fijarEntidad();
         verTabla();
     }
@@ -468,6 +472,18 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             }
             billing.setDetailBillingList(details);
             controller.createBilling(billing);
+            
+            //crear una nueva cta por cobrar
+            Account account = new Account();
+            account.setBillingId(billing);
+            account.setState("Abierta");
+            account.setBalance(billing.getTotal());
+            account.setTotal(billing.getTotal());
+            account.setDateCreation(new Date());
+            
+            controllerAccount.create(account);
+            System.out.println("Paso");
+            this.dispose();
         } else {
 
         }
