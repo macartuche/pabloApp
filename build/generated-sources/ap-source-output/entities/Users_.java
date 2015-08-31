@@ -5,15 +5,19 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+<<<<<<< Updated upstream
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-08-31T09:24:46")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-08-31T10:14:26")
+>>>>>>> Stashed changes
 @StaticMetamodel(Users.class)
 public class Users_ { 
 
-    public static volatile SingularAttribute<Users, Integer> id;
     public static volatile SingularAttribute<Users, String> nick;
+    public static volatile SingularAttribute<Users, String> password;
     public static volatile SingularAttribute<Users, Boolean> active;
     public static volatile SingularAttribute<Users, Person> personId;
+    public static volatile SingularAttribute<Users, Integer> id;
     public static volatile SingularAttribute<Users, String> rol;
-    public static volatile SingularAttribute<Users, String> password;
 
 }
