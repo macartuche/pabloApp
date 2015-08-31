@@ -25,6 +25,10 @@ import javax.persistence.EntityManagerFactory;
  */
 public class DetailBillingJpaController implements Serializable {
 
+    public DetailBillingJpaController() {
+        super();
+    }
+
     public DetailBillingJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -199,5 +203,5 @@ public class DetailBillingJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

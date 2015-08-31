@@ -7,7 +7,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-08-29T17:37:06")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-08-31T09:24:46")
 @StaticMetamodel(DetailBilling.class)
 public class DetailBilling_ { 
 
@@ -20,7 +20,7 @@ public class DetailBilling_ {
     public static volatile SingularAttribute<DetailBilling, Billing> billingId;
     public static volatile SingularAttribute<DetailBilling, BigDecimal> valueIva;
     public static volatile SingularAttribute<DetailBilling, BigDecimal> percentageIva;
-    public static volatile SingularAttribute<DetailBilling, BigDecimal> subtotal;
+    public static volatile SingularAttribute<DetailBilling, BigDecimal> totalWithTax;
     public static volatile SingularAttribute<DetailBilling, Product> productId;
 
 }

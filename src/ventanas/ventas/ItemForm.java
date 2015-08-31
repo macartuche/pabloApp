@@ -34,7 +34,7 @@ import utilitarios.Utilitario;
  * @author macbookpro
  */
 public class ItemForm extends javax.swing.JDialog implements ActionListener, KeyListener {
-
+    
     static ProductJpaController controllerProducto;
 //    private final Vector list = new Vector();
     private List<String> list = new ArrayList<>();
@@ -50,7 +50,7 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         controllerProducto = new ProductJpaController();
         initComponents();
     }
-
+    
     public ItemForm(java.awt.Frame parent, boolean modal, DetailBilling db, List<DetailBilling> details) {
         super(parent, modal);
         controllerProducto = new ProductJpaController();
@@ -59,9 +59,9 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         fijarEntidad();
         initComponents();
         this.setLocationRelativeTo(this);
-
+        
     }
-
+    
     private void fijarEntidad() {
 //        nombres.setText(this.user.getPersonId().getNames());
 //        apellidos.setText(this.user.getPersonId().getLastname());
@@ -313,24 +313,22 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        details.add(detailBilling);
-        this.dispose();
-
+        if (!noValido()) {
+            details.add(detailBilling);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
-        if (!noValido()) {
+//        if (!noValido()) {
         calcularTotal();
-        } 
-
+//        }
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void txtPorcentajeDesctKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPorcentajeDesctKeyReleased
-        // TODO add your handling code here:
-        if (!noValido()) {
+//        if (!noValido()) {
         calcularTotal();
-        }
+//        }
     }//GEN-LAST:event_txtPorcentajeDesctKeyReleased
 
     private void txtValorDesctKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorDesctKeyReleased
@@ -346,99 +344,70 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         // TODO add your handling code here:
         System.out.println("procentaje");
     }//GEN-LAST:event_txtPorcentajeDesctKeyPressed
-
+    
     private boolean noValido() {
         Boolean error = Boolean.FALSE;
         StringBuilder mensaje = new StringBuilder();
-
+        
         if (detailBilling.getProductId() == null) {
             error = Boolean.TRUE;
             mensaje.append("- Seleccione un producto. \n");
         }
-
+        
         if (Utilitario.campoVacio(txtCantidad.getText())) {
             error = Boolean.TRUE;
-            mensaje.append("- Campo Cantida es obligatorio. \n");
+            mensaje.append("- Campo Cantidan es obligatorio. \n");
         }
-
+        
         if (Utilitario.campoVacio(txtPorcentajeDesct.getText())) {
             error = Boolean.TRUE;
             mensaje.append("- Campo Porcentaje descuento es obligatorio \n");
-
+            
         }
-
+        
         if (!mensaje.toString().isEmpty()) {
             JOptionPane.showMessageDialog(this, mensaje.toString(),
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-
+        
         return error;
     }
-
+    
     private void calcularTotal() {
-        BigDecimal cantidad = null;
-        BigDecimal porcentajeDesct = null;
-        BigDecimal valorDesct = null;
-        BigDecimal subTotal = null;
-        BigDecimal total = null;
-        BigDecimal iva = null;
-        try {
-
-            if (product != null) {
+        BigDecimal cantidad;
+        BigDecimal porcentajeDesct = BigDecimal.ZERO;
+        BigDecimal valorDesct = BigDecimal.ZERO;
+        BigDecimal total;
+        BigDecimal totalConImpto;
+        BigDecimal iva;
+        if (product != null) {
+            if (!Utilitario.campoVacio(txtCantidad.getText())) {
                 cantidad = getBigDecimal(txtCantidad.getText());
-                if (cantidad != null) {
-                    subTotal = cantidad.multiply(product.getSaleprice());
-                    txtTotal.setText(subTotal.toString());
+                total = cantidad.multiply(product.getSaleprice());
+                if (!Utilitario.campoVacio(txtPorcentajeDesct.getText())) {
                     porcentajeDesct = getBigDecimal(txtPorcentajeDesct.getText());
-                    if (porcentajeDesct != null) {
-                        valorDesct = subTotal.multiply(porcentajeDesct);
-                        txtValorDesct.setText(valorDesct.toString());
-                        if (valorDesct.compareTo(BigDecimal.ZERO) == 1) {
-                            valorDesct = (valorDesct).divide(new BigDecimal("100"));
-                            txtValorDesct.setText(valorDesct.toString());
-                            subTotal = subTotal.subtract(valorDesct);
-                            txtTotal.setText(subTotal.toString());
-                        } else {
-
-                        }
-                    } else {
-                        txtPorcentajeDesct.setText(null);
-                        txtValorDesct.setText(null);
-                    }
-                } else {
-                    txtCantidad.setText(null);
-                    txtPorcentajeDesct.setText(null);
-                    txtValorDesct.setText(null);
-                    txtTotal.setText(null);
+                    valorDesct = total.multiply(porcentajeDesct);
+//                    if (valorDesct.compareTo(BigDecimal.ZERO) == 1) {
+                    valorDesct = (valorDesct).divide(new BigDecimal("100"));
+                    total = total.subtract(valorDesct);
+//                    }
                 }
-            } else {
-                txtStock.setText(product.getStock().toString());
-                txtPrecio.setText(product.getSaleprice().toString());
+                detailBilling.setQuantity(cantidad);
+                detailBilling.setPercentageDiscount(porcentajeDesct);
+                detailBilling.setValueDiscount(valorDesct);
+                detailBilling.setTotal(total);
+                iva = (product.getPercentageIva().multiply(total)).divide(new BigDecimal("100"));
+                totalConImpto = total.add(iva);
+                detailBilling.setTotalWithTax(totalConImpto);
+                detailBilling.setValueIva(iva);
+                detailBilling.setPercentageIva(product.getPercentageIva());
+                txtTotal.setText(total.toString());
+                txtValorDesct.setText(valorDesct.toString());
             }
-        } catch (java.lang.NumberFormatException e) {
-            System.out.println("FORMATO NO VALIDO");
         }
-//        txtTotal.setText(total.toString());
-//        System.out.println("total >>> " + total);
-//        total = subTotal;
-        detailBilling.setQuantity(cantidad);
-        detailBilling.setPercentageDiscount(porcentajeDesct);
-        detailBilling.setValueDiscount(valorDesct);
-        detailBilling.setSubtotal(subTotal);
-        if (subTotal != null) {
-//            if (product.getPercentageIva().equals(BigDecimal.ZERO)) {
-            iva = product.getPercentageIva().multiply(subTotal);
-//                total = subTotal;
-//            } else {
-//            iva = product.getPercentageIva().multiply(subTotal);
-            total = subTotal.add(iva);
-//            }
-        }
-        detailBilling.setTotal(total);
-        detailBilling.setValueIva(iva);
-        detailBilling.setPercentageIva(product.getPercentageIva());
+        
     }
-
+    
     private BigDecimal getBigDecimal(String a) {
         BigDecimal value;
         try {
@@ -503,22 +472,22 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             }
         });
     }
-
+    
     private DetailBilling detailBilling;
     private Product product;
-
+    
     public DetailBilling getDetailBilling() {
         return detailBilling;
     }
-
+    
     public void setDetailBilling(DetailBilling detailBilling) {
         this.detailBilling = detailBilling;
     }
-
+    
     public Product getProduct() {
         return product;
     }
-
+    
     public void setProduct(Product product) {
         this.product = product;
     }
@@ -555,6 +524,7 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         int productoSel = combito.getSelectedIndex();
         if (productoSel != -1) {
             product = products.get(productoSel);
+            System.out.println("PORDUCTO >>> " + product.getName() + product.getSaleprice());
             detailBilling.setProductId(product);
             detailBilling.setUnitaryPrice(product.getSaleprice());
             detailBilling.setQuantity(BigDecimal.ZERO);
@@ -562,9 +532,15 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             detailBilling.setValueDiscount(BigDecimal.ZERO);
             detailBilling.setValueIva(BigDecimal.ZERO);
             detailBilling.setPercentageIva(BigDecimal.ZERO);
-            detailBilling.setSubtotal(BigDecimal.ZERO);
             detailBilling.setTotal(BigDecimal.ZERO);
-
+            detailBilling.setTotalWithTax(BigDecimal.ZERO);
+            setValues();
+        }
+        
+    }
+    
+    private void setValues() {
+        if (detailBilling.getProductId() != null) {
             txtStock.setText(detailBilling.getProductId().getStock().toString());
             txtPrecio.setText(detailBilling.getProductId().getSaleprice().toString());
             txtCantidad.setText(detailBilling.getQuantity().toString());
@@ -572,19 +548,19 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             txtValorDesct.setText(detailBilling.getValueDiscount().toString());
             txtTotal.setText(detailBilling.getTotal().toString());
         }
-
+        
     }
-
+    
     @Override
     public void keyTyped(KeyEvent e) {
         System.out.println("typed");
     }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println("pressed >>");
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println("released");
@@ -603,9 +579,9 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         } catch (Exception ex) {
         }
     }
-
+    
     private void buscarProductos(String criterio) {
-
+        
         if (!criterio.trim().isEmpty()) {
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("field", criterio.toLowerCase() + "%");
@@ -613,13 +589,13 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             list = listaProductos(products);
         }
     }
-
+    
     private static void setSuggestionModel(JComboBox comboBox, ComboBoxModel mdl, String str) {
         comboBox.setModel(mdl);
         comboBox.setSelectedIndex(-1);
         ((JTextField) comboBox.getEditor().getEditorComponent()).setText(str);
     }
-
+    
     private static ComboBoxModel getSuggestedModel(Vector list, String text) {
         DefaultComboBoxModel m = new DefaultComboBoxModel();
         for (Object obj : list) {
@@ -630,7 +606,7 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         }
         return m;
     }
-
+    
     private static ComboBoxModel getModelComboBox(List<String> list) {
         DefaultComboBoxModel m = new DefaultComboBoxModel();
         for (String val : list) {
@@ -690,5 +666,5 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         }
         return result;
     }
-
+    
 }

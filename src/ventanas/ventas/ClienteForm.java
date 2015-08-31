@@ -44,8 +44,8 @@ public class ClienteForm extends javax.swing.JDialog {
         txtApellidos.setText(this.clientProvider.getPersonId().getLastname());
         txtIdentificacion.setText(this.clientProvider.getPersonId().getPassport());
         txtCorreoElectronico.setText(this.clientProvider.getPersonId().getEmail());
-        txtDireccion.setText(this.clientProvider.getPersonId().getAddress());
-        txtTelefono.setText(this.clientProvider.getPersonId().getPhone());
+        txtTelefono.setText(this.clientProvider.getPersonId().getAddress());
+        txtDireccion.setText(this.clientProvider.getPersonId().getPhone());
 
         if (this.clientProvider.getPersonId().getSex().equals("M")) {
             sexo = "M";
@@ -81,7 +81,7 @@ public class ClienteForm extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtCorreoElectronico = new javax.swing.JTextField();
-        txtDireccion = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -95,7 +95,7 @@ public class ClienteForm extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         txtApellidos = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        txtTelefono = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         checkEstado = new javax.swing.JCheckBox();
 
@@ -125,7 +125,7 @@ public class ClienteForm extends javax.swing.JDialog {
 
         txtCorreoElectronico.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        txtDireccion.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtTelefono.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Datos opcionales");
@@ -253,7 +253,7 @@ public class ClienteForm extends javax.swing.JDialog {
                                         .addGap(20, 20, 20)
                                         .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                                        .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                                         .addComponent(txtIdentificacion, javax.swing.GroupLayout.Alignment.TRAILING)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,7 +271,7 @@ public class ClienteForm extends javax.swing.JDialog {
                                         .addGap(141, 141, 141)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtCorreoElectronico)
-                                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(42, 42, 42))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -292,7 +292,7 @@ public class ClienteForm extends javax.swing.JDialog {
                                     .addComponent(txtIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel11)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -313,7 +313,7 @@ public class ClienteForm extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(checkEstado)
@@ -379,8 +379,8 @@ public class ClienteForm extends javax.swing.JDialog {
         this.clientProvider.getPersonId().setLastname(txtApellidos.getText());
         this.clientProvider.getPersonId().setPassport(txtIdentificacion.getText());
         this.clientProvider.getPersonId().setEmail(txtCorreoElectronico.getText());
-        this.clientProvider.getPersonId().setAddress(txtDireccion.getText());
-        this.clientProvider.getPersonId().setPhone(txtTelefono.getText());
+        this.clientProvider.getPersonId().setAddress(txtTelefono.getText());
+        this.clientProvider.getPersonId().setPhone(txtDireccion.getText());
         this.clientProvider.getPersonId().setSex(sexo);
 
         this.clientProvider.setClient(Boolean.TRUE);

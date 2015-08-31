@@ -52,10 +52,10 @@ public class DetailBilling implements Serializable {
     private BigDecimal valueIva;
     @Column(name = "percentageiva")
     private BigDecimal percentageIva;
-    @Column(name = "subtotal")
-    private BigDecimal subtotal;
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "totalwithtax")
+    private BigDecimal totalWithTax;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Product productId;
@@ -133,20 +133,20 @@ public class DetailBilling implements Serializable {
         this.percentageIva = percentageIva;
     }
 
-    public BigDecimal getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
-    }
-
     public BigDecimal getTotal() {
         return total;
     }
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public BigDecimal getTotalWithTax() {
+        return totalWithTax;
+    }
+
+    public void setTotalWithTax(BigDecimal totalWithTax) {
+        this.totalWithTax = totalWithTax;
     }
 
     public Product getProductId() {

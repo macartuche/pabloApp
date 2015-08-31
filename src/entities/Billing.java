@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
             + " and :endDate"
             + " and (b.clientProviderid.personId.passport like :rucci or"
             + " lower(b.number) like :numReceipt)"),
-    @NamedQuery(name = "Billing.findByTaxes", query = "SELECT b FROM Billing b WHERE b.totaliva = :totaliva"),
+    @NamedQuery(name = "Billing.findByState", query = "SELECT b FROM Billing b WHERE b.state = :state"),
     @NamedQuery(name = "Billing.findByTotal", query = "SELECT b FROM Billing b WHERE b.total = :total")})
 @SuppressWarnings("ValidAttributes")
 public class Billing implements Serializable {
@@ -55,34 +55,43 @@ public class Billing implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "type")
-    private String type;
     @Column(name = "emissiondate")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date emissiondate;
+    @Column(name = "type")
+    private String type;
+    @Column(name = "state")
+    private String state;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "subtotal")
     private BigDecimal subtotal;
-    @Column(name = "totaliva")
-    private BigDecimal totaliva;
+    @Column(name = "baseiva0")
+    private BigDecimal baseiva0;
+    @Column(name = "iva0")
+    private BigDecimal iva0;
+    @Column(name = "baseiva12")
+    private BigDecimal baseiva12;
+    @Column(name = "iva12")
+    private BigDecimal iva12;
+    @Column(name = "percentagediscount")
+    private BigDecimal percentageDiscount;
+    @Column(name = "discount")
+    private BigDecimal discount;
     @Column(name = "total")
     private BigDecimal total;
-    @Column(name = "totaldiscount")
-    private BigDecimal totaldiscount;
-    @Column(name = "state")
-    private String state;
-    @Column(name = "sequential")
-    private String sequential;
     @Column(name = "number")
     private String number;
+    @Column(name = "sequential")
+    private String sequential;
     @Column(name = "emissionpoint_id")
-    private Integer emissionpoint_id;
+    private String emissionpoint_id;
     @Column(name = "shop_id")
-    private Integer shop_id;
+    private String shop_id;
     @JoinColumn(name = "clientProvider_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ClientProvider clientProviderid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "billingId")
     private List<DetailBilling> detailBillingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")
     private List<Inventary> inventaryList;
@@ -134,20 +143,52 @@ public class Billing implements Serializable {
         this.subtotal = subtotal;
     }
 
+    public BigDecimal getBaseiva0() {
+        return baseiva0;
+    }
+
+    public void setBaseiva0(BigDecimal baseiva0) {
+        this.baseiva0 = baseiva0;
+    }
+
+    public BigDecimal getIva0() {
+        return iva0;
+    }
+
+    public void setIva0(BigDecimal iva0) {
+        this.iva0 = iva0;
+    }
+
+    public BigDecimal getBaseiva12() {
+        return baseiva12;
+    }
+
+    public void setBaseiva12(BigDecimal baseiva12) {
+        this.baseiva12 = baseiva12;
+    }
+
+    public BigDecimal getIva12() {
+        return iva12;
+    }
+
+    public void setIva12(BigDecimal iva12) {
+        this.iva12 = iva12;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
     public BigDecimal getTotal() {
         return total;
     }
 
     public void setTotal(BigDecimal total) {
         this.total = total;
-    }
-
-    public BigDecimal getTotaldiscount() {
-        return totaldiscount;
-    }
-
-    public void setTotaldiscount(BigDecimal totaldiscount) {
-        this.totaldiscount = totaldiscount;
     }
 
     public String getState() {
@@ -166,27 +207,27 @@ public class Billing implements Serializable {
         this.sequential = sequential;
     }
 
-    public BigDecimal getTotaliva() {
-        return totaliva;
+    public BigDecimal getPercentageDiscount() {
+        return percentageDiscount;
     }
 
-    public void setTotaliva(BigDecimal totaliva) {
-        this.totaliva = totaliva;
+    public void setPercentageDiscount(BigDecimal percentageDiscount) {
+        this.percentageDiscount = percentageDiscount;
     }
 
-    public Integer getEmissionpoint_id() {
+    public String getEmissionpoint_id() {
         return emissionpoint_id;
     }
 
-    public void setEmissionpoint_id(Integer emissionpoint_id) {
+    public void setEmissionpoint_id(String emissionpoint_id) {
         this.emissionpoint_id = emissionpoint_id;
     }
 
-    public Integer getShop_id() {
+    public String getShop_id() {
         return shop_id;
     }
 
-    public void setShop_id(Integer shop_id) {
+    public void setShop_id(String shop_id) {
         this.shop_id = shop_id;
     }
 

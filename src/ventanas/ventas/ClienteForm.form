@@ -127,7 +127,7 @@
                                           <Component id="txtNombres" min="-2" pref="208" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtTelefono" alignment="1" pref="208" max="32767" attributes="0"/>
+                                          <Component id="txtDireccion" alignment="1" pref="208" max="32767" attributes="0"/>
                                           <Component id="txtIdentificacion" alignment="1" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -151,7 +151,7 @@
                                           <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="txtCorreoElectronico" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtDireccion" min="-2" pref="223" max="-2" attributes="0"/>
+                                              <Component id="txtTelefono" min="-2" pref="223" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -183,7 +183,7 @@
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="txtTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtDireccion" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -213,7 +213,7 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="txtCorreoElectronico" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtDireccion" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTelefono" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -329,7 +329,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtDireccion">
+        <Component class="javax.swing.JTextField" name="txtTelefono">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="0"/>
@@ -433,7 +433,7 @@
             <Property name="text" type="java.lang.String" value="Tel&#xe9;fono:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTelefono">
+        <Component class="javax.swing.JTextField" name="txtDireccion">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>

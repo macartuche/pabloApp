@@ -42,6 +42,11 @@ import javax.xml.bind.annotation.XmlTransient;
             + " and (c.personId.passport like :criteria or "
             + "lower(c.personId.names) like :criteria or "
             + "lower(c.personId.lastname) like :criteria)"),
+    @NamedQuery(name = "ClientProvider.findByNamesOrPassport",
+            query = "SELECT c FROM ClientProvider c"
+            + " WHERE c.personId.passport like :criteria or"
+//            + " lower(c.personId.names) like :criteria or"
+            + " lower(c.personId.lastname) like :criteria"),
     @NamedQuery(name = "ClientProvider.findByProvider", query = "SELECT c FROM ClientProvider c WHERE c.provider = :provider"),
     @NamedQuery(name = "ClientProvider.findByActiveprovider", query = "SELECT c FROM ClientProvider c WHERE c.activeprovider = :activeprovider")})
 public class ClientProvider implements Serializable {
