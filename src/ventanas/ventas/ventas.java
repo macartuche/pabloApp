@@ -304,6 +304,7 @@ public class ventas extends javax.swing.JPanel {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
 
+        // TODO add your handling code here:
         int indice = dBTable1.getSelectedRow();
         if (indice < 0) {
             JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -361,18 +362,22 @@ public class ventas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPago1ActionPerformed
 
     private void abrirVentana(final Billing b) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                final VentasForm dialog = new VentasForm(new javax.swing.JFrame(), true, b);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        dialog.dispose();
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        VentasForm dialog = new VentasForm(new javax.swing.JFrame(), true, b);
+        dialog.setVisible(true);
+        verTabla();
+
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                final VentasForm dialog = new VentasForm(new javax.swing.JFrame(), true, b);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        dialog.dispose();
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
     }
 
 

@@ -8,11 +8,16 @@ package ventanas.ventas;
 import controllers.AccountJpaController;
 import controllers.BillingJpaController;
 import controllers.ClientProviderJpaController;
+import controllers.ConfigurationsJpaController;
 import controllers.DetailBillingJpaController;
+import controllers.ProductJpaController;
+import controllers.exceptions.NonexistentEntityException;
 import entities.Account;
 import entities.Billing;
 import entities.ClientProvider;
+import entities.Configurations;
 import entities.DetailBilling;
+import entities.Product;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,6 +25,7 @@ import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,15 +48,22 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     static DetailBillingJpaController controllerDetail = null;
     static ClientProviderJpaController controllerClient = null;
     static AccountJpaController controllerAccount = null;
+    static ConfigurationsJpaController controllerConfig;
+    static ProductJpaController controllerProduct;
 //    private List<DetailBilling> details;
     private DetailBilling d;
     private ClientProvider cliente;
+    private Configurations config;
     private List<ClientProvider> clients;
     private List<String> list = new ArrayList<>();
-    private List<DetailBilling> details = new ArrayList<>();
+    private List<DetailBilling> details;
+    private int numSecuencial;
 
     /**
      * Creates new form VentasForm
+     *
+     * @param parent
+     * @param modal
      */
     public VentasForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -65,7 +78,9 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         controllerDetail = new DetailBillingJpaController();
         controllerClient = new ClientProviderJpaController();
         controllerAccount = new AccountJpaController();
-//        fijarEntidad();
+        controllerConfig = new ConfigurationsJpaController();
+        controllerProduct = new ProductJpaController();
+        fijarEntidad();
         verTabla();
     }
 
@@ -100,32 +115,23 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     }
 
     private void fijarEntidad() {
-//        nombres.setText(this.user.getPersonId().getNames());
-//        apellidos.setText(this.user.getPersonId().getLastname());
-//        identificacion.setText(this.user.getPersonId().getPassport());
-//        direccion.setText(this.user.getPersonId().getAddress());
-//        correo.setText(this.user.getPersonId().getEmail());
-//        usuario.setText(this.user.getNick());
-//        rol.setSelectedItem(this.user.getRol());
-//        if (this.user.getId() == null) {
-//            clave.setEnabled(true);
-//            cambiarClave.setVisible(false);
-//        } else {
-//            clave.setEnabled(false);
-//            cambiarClave.setVisible(true);
-//        }
-//
-//        if (this.user.getPersonId().getSex().equals("M")) {
-//            sexo = "M";
-//            masculino.setSelected(true);
-//        } else {
-//            sexo = "F";
-//            femenino.setSelected(true);
-//        }
-//
-//        if (this.user.getActive()) {
-//            estado.setSelected(true);
-//        }
+        details = billing.getDetailBillingList();
+        if (billing.getId() != null) {
+            cliente = billing.getClientProviderid();
+            System.out.println("CLIENTE >>> " + cliente.getPersonId().getNames()
+                    + " " + cliente.getPersonId().getPassport());
+            txtRucCi.setText(cliente.getPersonId().getPassport());
+            txtNombres.setText(cliente.getPersonId().getNames() + cliente.getPersonId().getLastname());
+            txtDireccion.setText(cliente.getPersonId().getPassport());
+            txtTelefono.setText(cliente.getPersonId().getPhone());
+            lblSubtotal.setText(billing.getSubtotal().toString());
+            lblBaseIva0.setText(billing.getBaseiva0().toString());
+            lblValorIva0.setText(billing.getIva0().toString());
+            lblBaseIva12.setText(billing.getBaseiva12().toString());
+            lblValorIva12.setText(billing.getIva0().toString());
+            lblDescuento.setText(billing.getDiscount().toString());
+            lblTotal.setText(billing.getTotal().toString());
+        }
     }
 
     /**
@@ -326,24 +332,11 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtRucCi, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 90, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(479, 479, 479)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnCancelar)
-                        .addGap(70, 70, 70))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(400, 400, 400)
-                                .addComponent(jLabel10)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(113, 113, 113)
@@ -351,22 +344,31 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel15))
-                .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblBaseIva0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                    .addComponent(lblValorIva0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblValorIva12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblBaseIva12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblDescuento, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
-                .addGap(91, 91, 91))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnGuardar)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnCancelar)
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblBaseIva0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblValorIva0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblValorIva12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblBaseIva12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDescuento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,7 +379,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(combito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
@@ -396,45 +398,43 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
-                        .addComponent(dBTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(lblSubtotal))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblBaseIva0)
-                            .addComponent(jLabel15))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblValorIva0)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblBaseIva12)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel16)
-                                    .addComponent(lblValorIva12)))))
+                        .addComponent(dBTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(butonAgregarFila))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(lblSubtotal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBaseIva0)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblValorIva0)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblBaseIva12)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(lblValorIva12))))
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblDescuento, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDescuento)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnCancelar)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addGap(4, 4, 4)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(lblTotal))))
-                .addGap(5, 5, 5))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancelar))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -462,34 +462,107 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        try {
+            if (billing.getId() == null) {
 
-        if (billing.getId() == null) {
-            System.out.println("INTRO >>> ");
+                System.out.println("INTRO >>> ");
 //            controller.create(billing);
 //            controller.createBilling(billing);
-            for (DetailBilling db : details) {
-                db.setBillingId(billing);
-            }
-            billing.setDetailBillingList(details);
-            controller.createBilling(billing);
-            
-            //crear una nueva cta por cobrar
-            Account account = new Account();
-            account.setBillingId(billing);
-            account.setState("Abierta");
-            account.setBalance(billing.getTotal());
-            account.setTotal(billing.getTotal());
-            account.setDateCreation(new Date());
-            
-            controllerAccount.create(account);
-            System.out.println("Paso");
-            this.dispose();
-        } else {
+                for (DetailBilling db : details) {
+                    db.setBillingId(billing);
+                }
+                generarSecuencial();
+                billing.setDetailBillingList(details);
+                controller.createBilling(billing);
+                actualizarSecuencial();
+                actualizarStock();
 
+                //crear una nueva cta por cobrar
+                Account account = new Account();
+                account.setBillingId(billing);
+                account.setState("Abierta");
+                account.setBalance(billing.getTotal());
+                account.setTotal(billing.getTotal());
+                account.setDateCreation(new Date());
+
+                controllerAccount.create(account);
+                System.out.println("Paso");
+                this.dispose();
+
+            } else {
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void generarSecuencial() {
+        String secuencial;
+        Map<String, Object> variables = new HashMap<>();
+        if (controller.getBillingCount() > 0) {
+            System.out.println("secuencial act");
+            variables.put("code", "SECUENCIAL_ACT");
+            config = controllerConfig.namedQuery("Configurations.findByCode", variables).get(0);
+            secuencial = config.getValue();
+            numSecuencial = Integer.parseInt(secuencial);
+            numSecuencial++;
+            secuencial = formatoSecuencial(numSecuencial);
+            System.out.println("secuencial >>> " + secuencial);
+        } else {
+            System.out.println("secuencial ini");
+            variables.put("code", "SECUENCIAL_INI");
+            config = controllerConfig.namedQuery("Configurations.findByCode", variables).get(0);
+            secuencial = config.getValue();
+            numSecuencial = Integer.parseInt(secuencial);
+            numSecuencial++;
+            secuencial = formatoSecuencial(numSecuencial);
+            System.out.println("secuencial >>> " + secuencial);
+        }
+
+        billing.setShop_id("001");
+        billing.setEmissionpoint_id("001");
+        billing.setSequential(secuencial);
+        billing.setNumber(billing.getShop_id() + "-" + billing.getEmissionpoint_id() + "-" + billing.getSequential());
+
+    }
+
+    private String formatoSecuencial(int numero) {
+        Formatter fmt = new Formatter();
+        fmt.format("%09d", numero);
+        System.out.println("El numero formateado " + fmt);
+        return fmt.toString();
+    }
+
+    private void actualizarSecuencial() {
+        try {
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("code", "SECUENCIAL_ACT");
+            config = controllerConfig.namedQuery("Configurations.findByCode", variables).get(0);
+            config.setValue(String.valueOf(numSecuencial));
+            controllerConfig.edit(config);
+        } catch (Exception ex) {
+            Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void actualizarStock() {
+        try {
+            BigDecimal nuevoStock;
+            Product p;
+            for (DetailBilling detail : billing.getDetailBillingList()) {
+                p = controllerProduct.findProduct(detail.getProductId().getId());
+                nuevoStock = p.getStock().subtract(detail.getQuantity());
+                p.setStock(nuevoStock);
+                controllerProduct.edit(p);
+            }
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void butonAgregarFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonAgregarFilaActionPerformed
         // TODO add your handling code here:
@@ -536,19 +609,16 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentasForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentasForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentasForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VentasForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 VentasForm dialog = new VentasForm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -707,7 +777,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         System.out.println("INTRO BUSCAR >>>");
         if (!criterio.trim().isEmpty()) {
             System.out.println("+++");
-            Map<String, Object> variables = new HashMap<String, Object>();
+            Map<String, Object> variables = new HashMap<>();
             variables.put("criteria", criterio.toLowerCase() + "%");
             System.out.println("---");
             clients = controllerClient.namedQuery("ClientProvider.findByNamesOrPassport", variables);

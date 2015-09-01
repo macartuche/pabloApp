@@ -10,6 +10,7 @@ import controllers.exceptions.PreexistingEntityException;
 import entities.Configurations;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -103,7 +104,7 @@ public class ConfigurationsJpaController extends EntityManagerProj implements Se
     }
 
     private List<Configurations> findConfigurationsEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager   em = super.getEmf().createEntityManager();
+        EntityManager em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Configurations.class));
@@ -128,7 +129,7 @@ public class ConfigurationsJpaController extends EntityManagerProj implements Se
     }
 
     public int getConfigurationsCount() {
-        EntityManager  em = super.getEmf().createEntityManager();
+        EntityManager em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Configurations> rt = cq.from(Configurations.class);
@@ -138,6 +139,23 @@ public class ConfigurationsJpaController extends EntityManagerProj implements Se
         } finally {
             em.close();
         }
+    }
+
+    public List<Configurations> namedQuery(String query, Map<String, Object> filters) {
+        EntityManager em = super.getEmf().createEntityManager();
+        try {
+
+            Query q = em.createNamedQuery(query);
+            for (Map.Entry<String, Object> entrySet : filters.entrySet()) {
+                String key = entrySet.getKey();
+                Object value = entrySet.getValue();
+                q.setParameter(key, value);
+            }
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+
     }
 
 }

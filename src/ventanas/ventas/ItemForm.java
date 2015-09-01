@@ -34,13 +34,14 @@ import utilitarios.Utilitario;
  * @author macbookpro
  */
 public class ItemForm extends javax.swing.JDialog implements ActionListener, KeyListener {
-    
+
     static ProductJpaController controllerProducto;
 //    private final Vector list = new Vector();
     private List<String> list = new ArrayList<>();
 //    static List<String> products;
     private List<Product> products = new ArrayList<>();
     private List<DetailBilling> details;
+    private String mensaje;
 
     /**
      * Creates new form VentasForm
@@ -50,7 +51,7 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         controllerProducto = new ProductJpaController();
         initComponents();
     }
-    
+
     public ItemForm(java.awt.Frame parent, boolean modal, DetailBilling db, List<DetailBilling> details) {
         super(parent, modal);
         controllerProducto = new ProductJpaController();
@@ -59,9 +60,9 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         fijarEntidad();
         initComponents();
         this.setLocationRelativeTo(this);
-        
+
     }
-    
+
     private void fijarEntidad() {
 //        nombres.setText(this.user.getPersonId().getNames());
 //        apellidos.setText(this.user.getPersonId().getLastname());
@@ -316,6 +317,9 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         if (!noValido()) {
             details.add(detailBilling);
             this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, mensaje,
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -344,35 +348,54 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         // TODO add your handling code here:
         System.out.println("procentaje");
     }//GEN-LAST:event_txtPorcentajeDesctKeyPressed
-    
+
     private boolean noValido() {
         Boolean error = Boolean.FALSE;
-        StringBuilder mensaje = new StringBuilder();
-        
+//        StringBuilder mensaje = new StringBuilder();
+
         if (detailBilling.getProductId() == null) {
             error = Boolean.TRUE;
-            mensaje.append("- Seleccione un producto. \n");
+//            mensaje.append("- Seleccione un producto. \n");
+            mensaje = "- Seleccione un producto. \n";
+            return error;
         }
-        
+
         if (Utilitario.campoVacio(txtCantidad.getText())) {
             error = Boolean.TRUE;
-            mensaje.append("- Campo Cantidan es obligatorio. \n");
+//            mensaje.append("- Campo Cantidad es obligatorio. \n");
+            mensaje = "- Campo Cantidad es obligatorio. \n";
+            return error;
         }
-        
+
+        if (!Utilitario.campoVacio(txtCantidad.getText())
+                && detailBilling.getQuantity().compareTo(detailBilling.getProductId().getStock()) == 1) {
+            error = Boolean.TRUE;
+//                mensaje.append("- El campo cantidad no puede ser superior al stock. \n");
+            mensaje = "- El campo cantidad no puede ser superior al stock. \n";
+            return error;
+        }
+
+        if (detailBilling.getTotal().compareTo(BigDecimal.ZERO) == 0) {
+            error = Boolean.TRUE;
+//                mensaje.append("- El campo cantidad no puede ser superior al stock. \n");
+            mensaje = "- El campo total no puede ser igual a 0. \n";
+            return error;
+        }
+
         if (Utilitario.campoVacio(txtPorcentajeDesct.getText())) {
             error = Boolean.TRUE;
-            mensaje.append("- Campo Porcentaje descuento es obligatorio \n");
-            
+//            mensaje.append("- Campo Porcentaje descuento es obligatorio \n");
+            mensaje = "- Campo Porcentaje descuento es obligatorio \n";
+            return error;
         }
-        
-        if (!mensaje.toString().isEmpty()) {
-            JOptionPane.showMessageDialog(this, mensaje.toString(),
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
-        
+
+//        if (!mensaje.toString().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, mensaje.toString(),
+//                    "ERROR", JOptionPane.ERROR_MESSAGE);
+//        }
         return error;
     }
-    
+
     private void calcularTotal() {
         BigDecimal cantidad;
         BigDecimal porcentajeDesct = BigDecimal.ZERO;
@@ -381,44 +404,57 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         BigDecimal totalConImpto;
         BigDecimal iva;
         if (product != null) {
-            if (!Utilitario.campoVacio(txtCantidad.getText())) {
-                cantidad = getBigDecimal(txtCantidad.getText());
-                total = cantidad.multiply(product.getSaleprice());
-                if (!Utilitario.campoVacio(txtPorcentajeDesct.getText())) {
-                    porcentajeDesct = getBigDecimal(txtPorcentajeDesct.getText());
-                    valorDesct = total.multiply(porcentajeDesct);
-//                    if (valorDesct.compareTo(BigDecimal.ZERO) == 1) {
-                    valorDesct = (valorDesct).divide(new BigDecimal("100"));
-                    total = total.subtract(valorDesct);
-//                    }
-                }
-                detailBilling.setQuantity(cantidad);
-                detailBilling.setPercentageDiscount(porcentajeDesct);
-                detailBilling.setValueDiscount(valorDesct);
-                detailBilling.setTotal(total);
-                iva = (product.getPercentageIva().multiply(total)).divide(new BigDecimal("100"));
-                totalConImpto = total.add(iva);
-                detailBilling.setTotalWithTax(totalConImpto);
-                detailBilling.setValueIva(iva);
-                detailBilling.setPercentageIva(product.getPercentageIva());
-                txtTotal.setText(total.toString());
-                txtValorDesct.setText(valorDesct.toString());
-            }
+//            if (!Utilitario.campoVacio(txtCantidad.getText())) {
+            cantidad = getBigDecimal(txtCantidad.getText());
+            total = cantidad.multiply(product.getSaleprice()).setScale(2, BigDecimal.ROUND_HALF_UP);;
+//            if (!Utilitario.campoVacio(txtPorcentajeDesct.getText())) {
+            porcentajeDesct = getBigDecimal(txtPorcentajeDesct.getText());
+            valorDesct = total.multiply(porcentajeDesct).setScale(2, BigDecimal.ROUND_HALF_UP);;
+            valorDesct = (valorDesct).divide(new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);;
+            total = total.subtract(valorDesct);
+//            }
+            detailBilling.setQuantity(cantidad);
+            detailBilling.setPercentageDiscount(porcentajeDesct);
+            detailBilling.setValueDiscount(valorDesct);
+            detailBilling.setTotal(total);
+            iva = (product.getPercentageIva().multiply(total)).setScale(2, BigDecimal.ROUND_HALF_UP).
+                    divide(new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);;
+            totalConImpto = total.add(iva);
+            detailBilling.setTotalWithTax(totalConImpto);
+            detailBilling.setValueIva(iva);
+            detailBilling.setPercentageIva(product.getPercentageIva());
+            txtTotal.setText(total.toString());
+            txtValorDesct.setText(valorDesct.toString());
+//            } 
         }
-        
+
     }
-    
+
     private BigDecimal getBigDecimal(String a) {
         BigDecimal value;
         try {
-            value = new BigDecimal(a);
+            if (Utilitario.campoVacio(txtCantidad.getText())) {
+                value = BigDecimal.ZERO;
+            } else {
+                value = new BigDecimal(a);
+            }
         } catch (java.lang.NumberFormatException e) {
             System.out.println(">> excepcion");
-            value = null;
+            value = BigDecimal.ZERO;
         }
         return value;
     }
 
+//    private BigDecimal getBigDecimal(String a) {
+//        BigDecimal value;
+//        try {
+//            value = new BigDecimal(a);
+//        } catch (java.lang.NumberFormatException e) {
+//            System.out.println(">> excepcion");
+//            value = null;
+//        }
+//        return value;
+//    }
 //    private Boolean checkNumbers(BigDecimal a, BigDecimal b) {
 //        try {
 //            
@@ -472,22 +508,22 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             }
         });
     }
-    
+
     private DetailBilling detailBilling;
     private Product product;
-    
+
     public DetailBilling getDetailBilling() {
         return detailBilling;
     }
-    
+
     public void setDetailBilling(DetailBilling detailBilling) {
         this.detailBilling = detailBilling;
     }
-    
+
     public Product getProduct() {
         return product;
     }
-    
+
     public void setProduct(Product product) {
         this.product = product;
     }
@@ -536,9 +572,9 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             detailBilling.setTotalWithTax(BigDecimal.ZERO);
             setValues();
         }
-        
+
     }
-    
+
     private void setValues() {
         if (detailBilling.getProductId() != null) {
             txtStock.setText(detailBilling.getProductId().getStock().toString());
@@ -548,19 +584,19 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             txtValorDesct.setText(detailBilling.getValueDiscount().toString());
             txtTotal.setText(detailBilling.getTotal().toString());
         }
-        
+
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
         System.out.println("typed");
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println("pressed >>");
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println("released");
@@ -579,9 +615,9 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         } catch (Exception ex) {
         }
     }
-    
+
     private void buscarProductos(String criterio) {
-        
+
         if (!criterio.trim().isEmpty()) {
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("field", criterio.toLowerCase() + "%");
@@ -589,13 +625,13 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
             list = listaProductos(products);
         }
     }
-    
+
     private static void setSuggestionModel(JComboBox comboBox, ComboBoxModel mdl, String str) {
         comboBox.setModel(mdl);
         comboBox.setSelectedIndex(-1);
         ((JTextField) comboBox.getEditor().getEditorComponent()).setText(str);
     }
-    
+
     private static ComboBoxModel getSuggestedModel(Vector list, String text) {
         DefaultComboBoxModel m = new DefaultComboBoxModel();
         for (Object obj : list) {
@@ -606,7 +642,7 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         }
         return m;
     }
-    
+
     private static ComboBoxModel getModelComboBox(List<String> list) {
         DefaultComboBoxModel m = new DefaultComboBoxModel();
         for (String val : list) {
@@ -666,5 +702,5 @@ public class ItemForm extends javax.swing.JDialog implements ActionListener, Key
         }
         return result;
     }
-    
+
 }
