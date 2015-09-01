@@ -239,7 +239,7 @@ public class reporteVentas extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String criterio = criteria.getText();
         Date start = fromDate.getDate();
-        Date end = fromDate.getDate();
+        Date end = untilDate.getDate();
 
         if (start != null && end != null) {
             Map<String, Object> filtro = new HashMap<>();
@@ -249,10 +249,10 @@ public class reporteVentas extends javax.swing.JPanel {
             Query q = controller.getEntityManager().createQuery("SELECT b FROM Billing b"
                     + " WHERE b.emissiondate between :startDate"
                     + " and :endDate"
-                    + " and (b.clientProviderid.personId.passport like :rucci or"
-                    + " lower(b.number) like :numReceipt)");
-            q.setParameter("start", start);
-            q.setParameter("end", end);
+                    + " and (b.clientProviderid.personId.passport like :criteria or"
+                    + " lower(b.clientProviderid.personId.lastname) like :criteria)");
+            q.setParameter("startDate", start);
+            q.setParameter("endDate", end);
             q.setParameter("criteria", criterio);
             fijarDatos(q.getResultList());
         } else {
