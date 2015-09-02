@@ -377,6 +377,7 @@
         </Component>
         <Component class="quick.dbtable.DBTable" name="dBTable1">
           <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="dBTable1.setEditable(false);&#xa;"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
           </AuxValues>
         </Component>

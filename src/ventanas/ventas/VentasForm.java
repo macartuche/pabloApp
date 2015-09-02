@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
@@ -58,7 +59,10 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     private List<String> list = new ArrayList<>();
     private List<DetailBilling> details;
     private int numSecuencial;
+    private String mensaje;
 
+    
+    
     /**
      * Creates new form VentasForm
      *
@@ -85,6 +89,8 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     }
 
     private void verTabla() {
+        
+        System.out.println("AAA");
         dBTable1.createControlPanel();
         fijarDatos();
 //        if (billing.getId() != null) {
@@ -164,6 +170,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         dBTable1 = new quick.dbtable.DBTable();
+        dBTable1.setEditable(false);
         jLabel13 = new javax.swing.JLabel();
         lblBaseIva0 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -463,35 +470,44 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         try {
-            if (billing.getId() == null) {
 
-                System.out.println("INTRO >>> ");
+            if (!noValido()) {
+
+                if (billing.getId() == null) {
+
+                    System.out.println("INTRO >>> ");
 //            controller.create(billing);
 //            controller.createBilling(billing);
-                for (DetailBilling db : details) {
-                    db.setBillingId(billing);
+                    for (DetailBilling db : details) {
+                        db.setBillingId(billing);
+                    }
+                    generarSecuencial();
+                    billing.setDetailBillingList(details);
+                    controller.createBilling(billing);
+                    actualizarSecuencial();
+                    actualizarStock();
+
+                    //crear una nueva cta por cobrar
+                    Account account = new Account();
+                    account.setBillingId(billing);
+                    account.setState("Abierta");
+                    account.setBalance(billing.getTotal());
+                    account.setTotal(billing.getTotal());
+                    account.setDateCreation(new Date());
+
+                    controllerAccount.create(account);
+                    System.out.println("Paso");
+                    this.dispose();
+
+                } else {
+
                 }
-                generarSecuencial();
-                billing.setDetailBillingList(details);
-                controller.createBilling(billing);
-                actualizarSecuencial();
-                actualizarStock();
-
-                //crear una nueva cta por cobrar
-                Account account = new Account();
-                account.setBillingId(billing);
-                account.setState("Abierta");
-                account.setBalance(billing.getTotal());
-                account.setTotal(billing.getTotal());
-                account.setDateCreation(new Date());
-
-                controllerAccount.create(account);
-                System.out.println("Paso");
-                this.dispose();
 
             } else {
-
+                JOptionPane.showMessageDialog(this, mensaje,
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+
         } catch (Exception ex) {
             Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -691,6 +707,25 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         lblDescuento.setText(descuento.toString());
         lblTotal.setText(total.toString());
 
+    }
+
+    private boolean noValido() {
+        Boolean error = Boolean.FALSE;
+//        StringBuilder mensaje = new StringBuilder();
+
+        if (billing.getClientProviderid() == null) {
+            error = Boolean.TRUE;
+            mensaje = "- Seleccione un cliente. \n";
+            return error;
+        }
+
+        if (billing.getDetailBillingList().isEmpty()) {
+            error = Boolean.TRUE;
+            mensaje = "- Agregue al menos un detalle a la factura. \n";
+            return error;
+        }
+
+        return error;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
