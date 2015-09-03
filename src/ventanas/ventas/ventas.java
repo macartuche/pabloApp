@@ -309,8 +309,16 @@ public class ventas extends javax.swing.JPanel {
         if (indice < 0) {
             JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
+            
             Billing b = ventas.get(indice);
-            abrirVentana(b);
+            
+            if(b.getState().equals("GENERADA")){
+                abrirVentana(b);
+            }else{
+                JOptionPane.showMessageDialog(this, "Sólo de pueden modificar facturas en estado \"GENERADA\".", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 

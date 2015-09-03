@@ -685,7 +685,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         total = subTotal.add(iva12);
 
         billing.setType("FACTURA");
-        billing.setState("PAGADA");
+        billing.setState("GENERADA");
         billing.setSubtotal(subTotal);
         billing.setBaseiva0(baseIva0);
         billing.setIva0(iva0);
