@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author macbookpro
  */
 @Entity
-@Table(name = "provider")
+@Table(name = "proveedor")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Provider.findAll", query = "SELECT p FROM Provider p"),
@@ -32,7 +32,7 @@ public class Provider implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "active")
+    @Column(name = "activo")
     private String active;
 
     public Provider() {

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author macbookpro
  */
 @Entity
-@Table(name = "detailBilling")
+@Table(name = "detalleFactura")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DetailBilling.findAll", query = "SELECT d FROM DetailBilling d"),
@@ -41,28 +41,28 @@ public class DetailBilling implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "quantity", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "cantidad", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal quantity;
 //    private Integer quantity;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "unitaryprice", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "precioUnitario", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal unitaryPrice;
-    @Column(name = "valuediscount", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "valorDescuento", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal valueDiscount;
-    @Column(name = "percentagediscount", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "porcentajeDescuento", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageDiscount;
-    @Column(name = "valueiva", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "valorIva", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal valueIva;
-    @Column(name = "percentageiva", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "porcentajeIva", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageIva;
     @Column(name = "total", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal total;
-    @Column(name = "totalwithtax", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "totalconIva", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal totalWithTax;
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "producto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Product productId;
-    @JoinColumn(name = "billing_id", referencedColumnName = "id")
+    @JoinColumn(name = "factura_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Billing billingId;
 

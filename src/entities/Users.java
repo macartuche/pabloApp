@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author macbookpro
  */
 @Entity
-@Table(name = "users")
+@Table(name = "usuarios")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
@@ -46,15 +46,15 @@ public class Users implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "nick")
+    @Column(name = "nombreUsuario")
     private String nick;
     @Basic(optional = false)
-    @Column(name = "password")
+    @Column(name = "clave")
     private String password;
     @Basic(optional = false)
-    @Column(name = "active")
+    @Column(name = "activo")
     private Boolean active;
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @JoinColumn(name = "persona_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person personId;
     @Basic(optional = false)

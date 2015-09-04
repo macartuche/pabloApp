@@ -6,7 +6,10 @@
 package ventanas;
 
 import java.awt.Frame;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -17,6 +20,7 @@ import ventanas.compras.CtasPagar;
 import ventanas.compras.Proveedores;
 import ventanas.inventario.grupos;
 import ventanas.inventario.products;
+import ventanas.reportes.reporteCobros;
 import ventanas.reportes.reporteVentas;
 import ventanas.ventas.clientes;
 import ventanas.ventas.ctasCobrar;
@@ -28,12 +32,14 @@ import ventanas.ventas.ventas;
  */
 public class mainForm extends javax.swing.JFrame {
 
+    public static List<Integer> pestanasAbiertas;
     /**
      * Creates new form mainForm
      */
     public mainForm() {
         initComponents();
-        pestanias.setUI(new CustomTabbedPaneUI());
+        pestanasAbiertas = new ArrayList<>();
+//        pestanias.setUI(new CustomTabbedPaneUI());
         arbol.addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent e) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
@@ -43,53 +49,54 @@ public class mainForm extends javax.swing.JFrame {
                 Object nodeInfo = node.getUserObject();
                 String option = nodeInfo.toString();
                 switch (option) {
-                    case "Facturas de compra":
-                        Compras comp = new Compras();
-                        crearPestana(comp, "Compras ");
-                        break;
-                    case "Proveedores":
-                        Proveedores prov = new Proveedores();
-                        crearPestana(prov, "Proveedores     ");
-                        break;
+//                    case "Facturas de compra":
+//                        Compras comp = new Compras();
+//                        crearPestana(comp, "Compras ",1); 
+//                        break;
+//                    case "Proveedores":
+//                        Proveedores prov = new Proveedores();
+//                        crearPestana(prov, "Proveedores  ",2); 
+//                        break;
                     case "Clientes":
                         clientes panel = new clientes();
-                        crearPestana(panel, "Clientes     ");
+                        crearPestana(panel, "Clientes ",1); 
                         break;
                     case "Facturas de venta":
                         ventas ven = new ventas();
-                        crearPestana(ven, "Facturas de venta");
-                        break;
-                    case "Kardex":
-                        break;
+                        crearPestana(ven, "Facturas de venta",2);  
+                        break; 
                     case "Cuentas por cobrar":
                         ctasCobrar ctaCobrar = new ctasCobrar();
-                        crearPestana(ctaCobrar, "Cuentas por cobrar");
+                        crearPestana(ctaCobrar, "Cuentas por cobrar",3);
                         break;
                     case "Cuentas por pagar":
                         CtasPagar ctaPagar = new CtasPagar();
-                        crearPestana(ctaPagar, "Cuentas por pagar");
+                        crearPestana(ctaPagar, "Cuentas por pagar",4);
                         break;
                     case "Productos": 
                         products prod = new products();
-                        crearPestana(prod, "Productos     ");
+                        crearPestana(prod, "Productos ",5);
                         break;
-                    case "Por cliente":
-                        break;
+                
                     case "Usuarios":
                         usuarios pan = new usuarios();
-                        crearPestana(pan, "Usuarios     ");
+                        crearPestana(pan, "Usuarios     ",6);
                         break;
                     case "Familia": 
                         grupos grup = new grupos();
-                        crearPestana(grup, "Grupos de productos     ");
+                        crearPestana(grup, "Grupos de productos  ",7);
                         break;
                        case "Configuraciones": 
                         configuraciones config = new configuraciones();
-                        crearPestana(config, "Configuraciones     ");
+                        crearPestana(config, "Configuraciones ",8);
                         break;
                        case "Ventas realizadas":
                            reporteVentas ventas = new reporteVentas();
-                           crearPestana(ventas, "Ventas realizadas  ");
+                           crearPestana(ventas, "Ventas realizadas  ",9);
+                           break;
+                       case "Ctas por cobrar":
+                           reporteCobros cobros = new reporteCobros();
+                           crearPestana(cobros, "Ctas por cobrar  ",10);
                            break;
                 }
             }
@@ -98,8 +105,17 @@ public class mainForm extends javax.swing.JFrame {
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
-    private void crearPestana(JPanel panel, String titulo) {
-        pestanias.add(titulo, panel);
+    /**
+     * verifica si la pestana ha sido abierta
+     * @param panel
+     * @param titulo
+     * @param pestana 
+     */
+    private void crearPestana(JPanel panel, String titulo, Integer pestana) {
+        if(!pestanasAbiertas.contains(pestana)){
+            pestanasAbiertas.add(pestana);
+              pestanias.add(titulo, panel);
+        } 
     }
 
     /**
@@ -151,6 +167,10 @@ public class mainForm extends javax.swing.JFrame {
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Reportes");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ventas realizadas");
         treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ctas por cobrar");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Productos más vendidos");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Administración");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Usuarios");
@@ -169,6 +189,7 @@ public class mainForm extends javax.swing.JFrame {
         jSplitPane1.setLeftComponent(jScrollPane1);
 
         pestanias.setBackground(new java.awt.Color(255, 255, 255));
+        pestanias.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/imagenes/logo.png"))); // NOI18N
 
@@ -177,9 +198,9 @@ public class mainForm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(52, 52, 52))
+                .addGap(64, 64, 64)
+                .addComponent(jLabel2)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +219,7 @@ public class mainForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE))
+                        .addComponent(jSplitPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,6 +246,9 @@ public class mainForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_arbolMouseClicked
 
+    public static void CerrarPestana(Integer numeroPestana){
+        pestanasAbiertas.remove(numeroPestana);
+    }
     /**
      * @param args the command line arguments
      */
@@ -235,12 +259,13 @@ public class mainForm extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//                    break;
+//                }
+//            }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(mainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author macbookpro
  */
 @Entity
-@Table(name = "person")
+@Table(name = "persona")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
@@ -46,22 +46,22 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "passport")
+    @Column(name = "identificacion")
     private String passport;
-    @Column(name = "names")
+    @Column(name = "nombres")
     private String names;
-    @Column(name = "lastname")
+    @Column(name = "apellidos")
     private String lastname;
     @Column(name = "email")
     private String email;
-    @Column(name = "address")
+    @Column(name = "direccion")
     private String address;
     @Basic(optional = false)
-    @Column(name = "sex")
+    @Column(name = "sexo")
     private String sex;
-    @Column(name = "phone")
+    @Column(name = "telefono")
     private String phone;
-    @Column(name = "photo")
+    @Column(name = "foto")
     private String photo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
     private List<Users> usersList;

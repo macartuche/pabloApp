@@ -5,7 +5,9 @@
  */
 package ventanas.reportes;
 
+import controllers.AccountJpaController;
 import controllers.BillingJpaController;
+import entities.Account;
 import entities.Billing;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -32,17 +34,17 @@ import ventanas.mainForm;
  *
  * @author macbookpro
  */
-public class reporteVentas extends javax.swing.JPanel {
+public class reporteCobros extends javax.swing.JPanel {
 
-    static BillingJpaController controller;
-    static List<Billing> billings;
+    static AccountJpaController controller;
+    static List<Account> account;
     static BigDecimal totalReport;
     /**
      * Creates new form reportes
      */
-    public reporteVentas() {
+    public reporteCobros() {
         initComponents();
-        controller = new BillingJpaController();
+        controller = new AccountJpaController();
         printBTN.setEnabled(false);
         verTabla();
       
@@ -90,7 +92,7 @@ public class reporteVentas extends javax.swing.JPanel {
         });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("Ventas realizadas");
+        jLabel1.setText("Cobros pendientes");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setText("* Desde: ");
@@ -99,7 +101,7 @@ public class reporteVentas extends javax.swing.JPanel {
         jLabel3.setText("* Hasta:  ");
 
         printBTN.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        printBTN.setText("Imprimir");
+        printBTN.setText("Imprimir cobros por realizar");
         printBTN.setEnabled(false);
         printBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +182,9 @@ public class reporteVentas extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(printBTN))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,10 +193,6 @@ public class reporteVentas extends javax.swing.JPanel {
                                     .addComponent(dBTable1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(6, 6, 6)))))
                 .addGap(18, 18, 18))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(printBTN)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,23 +239,19 @@ public class reporteVentas extends javax.swing.JPanel {
         try {
             Map parametersMap = new HashMap();
             parametersMap.put("totalReport", totalReport);
-                for (Billing billing : billings) {
-            System.out.println("=>"+billing.getId());
-          
-        }
-
+            
             FileInputStream fis = new FileInputStream(reportPath);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream);
-            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(billings);
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(account);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, beanCollectionDataSource);
             // view report to UI
             JasperViewer.viewReport(jasperPrint, false);
 
         } catch (JRException ex) {
-            Logger.getLogger(reporteVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(reporteCobros.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(reporteVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(reporteCobros.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_printBTNActionPerformed
 
@@ -270,8 +267,8 @@ public class reporteVentas extends javax.swing.JPanel {
         int index = mainForm.pestanias.getSelectedIndex();
         if (index != -1) {
             mainForm.pestanias.remove(index);
-            mainForm.CerrarPestana(9);
-        } 
+            mainForm.CerrarPestana(10);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -284,16 +281,15 @@ public class reporteVentas extends javax.swing.JPanel {
             filtro.put("start", start);
             filtro.put("end", end);
             filtro.put("criteria", criteria + "%");
-            Query q = controller.getEntityManager().createQuery("SELECT b FROM Billing b"
-                    + " WHERE b.emissiondate between :startDate"
+            Query q = controller.getEntityManager().createQuery("SELECT a FROM Account a"
+                    + " WHERE a.dateCreation between :startDate"
                     + " and :endDate"
-                    + " and (b.clientProviderid.personId.passport like :criteria or"
-                    + " lower(b.clientProviderid.personId.lastname) like :criteria)");
+                    + " and (a.billingId.clientProviderid.personId.passport like :criteria or"
+                    + " lower(a.billingId.clientProviderid.personId.lastname) like :criteria)");
             q.setParameter("startDate", start);
             q.setParameter("endDate", end);
             q.setParameter("criteria", criterio.toLowerCase() + "%");
-            billings = q.getResultList();
-            fijarDatos(billings);
+            fijarDatos(q.getResultList());
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione el rango de fechas", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -301,35 +297,32 @@ public class reporteVentas extends javax.swing.JPanel {
 
     public static void verTabla() {
         dBTable1.createControlPanel();
-        billings = controller.findBillingEntities();
-        fijarDatos(billings);
+        account = controller.findAccountEntities();
+        fijarDatos(account);
     }
 
-    private static void fijarDatos(List<Billing> billings) {
+    private static void fijarDatos(List<Account> accounts) {
         BigDecimal sum = BigDecimal.ZERO;
-        for (Billing billing : billings) {
-            System.out.println("=>"+billing.getId());
-            sum = sum.add(billing.getTotal());
+        for (Account account : accounts) {
+            sum = sum.add(account.getBalance());
         }
 
-        if (billings.size() > 0) {
+        if (accounts.size() > 0) {
             printBTN.setEnabled(true);
-        }else{
-            printBTN.setEnabled(false);
         }
 
         totalLbl.setText(sum.toString());
         totalReport = sum;
 
         try {
-            String methodNames[] = {"getFecha", "getFactura", "getCliente", "getTotal"};
-            dBTable1.refreshDataObject(billings, methodNames);
+            String methodNames[] = {"getFecha", "getFactura", "getCliente", "getSaldo"};
+            dBTable1.refreshDataObject(accounts, methodNames);
             dBTable1.getColumn(0).setPreferredWidth(150);
             dBTable1.getColumn(1).setPreferredWidth(200);
             dBTable1.getColumn(2).setPreferredWidth(200);
             dBTable1.getColumn(3).setPreferredWidth(125);
         } catch (Exception ex) {
-            Logger.getLogger(reporteVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(reporteCobros.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

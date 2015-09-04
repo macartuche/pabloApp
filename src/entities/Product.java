@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author macbookpro
  */
 @Entity
-@Table(name = "product")
+@Table(name = "producto")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
@@ -56,30 +55,30 @@ public class Product implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "name")
+    @Column(name = "nombre")
     private String name;
-    @Column(name = "code")
+    @Column(name = "codigo")
     private String code;
     @Column(name = "stock", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal stock;
-    @Column(name = "minvalue", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "valorMinimo", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal minvalue;
     @Basic(optional = false)
-    @Column(name = "active")
+    @Column(name = "activo")
     private Boolean active;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "purchaseprice", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "precioCompra", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal purchaseprice;
-    @Column(name = "saleprice", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "precioVenta", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal saleprice;
-    @Column(name = "percentageiva", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "porcentajeIva", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageIva;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private List<DetailBilling> detailBillingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private List<Inventary> inventaryList;
     @OneToOne
-    @JoinColumn(name = "family_id")
+    @JoinColumn(name = "familia_id")
     private Family family;
 
     public Product() {

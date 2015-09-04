@@ -14,8 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.Table; 
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -23,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author macbookpro
  */
 @Entity
-@Table(name = "configurations")
+@Table(name = "configuraciones")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Configurations.findAll", query = "SELECT c FROM Configurations c"),
@@ -38,23 +37,15 @@ public class Configurations implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "name")
+    @Column(name = "nombre")
     private String name;
     @Basic(optional = false)
-    @Column(name = "value")
+    @Column(name = "valor")
     private String value;
     @Basic(optional = false)
-    @Column(name = "code")
+    @Column(name = "codigo")
     private String code;
-    
-    @Transient
-    private String codigo;
-    
-    @Transient
-    private String valor;
-    
-    @Transient
-    private String nombre;
+ 
 
     public Configurations() {
     }
@@ -131,25 +122,17 @@ public class Configurations implements Serializable {
         return code;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
+  
     public String getValor() {
         return value;
     }
-
-    public void setValor(String valor) {
-        this.valor = valor;
-    }
+ 
 
     public String getNombre() {
         return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+ 
     
     
     

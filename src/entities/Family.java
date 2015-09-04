@@ -22,13 +22,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author macbookpro
  */
 @Entity
-@Table(name = "family")
+@Table(name = "familia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Family.findAll", query = "SELECT f FROM Family f"),
     @NamedQuery(name = "Family.findById", query = "SELECT f FROM Family f WHERE f.id = :id"),
     @NamedQuery(name = "Family.findByName", query = "SELECT f FROM Family f WHERE lower(f.name)  like :name"),
     @NamedQuery(name = "Family.findByDescription", query = "SELECT f FROM Family f WHERE f.description = :description")})
+
 public class Family implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,11 +38,27 @@ public class Family implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "name")
+    @Column(name = "nombre")
     private String name;
     @Basic(optional = false)
-    @Column(name = "description")
+    @Column(name = "descripcion")
     private String  description;
+    
+    @Column(name = "talla")
+    private Boolean  size;
+    
+    @Column(name = "color")
+    private Boolean  color;
+    
+    @Column(name = "genero")
+    private Boolean  sex;
+    
+   @Column(name = "medida")
+    private Boolean  measure;
+ 
+    @Column(name = "calidad")
+    private Boolean  quality;
+ 
 
     public Family() {
     }
@@ -104,5 +121,44 @@ public class Family implements Serializable {
     public String toString() {
         return name; 
    }
-    
+
+    public Boolean getSize() {
+        return size;
+    }
+
+    public void setSize(Boolean size) {
+        this.size = size;
+    }
+
+    public Boolean getColor() {
+        return color;
+    }
+
+    public void setColor(Boolean color) {
+        this.color = color;
+    }
+
+    public Boolean getSex() {
+        return sex;
+    }
+
+    public void setSex(Boolean sex) {
+        this.sex = sex;
+    }
+
+    public Boolean getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(Boolean measure) {
+        this.measure = measure;
+    }
+
+    public Boolean getQuality() {
+        return quality;
+    }
+
+    public void setQuality(Boolean quality) {
+        this.quality = quality;
+    }
 }

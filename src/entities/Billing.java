@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author macbookpro
  */
 @Entity
-@Table(name = "billing")
+@Table(name = "factura")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Billing.findAll", query = "SELECT b FROM Billing b"),
@@ -65,12 +65,12 @@ public class Billing implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "emissiondate")
+    @Column(name = "fechaEmision")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date emissiondate;
-    @Column(name = "type")
+    @Column(name = "tipo")
     private String type;
-    @Column(name = "state")
+    @Column(name = "estado")
     private String state;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "subtotal", columnDefinition = "DECIMAL(7,2)")
@@ -83,21 +83,21 @@ public class Billing implements Serializable {
     private BigDecimal baseiva12;
     @Column(name = "iva12", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal iva12;
-    @Column(name = "percentagediscount", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "porcentajeDescuento", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal percentageDiscount;
-    @Column(name = "discount", columnDefinition = "DECIMAL(7,2)")
+    @Column(name = "descuento", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal discount;
     @Column(name = "total", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal total;
-    @Column(name = "number")
+    @Column(name = "numero")
     private String number;
-    @Column(name = "sequential")
+    @Column(name = "secuencial")
     private String sequential;
-    @Column(name = "emissionpoint_id")
+    @Column(name = "puntoEmision")
     private String emissionpoint_id;
-    @Column(name = "shop_id")
+    @Column(name = "tiendaid")
     private String shop_id;
-    @JoinColumn(name = "clientProvider_id", referencedColumnName = "id")
+    @JoinColumn(name = "clientdProveedor_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ClientProvider clientProviderid;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "billingId")

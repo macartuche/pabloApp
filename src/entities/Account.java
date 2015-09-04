@@ -22,7 +22,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author macbookpro
  */
 @Entity
-@Table(name = "account")
+@Table(name = "cuentas")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
@@ -47,20 +46,20 @@ public class Account implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "state")
+    @Column(name = "estado")
     private String state;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @Column(name = "balance")
+    @Column(name = "saldo")
     private BigDecimal balance;
     @Basic(optional = false)
     @Column(name = "total")
     private BigDecimal total;
     @Basic(optional = false)
-    @Column(name = "dateCreation")
+    @Column(name = "fechaCreacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreation;
-    @JoinColumn(name = "billing_id", referencedColumnName = "id")
+    @JoinColumn(name = "factura_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Billing billingId;
  

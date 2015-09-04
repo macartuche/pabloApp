@@ -226,6 +226,7 @@ public class grupos extends javax.swing.JPanel {
         int index = mainForm.pestanias.getSelectedIndex();
         if (index != -1) {
             mainForm.pestanias.remove(index);
+            mainForm.CerrarPestana(7);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 

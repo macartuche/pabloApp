@@ -196,6 +196,7 @@ public class products extends javax.swing.JPanel {
         int index = mainForm.pestanias.getSelectedIndex();
         if (index != -1) {
             mainForm.pestanias.remove(index);
+            mainForm.CerrarPestana(5);
         }
     }//GEN-LAST:event_btnSalirActionPerformed
 

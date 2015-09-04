@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author macbookpro
  */
 @Entity
-@Table(name = "inventary")
+@Table(name = "inventario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Inventary.findAll", query = "SELECT i FROM Inventary i"),
@@ -39,22 +39,22 @@ public class Inventary implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "type")
+    @Column(name = "tipo")
     private String type;
-    @Column(name = "quantity")
+    @Column(name = "cantidad")
     private String quantity;
-    @Column(name = "price")
+    @Column(name = "precio")
     private String price;
     @Column(name = "total")
     private String total;
-    @Column(name = "inventarycol")
+    @Column(name = "inventariocol")
     private String inventarycol;
-    @Column(name = "date")
+    @Column(name = "fecha")
     private String date;
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "producto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Product productId;
-    @JoinColumn(name = "billing_id", referencedColumnName = "id")
+    @JoinColumn(name = "factura_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Billing billingId;
 

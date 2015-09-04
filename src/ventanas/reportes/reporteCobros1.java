@@ -32,7 +32,7 @@ import ventanas.mainForm;
  *
  * @author macbookpro
  */
-public class reporteVentas extends javax.swing.JPanel {
+public class reporteCobros1 extends javax.swing.JPanel {
 
     static BillingJpaController controller;
     static List<Billing> billings;
@@ -40,7 +40,7 @@ public class reporteVentas extends javax.swing.JPanel {
     /**
      * Creates new form reportes
      */
-    public reporteVentas() {
+    public reporteCobros1() {
         initComponents();
         controller = new BillingJpaController();
         printBTN.setEnabled(false);
@@ -73,8 +73,9 @@ public class reporteVentas extends javax.swing.JPanel {
         totalLbl = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        dBTable1 = new quick.dbtable.DBTable();
         jButton5 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton2.setText("Realizar gráfico");
@@ -90,7 +91,7 @@ public class reporteVentas extends javax.swing.JPanel {
         });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("Ventas realizadas");
+        jLabel1.setText("Cobros pendientes");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setText("* Desde: ");
@@ -99,7 +100,7 @@ public class reporteVentas extends javax.swing.JPanel {
         jLabel3.setText("* Hasta:  ");
 
         printBTN.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        printBTN.setText("Imprimir");
+        printBTN.setText("Imprimir cobros por realizar");
         printBTN.setEnabled(false);
         printBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,6 +116,7 @@ public class reporteVentas extends javax.swing.JPanel {
 
         totalLbl.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         totalLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        totalLbl.setText("690,00");
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -135,6 +137,19 @@ public class reporteVentas extends javax.swing.JPanel {
                 jButton5ActionPerformed(evt);
             }
         });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"001-001-000113567", "Jiminez Jimenez Ramiro Josimar", "200,00"},
+                {"001-001-000113897", "Armijos Ordondez Richard Ismale", "180,00"},
+                {"001-001-000113876", "Cuenca Valdivieso Jose Alberto", "310,00"},
+                {null, null, null}
+            },
+            new String [] {
+                "Factura", "Cliente", "Valor"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -180,18 +195,20 @@ public class reporteVentas extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(printBTN))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(totalLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(dBTable1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(totalLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(6, 6, 6)))))
                 .addGap(18, 18, 18))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(printBTN)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1)
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,9 +236,9 @@ public class reporteVentas extends javax.swing.JPanel {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(printBTN)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dBTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(totalLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -238,11 +255,7 @@ public class reporteVentas extends javax.swing.JPanel {
         try {
             Map parametersMap = new HashMap();
             parametersMap.put("totalReport", totalReport);
-                for (Billing billing : billings) {
-            System.out.println("=>"+billing.getId());
-          
-        }
-
+            
             FileInputStream fis = new FileInputStream(reportPath);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream);
@@ -252,9 +265,9 @@ public class reporteVentas extends javax.swing.JPanel {
             JasperViewer.viewReport(jasperPrint, false);
 
         } catch (JRException ex) {
-            Logger.getLogger(reporteVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(reporteCobros1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(reporteVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(reporteCobros1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_printBTNActionPerformed
 
@@ -270,8 +283,7 @@ public class reporteVentas extends javax.swing.JPanel {
         int index = mainForm.pestanias.getSelectedIndex();
         if (index != -1) {
             mainForm.pestanias.remove(index);
-            mainForm.CerrarPestana(9);
-        } 
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -292,15 +304,14 @@ public class reporteVentas extends javax.swing.JPanel {
             q.setParameter("startDate", start);
             q.setParameter("endDate", end);
             q.setParameter("criteria", criterio.toLowerCase() + "%");
-            billings = q.getResultList();
-            fijarDatos(billings);
+            fijarDatos(q.getResultList());
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione el rango de fechas", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void verTabla() {
-        dBTable1.createControlPanel();
+//        dBTable1.createControlPanel();
         billings = controller.findBillingEntities();
         fijarDatos(billings);
     }
@@ -308,14 +319,11 @@ public class reporteVentas extends javax.swing.JPanel {
     private static void fijarDatos(List<Billing> billings) {
         BigDecimal sum = BigDecimal.ZERO;
         for (Billing billing : billings) {
-            System.out.println("=>"+billing.getId());
             sum = sum.add(billing.getTotal());
         }
 
         if (billings.size() > 0) {
             printBTN.setEnabled(true);
-        }else{
-            printBTN.setEnabled(false);
         }
 
         totalLbl.setText(sum.toString());
@@ -323,19 +331,18 @@ public class reporteVentas extends javax.swing.JPanel {
 
         try {
             String methodNames[] = {"getFecha", "getFactura", "getCliente", "getTotal"};
-            dBTable1.refreshDataObject(billings, methodNames);
-            dBTable1.getColumn(0).setPreferredWidth(150);
-            dBTable1.getColumn(1).setPreferredWidth(200);
-            dBTable1.getColumn(2).setPreferredWidth(200);
-            dBTable1.getColumn(3).setPreferredWidth(125);
+//            dBTable1.refreshDataObject(billings, methodNames);
+//            dBTable1.getColumn(0).setPreferredWidth(150);
+//            dBTable1.getColumn(1).setPreferredWidth(200);
+//            dBTable1.getColumn(2).setPreferredWidth(200);
+//            dBTable1.getColumn(3).setPreferredWidth(125);
         } catch (Exception ex) {
-            Logger.getLogger(reporteVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(reporteCobros1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField criteria;
-    private static quick.dbtable.DBTable dBTable1;
     private com.toedter.calendar.JDateChooser fromDate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -347,8 +354,10 @@ public class reporteVentas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTable jTable1;
     private static javax.swing.JButton printBTN;
     private static javax.swing.JLabel totalLbl;
     private com.toedter.calendar.JDateChooser untilDate;
