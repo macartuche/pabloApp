@@ -3,26 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< Updated upstream
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/administracion/UsuarioForm.java</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/entities/DetailBilling.java</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/entities/Billing.java</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/META-INF/persistence.xml</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/mainForm.java</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/ventas/ItemForm.java</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/administracion/usuarios.java</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/ventas/VentasForm.java</file>
-            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/ventas/ventas.java</file>
-=======
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/reportes/reporteVentas.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/ventas/ctasCobrar.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/entities/Billing.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/ventas/ClientSelector.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/entities/Payment.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/inventario/productosForm.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/UsuarioForm.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/META-INF/persistence.xml</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/ventas/ItemForm.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/inventario/products.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/reportes/reporteProductoMasVendido.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/CustomTabbedPaneUI.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/reportes/reporteCobros.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/controllers/EntityManagerProj.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/ventas/VentasForm.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/ConfiguracionesForm.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/usuarios.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/inventario/gruposForm.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/controllers/AccountJpaController.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/configuraciones.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/mainForm.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/ventas/CobroForm.java</file>
->>>>>>> Stashed changes
         </group>
     </open-files>
 </project-private>
