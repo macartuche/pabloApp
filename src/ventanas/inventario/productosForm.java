@@ -5,6 +5,7 @@
  */
 package ventanas.inventario;
 
+import entities.Family;
 import entities.Product;
 import java.math.BigDecimal;
 import utilitarios.Utilitario;
@@ -34,6 +35,9 @@ public class productosForm extends javax.swing.JDialog {
         fijarEntidad();
         this.comboImpuesto.addItem(new Impuesto("IVA0", "IVA 0%"));
         this.comboImpuesto.addItem(new Impuesto("IVA12", "IVA 12%"));
+        
+        //fijar los valores booleanos
+        //par aactivar o desactivar los combos
     }
     
     private void fijarEntidad() {
@@ -48,9 +52,27 @@ public class productosForm extends javax.swing.JDialog {
             txtStockMinimo.setText(this.product.getMinvalue().toString());
             txtPrecioCompra.setText(this.product.getPurchaseprice().toString());
             txtPrecioVenta.setText(this.product.getSaleprice().toString());
-            comboFamilia.setSelectedItem(this.product.getFamily());
+            comboFamilia.setSelectedItem(this.product.getFamily()); 
+            enableCombos(this.product.getFamily());
+        }else{
+            Family family = (Family)comboFamilia.getSelectedItem();
+            System.out.println("=>"+family.getCalidad());
+            enableCombos(family);
         }
         
+    }
+    
+    /**
+     * 
+     * @param family 
+     */
+    private void enableCombos(Family family){ 
+            comboCalidad.setEnabled(family.getQuality());
+            comboColor.setEnabled(family.getColor());
+            comboGenero.setEnabled(family.getSex());
+            comboTalla.setEnabled(family.getSize());
+            inputMedida.setEnabled(family.getMeasure());
+            inputModelo.setEnabled(family.getModel());
     }
 
     /**
@@ -95,18 +117,18 @@ public class productosForm extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        comboTalla = new javax.swing.JComboBox();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        comboCalidad = new javax.swing.JComboBox();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox();
+        comboGenero = new javax.swing.JComboBox();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox();
+        comboColor = new javax.swing.JComboBox();
         jLabel18 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        inputMedida = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        inputModelo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Producto");
@@ -171,6 +193,12 @@ public class productosForm extends javax.swing.JDialog {
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list1, comboFamilia);
         bindingGroup.addBinding(jComboBoxBinding);
 
+        comboFamilia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFamiliaActionPerformed(evt);
+            }
+        });
+
         jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("Código:");
@@ -196,25 +224,25 @@ public class productosForm extends javax.swing.JDialog {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel14.setText("Talla *: ");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22", "24", "26", "28", "30", "32", "34", "36", "38", "40", "42" }));
+        comboTalla.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22", "24", "26", "28", "30", "32", "34", "36", "38", "40", "42" }));
 
         jLabel15.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel15.setText("Calidad *:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Algodón", "XYZSD", "SKJDKSJ", "SDKSDJK" }));
+        comboCalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Algodón", "XYZSD", "SKJDKSJ", "SDKSDJK" }));
 
         jLabel16.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel16.setText("Género *:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Unisex", "Masculino", "Femenino" }));
+        comboGenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Unisex", "Masculino", "Femenino" }));
 
         jLabel17.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel17.setText("Color: *");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Amarillo", "Azul", "Dorado", "Negro", "Rojo", " " }));
+        comboColor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Amarillo", "Azul", "Dorado", "Negro", "Rojo", " " }));
 
         jLabel18.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -302,26 +330,26 @@ public class productosForm extends javax.swing.JDialog {
                                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(33, 33, 33)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboCalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(comboColor, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(comboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(inputMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(inputModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
@@ -371,24 +399,24 @@ public class productosForm extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboCalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -490,6 +518,15 @@ public class productosForm extends javax.swing.JDialog {
     private void comboImpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboImpuestoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboImpuestoActionPerformed
+
+    private void comboFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFamiliaActionPerformed
+  
+        int index = comboFamilia.getSelectedIndex();
+        if(index != -1){
+           enableCombos( (Family) list1.get(index)); 
+        }
+           
+    }//GEN-LAST:event_comboFamiliaActionPerformed
     
     private boolean noValido() {
         boolean error = false;
@@ -579,13 +616,15 @@ public class productosForm extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JCheckBox checkActivo;
+    private javax.swing.JComboBox comboCalidad;
+    private javax.swing.JComboBox comboColor;
     private javax.swing.JComboBox comboFamilia;
+    private javax.swing.JComboBox comboGenero;
     private javax.swing.JComboBox comboImpuesto;
+    private javax.swing.JComboBox comboTalla;
     private javax.persistence.EntityManager entityManager1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JComboBox jComboBox4;
-    private javax.swing.JComboBox jComboBox5;
+    private javax.swing.JTextField inputMedida;
+    private javax.swing.JTextField inputModelo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -609,8 +648,6 @@ public class productosForm extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private java.util.List list1;
     private javax.persistence.Query query1;
     private quick.dbtable.Skin skin1;
