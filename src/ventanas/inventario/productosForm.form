@@ -160,18 +160,18 @@
                                       <Component id="jLabel14" alignment="1" min="-2" pref="88" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
-                                  <Component id="jComboBox1" min="-2" pref="158" max="-2" attributes="0"/>
+                                  <Component id="comboCalidad" min="-2" pref="158" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jComboBox2" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
+                              <Component id="comboTalla" alignment="1" min="-2" pref="97" max="-2" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel17" min="-2" pref="88" max="-2" attributes="0"/>
                                   <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
-                                  <Component id="jComboBox5" min="-2" pref="158" max="-2" attributes="0"/>
+                                  <Component id="comboColor" min="-2" pref="158" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel16" min="-2" pref="88" max="-2" attributes="0"/>
                                   <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
-                                  <Component id="jComboBox4" min="-2" pref="158" max="-2" attributes="0"/>
+                                  <Component id="comboGenero" min="-2" pref="158" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -179,12 +179,12 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel18" min="-2" pref="88" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jTextField1" min="-2" pref="134" max="-2" attributes="0"/>
+                                  <Component id="inputMedida" min="-2" pref="134" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel20" min="-2" pref="88" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jTextField2" min="-2" pref="134" max="-2" attributes="0"/>
+                                  <Component id="inputModelo" min="-2" pref="134" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -251,27 +251,27 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboTalla" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="inputMedida" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboCalidad" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="inputModelo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboGenero" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboColor" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -424,6 +424,9 @@
           <BindingProperties>
             <BindingProperty name="elements" source="list1" target="comboFamilia" targetPath="elements" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboFamiliaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
@@ -484,7 +487,7 @@
             <Property name="text" type="java.lang.String" value="Talla *: "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox2">
+        <Component class="javax.swing.JComboBox" name="comboTalla">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="11">
@@ -512,7 +515,7 @@
             <Property name="text" type="java.lang.String" value="Calidad *:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="comboCalidad">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
@@ -533,7 +536,7 @@
             <Property name="text" type="java.lang.String" value="G&#xe9;nero *:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox4">
+        <Component class="javax.swing.JComboBox" name="comboGenero">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="3">
@@ -553,7 +556,7 @@
             <Property name="text" type="java.lang.String" value="Color: *"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox5">
+        <Component class="javax.swing.JComboBox" name="comboColor">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="6">
@@ -576,7 +579,7 @@
             <Property name="text" type="java.lang.String" value="Medida: "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="inputMedida">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel19">
           <Properties>
@@ -596,7 +599,7 @@
             <Property name="text" type="java.lang.String" value="Modelo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="inputModelo">
         </Component>
       </SubComponents>
     </Container>

@@ -58,8 +58,13 @@ public class Family implements Serializable {
  
     @Column(name = "calidad")
     private Boolean  quality;
- 
-
+    
+    @Column(name = "modelo")
+    private Boolean  model;
+     
+    @Column(name = "activo")
+    private Boolean  active;
+    
     public Family() {
     }
 
@@ -161,4 +166,49 @@ public class Family implements Serializable {
     public void setQuality(Boolean quality) {
         this.quality = quality;
     }
+
+    public Boolean getModel() {
+        return model;
+    }
+
+    public void setModel(Boolean model) {
+        this.model = model;
+    }
+    
+    public String getMedida(){
+        return (this.measure)? "Si" : "No";
+    }
+    
+    public String getTalla(){
+        return (this.size)? "Si" : "No";
+    }
+    
+    public String getColor1(){
+      return (this.color)? "Si" : "No";
+    }
+    
+    public String getCalidad(){
+        return (this.quality)? "Si" : "No";
+    }
+    
+    public String getModelo(){
+        return (this.model)? "Si" : "No";
+    }
+    
+    public String getGenero(){
+        return (this.sex)? "Si" : "No";
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+   
+    public String getEstado(){
+        return (this.active)? "Activo" : "Inactivo";
+    }
+    
 }
