@@ -17,10 +17,14 @@ public class EntityManagerProj {
 
     protected EntityManagerFactory emf;
     protected EntityManager em;
+    private static final String PERSISTENCE_UNIT_NAME = "pabloPU";
 
     public EntityManagerProj() {
-        emf = Persistence.createEntityManagerFactory("pabloAppPU");
+        emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+//        emf = Persistence.createEntityManagerFactory("pabloAppPU");
         em = emf.createEntityManager();
+
+//        EntityManager entityManager = Persistence.createEntityManagerFactory("CustomerLibraryPU").createEntityManager();
     }
 
     public EntityManagerFactory getEmf() {
