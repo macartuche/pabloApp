@@ -215,4 +215,27 @@ public class Product implements Serializable {
         return "entities.Product[ id=" + id + " ]";
     }
 
+    public String getMinimo() {
+        return minvalue.toString();
+    }
+
+    public String getPrecioCompra() {
+        return purchaseprice.toString();
+    }
+
+    public String getPrecioVenta() {
+        return saleprice.toString();
+    }
+
+    public String getCodigo() {
+        return code;
+    }
+
+    public String getNombre() {
+        return name;
+    }
+    
+      public String getFamilia() {
+        return family.getName();
+    }
 }

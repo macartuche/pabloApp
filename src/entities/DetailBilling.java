@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -65,6 +66,9 @@ public class DetailBilling implements Serializable {
     @JoinColumn(name = "factura_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Billing billingId;
+    
+    @Transient
+    private String name;
 
     public DetailBilling() {
     }
@@ -212,4 +216,12 @@ public class DetailBilling implements Serializable {
     public String getPrecioTotal() {
         return total.toString();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    } 
 }

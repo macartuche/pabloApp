@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table; 
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Configurations.findByValue", query = "SELECT c FROM Configurations c WHERE c.value = :value"),
     @NamedQuery(name = "Configurations.findByCode", query = "SELECT c FROM Configurations c WHERE c.code = :code")})
 public class Configurations implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +47,8 @@ public class Configurations implements Serializable {
     @Column(name = "codigo")
     private String code;
  
+    @Column(name = "activo")
+    private Boolean active;
 
     public Configurations() {
     }
@@ -122,18 +125,24 @@ public class Configurations implements Serializable {
         return code;
     }
 
-  
     public String getValor() {
         return value;
     }
- 
 
     public String getNombre() {
         return name;
     }
 
- 
-    
-    
-    
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getEstado() {
+        return (active) ? "Activo" : "Inactivo";
+    }
+
 }

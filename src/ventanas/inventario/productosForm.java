@@ -27,7 +27,7 @@ public class productosForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
+
     public productosForm(java.awt.Frame parent, boolean modal, Product product) {
         super(parent, modal);
         initComponents();
@@ -35,16 +35,16 @@ public class productosForm extends javax.swing.JDialog {
         fijarEntidad();
         this.comboImpuesto.addItem(new Impuesto("IVA0", "IVA 0%"));
         this.comboImpuesto.addItem(new Impuesto("IVA12", "IVA 12%"));
-        
+
         //fijar los valores booleanos
         //par aactivar o desactivar los combos
     }
-    
+
     private void fijarEntidad() {
         if (this.product.getActive()) {
             checkActivo.setSelected(Boolean.TRUE);
         }
-        
+
         if (this.product.getId() != null) {
             txtNombre.setText(this.product.getName());
             txtCodigo.setText(this.product.getCode());
@@ -52,27 +52,29 @@ public class productosForm extends javax.swing.JDialog {
             txtStockMinimo.setText(this.product.getMinvalue().toString());
             txtPrecioCompra.setText(this.product.getPurchaseprice().toString());
             txtPrecioVenta.setText(this.product.getSaleprice().toString());
-            comboFamilia.setSelectedItem(this.product.getFamily()); 
+            comboFamilia.setSelectedItem(this.product.getFamily());
             enableCombos(this.product.getFamily());
-        }else{
-            Family family = (Family)comboFamilia.getSelectedItem();
-            System.out.println("=>"+family.getCalidad());
+        } else {
+            Family family = (Family) comboFamilia.getSelectedItem();
+            System.out.println("=>" + family.getCalidad());
             enableCombos(family);
         }
-        
+
     }
-    
+
     /**
-     * 
-     * @param family 
+     *
+     * @param family
      */
-    private void enableCombos(Family family){ 
+    private void enableCombos(Family family) {
+        if (family != null) {
             comboCalidad.setEnabled(family.getQuality());
             comboColor.setEnabled(family.getColor());
             comboGenero.setEnabled(family.getSex());
             comboTalla.setEnabled(family.getSize());
             inputMedida.setEnabled(family.getMeasure());
             inputModelo.setEnabled(family.getModel());
+        }
     }
 
     /**
@@ -452,7 +454,7 @@ public class productosForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
+
         if (noValido()) {
             return;
         }
@@ -464,16 +466,16 @@ public class productosForm extends javax.swing.JDialog {
                 + txtPrecioCompra.getText() + " - "
                 + txtPrecioVenta.getText() + " - "
         );
-        
+
         String impuesto = ((Impuesto) this.comboImpuesto.getSelectedItem()).getValue();
         System.out.println("impuesto >>> " + impuesto);
-        
+
         if (impuesto.equals("IVA0")) {
             this.product.setPercentageIva(new BigDecimal("0.00"));
         } else {
             this.product.setPercentageIva(new BigDecimal("12.00"));
         }
-        
+
         this.product.setName(txtNombre.getText());
         this.product.setCode(txtCodigo.getText());
         this.product.setStock(new BigDecimal(txtStockActual.getText()));
@@ -481,7 +483,7 @@ public class productosForm extends javax.swing.JDialog {
         this.product.setActive(checkActivo.isSelected());
         this.product.setPurchaseprice(new BigDecimal(txtPrecioCompra.getText()));
         this.product.setSaleprice(new BigDecimal(txtPrecioVenta.getText()));
-        
+        this.product.setFamily((Family)comboFamilia.getSelectedItem());
         System.out.println(this.product.getName() + " - "
                 + this.product.getCode() + " - "
                 + this.product.getStock() + " - "
@@ -490,7 +492,7 @@ public class productosForm extends javax.swing.JDialog {
                 + this.product.getPurchaseprice() + " - "
                 + this.product.getSaleprice()
         );
-        
+
         if (this.product.getId() == null) {
             System.out.println("product >>>>  " + this.product);
             products.crear(this.product);
@@ -520,14 +522,14 @@ public class productosForm extends javax.swing.JDialog {
     }//GEN-LAST:event_comboImpuestoActionPerformed
 
     private void comboFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFamiliaActionPerformed
-  
+
         int index = comboFamilia.getSelectedIndex();
-        if(index != -1){
-           enableCombos( (Family) list1.get(index)); 
+        if (index != -1) {
+            enableCombos((Family) list1.get(index));
         }
-           
+
     }//GEN-LAST:event_comboFamiliaActionPerformed
-    
+
     private boolean noValido() {
         boolean error = false;
         StringBuilder mensaje = new StringBuilder();
@@ -535,27 +537,27 @@ public class productosForm extends javax.swing.JDialog {
         if (validarCodigo(codigo)) {
             error = true;
             mensaje.append("- Código del producto ya se encuentra registrado \n");
-            
+
         }
-        
+
         if (Utilitario.campoVacio(txtNombre.getText())) {
             error = true;
             mensaje.append("- Campo Nombre es obligatorio \n");
         }
-        
+
         if (Utilitario.campoVacio(txtStockActual.getText())) {
             error = true;
             mensaje.append("- Campo Precio Compra es obligatorio \n");
         }
-        
+
         if (Utilitario.campoVacio(txtStockMinimo.getText())) {
             error = true;
             mensaje.append("- Campo Precio Venta es obligatorio \n");
         }
-        
+
         return error;
     }
-    
+
     private Boolean validarCodigo(String codigo) {
         return Boolean.FALSE;
     }
@@ -601,15 +603,15 @@ public class productosForm extends javax.swing.JDialog {
             }
         });
     }
-    
+
     public Product getProduct() {
         return product;
     }
-    
+
     public void setProduct(Product product) {
         this.product = product;
     }
-    
+
     private Product product;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -23,7 +23,7 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author macbookpro
  */
-public class DetailBillingJpaController implements Serializable {
+public class DetailBillingJpaController extends EntityManagerProj implements Serializable {
 
     public DetailBillingJpaController() {
         super();
@@ -41,7 +41,7 @@ public class DetailBillingJpaController implements Serializable {
     public void create(DetailBilling detailBilling) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+            em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             Product productId = detailBilling.getProductId();
             if (productId != null) {
@@ -78,7 +78,7 @@ public class DetailBillingJpaController implements Serializable {
     public void edit(DetailBilling detailBilling) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+           em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             DetailBilling persistentDetailBilling = em.find(DetailBilling.class, detailBilling.getId());
             Product productIdOld = persistentDetailBilling.getProductId();
@@ -130,7 +130,7 @@ public class DetailBillingJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
-            em = getEntityManager();
+           em = super.getEmf().createEntityManager();
             em.getTransaction().begin();
             DetailBilling detailBilling;
             try {
@@ -167,7 +167,8 @@ public class DetailBillingJpaController implements Serializable {
     }
 
     private List<DetailBilling> findDetailBillingEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+        EntityManager
+           em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(DetailBilling.class));
@@ -192,7 +193,8 @@ public class DetailBillingJpaController implements Serializable {
     }
 
     public int getDetailBillingCount() {
-        EntityManager em = getEntityManager();
+        EntityManager
+           em = super.getEmf().createEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<DetailBilling> rt = cq.from(DetailBilling.class);

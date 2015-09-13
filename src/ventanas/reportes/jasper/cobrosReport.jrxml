@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="078f13ed-03a1-46bf-acab-f47cf705df9f">
-	<property name="ireport.zoom" value="1.6105100000000052"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.7715610000000102"/>
+	<property name="ireport.x" value="16"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -17,53 +17,23 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="baseiva0" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[baseiva0]]></fieldDescription>
-	</field>
-	<field name="baseiva12" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[baseiva12]]></fieldDescription>
-	</field>
-	<field name="clientProviderid" class="entities.ClientProvider">
-		<fieldDescription><![CDATA[clientProviderid]]></fieldDescription>
-	</field>
-	<field name="detailBillingList" class="java.util.List">
-		<fieldDescription><![CDATA[detailBillingList]]></fieldDescription>
-	</field>
-	<field name="discount" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[discount]]></fieldDescription>
-	</field>
-	<field name="emissiondate" class="java.util.Date">
-		<fieldDescription><![CDATA[emissiondate]]></fieldDescription>
-	</field>
-	<field name="emissionpoint_id" class="java.lang.String">
-		<fieldDescription><![CDATA[emissionpoint_id]]></fieldDescription>
-	</field>
-	<field name="iva0" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[iva0]]></fieldDescription>
-	</field>
-	<field name="iva12" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[iva12]]></fieldDescription>
-	</field>
-	<field name="percentageDiscount" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[percentageDiscount]]></fieldDescription>
-	</field>
-	<field name="state" class="java.lang.String">
-		<fieldDescription><![CDATA[state]]></fieldDescription>
-	</field>
-	<field name="subtotal" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[subtotal]]></fieldDescription>
-	</field>
-	<field name="total" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[total]]></fieldDescription>
-	</field>
-	<field name="number" class="java.lang.String">
-		<fieldDescription><![CDATA[number]]></fieldDescription>
-	</field>
-	<field name="sequential" class="java.lang.String">
-		<fieldDescription><![CDATA[sequential]]></fieldDescription>
+	<field name="factura" class="java.lang.String">
+		<fieldDescription><![CDATA[factura]]></fieldDescription>
 	</field>
 	<field name="cliente" class="java.lang.String">
 		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	</field>
+	<field name="billingId" class="entities.Billing">
+		<fieldDescription><![CDATA[billingId]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[fecha]]></fieldDescription>
+	</field>
+	<field name="saldo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[saldo]]></fieldDescription>
+	</field>
+	<field name="total" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[total]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -71,11 +41,11 @@
 	<title>
 		<band height="127" splitType="Stretch">
 			<staticText>
-				<reportElement style="SubTitle" x="199" y="24" width="216" height="35" forecolor="#000000" uuid="7eb54d25-4a7c-4ad9-95be-01c547a582b3"/>
+				<reportElement style="SubTitle" x="184" y="24" width="354" height="35" forecolor="#000000" uuid="7eb54d25-4a7c-4ad9-95be-01c547a582b3"/>
 				<textElement>
 					<font size="28" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Reporte de ventas]]></text>
+				<text><![CDATA[Reporte de cuentas por cobrar]]></text>
 			</staticText>
 			<image>
 				<reportElement x="2" y="7" width="171" height="103" uuid="b46e0d08-384d-445d-9c34-824e2be8b6e5"/>
@@ -89,19 +59,18 @@
 	<columnHeader>
 		<band height="26" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="93" y="6" width="139" height="20" uuid="192f9909-4a8f-43b7-90c9-ad36d2763b44"/>
-				<text><![CDATA[Factura]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="2" y="6" width="91" height="20" uuid="e2d3abfc-a5ba-40ae-9be8-7fd6cb608044"/>
+				<reportElement x="2" y="6" width="100" height="20" uuid="075233e0-2217-4d1f-a936-18081bea06e9"/>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="430" y="6" width="123" height="20" uuid="8b3eaccd-1889-4626-87d3-9660b71cc1fe"/>
-				<text><![CDATA[Total]]></text>
+				<reportElement x="453" y="6" width="100" height="20" uuid="5e743b66-06a0-4d79-ac64-f9346c8244ff"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="232" y="6" width="198" height="20" uuid="b9acdd62-c572-4919-a0da-eccd4084ccd6"/>
+				<reportElement x="102" y="6" width="351" height="20" uuid="77f86538-c86d-4262-8a95-a96aba507062"/>
 				<text><![CDATA[Cliente]]></text>
 			</staticText>
 		</band>
@@ -110,21 +79,17 @@
 		<band height="21" splitType="Stretch">
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="553" height="21" uuid="ad849a55-5532-48b9-8c1d-7313177de6a5"/>
-				<textField>
-					<reportElement x="93" y="0" width="139" height="20" uuid="66809914-cde9-4d56-a7fa-106817fa3b40"/>
-					<textFieldExpression><![CDATA[$F{number}]]></textFieldExpression>
-				</textField>
-				<textField pattern="yyyy/MM/dd">
-					<reportElement x="0" y="0" width="93" height="20" uuid="4fdbc913-e272-4406-84f0-d9bbaf0d05a6"/>
-					<textFieldExpression><![CDATA[$F{emissiondate}]]></textFieldExpression>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="2" y="1" width="100" height="20" uuid="92f550c5-c585-4fe8-8f0d-884f7ee0994e"/>
+					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="430" y="0" width="123" height="20" uuid="a8c2e0ce-b634-423f-980d-59928e090902"/>
+					<reportElement x="453" y="1" width="100" height="20" uuid="0846bbc9-42c4-43ea-94cf-7db61a7fa571"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="232" y="0" width="198" height="20" uuid="5403c7a2-bc1d-4767-8455-d3514baa3332"/>
+					<reportElement x="102" y="1" width="351" height="20" uuid="d2fea0a9-4b19-4a93-ac2c-7c81067f0c8e"/>
 					<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 				</textField>
 			</frame>

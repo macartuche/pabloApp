@@ -21,6 +21,7 @@ import ventanas.compras.Proveedores;
 import ventanas.inventario.grupos;
 import ventanas.inventario.products;
 import ventanas.reportes.reporteCobros;
+import ventanas.reportes.reporteMasVendido;
 import ventanas.reportes.reporteVentas;
 import ventanas.ventas.clientes;
 import ventanas.ventas.ctasCobrar;
@@ -97,6 +98,10 @@ public class mainForm extends javax.swing.JFrame {
                        case "Ctas por cobrar":
                            reporteCobros cobros = new reporteCobros();
                            crearPestana(cobros, "Ctas por cobrar  ",10);
+                           break;
+                       case "Productos más vendidos":
+                           reporteMasVendido masvendido = new reporteMasVendido();
+                           crearPestana(masvendido, "Productos más vendidos", 11);
                            break;
                 }
             }
@@ -179,6 +184,9 @@ public class mainForm extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        arbol.setMaximumSize(new java.awt.Dimension(180, 114));
+        arbol.setPreferredSize(new java.awt.Dimension(150, 114));
+        arbol.setShowsRootHandles(true);
         arbol.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 arbolMouseClicked(evt);
