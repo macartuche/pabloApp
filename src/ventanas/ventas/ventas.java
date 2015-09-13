@@ -309,21 +309,36 @@ public class ventas extends javax.swing.JPanel {
         if (indice < 0) {
             JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
-            
+
             Billing b = ventas.get(indice);
-            
-            if(b.getState().equals("GENERADA")){
+
+            if (b.getState().equals("GENERADA")) {
                 abrirVentana(b);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Sólo de pueden modificar facturas en estado \"GENERADA\".", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-            
-            
+
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
         // TODO add your handling code here:
+
+        int indice = dBTable1.getSelectedRow();
+        if (indice < 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            Billing b = ventas.get(indice);
+
+            if (b.getState().equals("GENERADA")) {
+                abrirVentana(b);
+            } else {
+                JOptionPane.showMessageDialog(this, "Sólo de pueden modificar facturas en estado \"GENERADA\".", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+
     }//GEN-LAST:event_btnAnularActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
