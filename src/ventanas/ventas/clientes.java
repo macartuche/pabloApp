@@ -276,6 +276,7 @@ public class clientes extends javax.swing.JPanel {
 
     public static void verTabla() {
         dBTable1.createControlPanel();
+        dBTable1.setEditable(false);
         Map<String, Object> filtro = new HashMap<>();
         filtro.put("client", Boolean.TRUE);
         clientProviders = controller.getClients("ClientProvider.findByClient",

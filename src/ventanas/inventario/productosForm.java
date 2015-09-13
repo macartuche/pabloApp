@@ -8,6 +8,7 @@ package ventanas.inventario;
 import entities.Family;
 import entities.Product;
 import java.math.BigDecimal;
+import javax.swing.JOptionPane;
 import utilitarios.Utilitario;
 import ventanas.ventas.Impuesto;
 
@@ -56,8 +57,15 @@ public class productosForm extends javax.swing.JDialog {
             enableCombos(this.product.getFamily());
         } else {
             Family family = (Family) comboFamilia.getSelectedItem();
-            System.out.println("=>" + family.getCalidad());
             enableCombos(family);
+            
+            //fijar valores de combos
+            comboCalidad.setSelectedItem(this.product.getQuality());
+            comboTalla.setSelectedItem(this.product.getSize());
+            comboColor.setSelectedItem(this.product.getColor());
+            comboGenero.setSelectedItem(this.product.getSex());
+            inputMedida.setText(this.product.getMeasure());
+            inputModelo.setText(this.product.getModel());
         }
 
     }
@@ -131,6 +139,7 @@ public class productosForm extends javax.swing.JDialog {
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         inputModelo = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Producto");
@@ -143,19 +152,19 @@ public class productosForm extends javax.swing.JDialog {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Nombre: ");
+        jLabel2.setText("Nombre *: ");
 
         txtNombre.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Precio compra: ");
+        jLabel3.setText("Precio compra* : ");
 
         txtPrecioCompra.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Precio venta: ");
+        jLabel4.setText("Precio venta *: ");
 
         txtPrecioVenta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
@@ -164,11 +173,11 @@ public class productosForm extends javax.swing.JDialog {
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Actual: ");
+        jLabel6.setText("Actual *: ");
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Mínimo:");
+        jLabel7.setText("Mínimo *:");
 
         btnCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -188,7 +197,7 @@ public class productosForm extends javax.swing.JDialog {
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Familia: ");
+        jLabel10.setText("Familia *: ");
 
         comboFamilia.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
@@ -203,7 +212,7 @@ public class productosForm extends javax.swing.JDialog {
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("Código:");
+        jLabel11.setText("Código *:");
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -257,6 +266,9 @@ public class productosForm extends javax.swing.JDialog {
         jLabel20.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel20.setText("Modelo:");
+
+        jLabel21.setFont(new java.awt.Font("Arial", 2, 10)); // NOI18N
+        jLabel21.setText("Los campos marcados con (*) son obligatorios");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -353,7 +365,9 @@ public class productosForm extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(inputModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar)))
@@ -433,8 +447,9 @@ public class productosForm extends javax.swing.JDialog {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
-                    .addComponent(btnCancelar))
-                .addGap(100, 100, 100))
+                    .addComponent(btnCancelar)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -445,7 +460,7 @@ public class productosForm extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         bindingGroup.bind();
@@ -453,19 +468,44 @@ public class productosForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fijarValoresFamilia(){
+        Family familia = (Family)comboFamilia.getSelectedItem();
+        this.product.setMeasure("");
+        this.product.setModel("");
+        this.product.setColor("");
+        this.product.setSize("");
+        this.product.setSex("");
+        this.product.setQuality("");
+        
+        if(familia.getMeasure()){
+            this.product.setMeasure(inputMedida.getText());
+        }
+        
+        if(familia.getColor()){
+            this.product.setColor(comboColor.getSelectedItem().toString());
+        }
+        
+        if(familia.getQuality()){
+            this.product.setQuality(comboCalidad.getSelectedItem().toString());
+        }
+        
+        if(familia.getModel()){
+            this.product.setModel(inputModelo.getText());
+        }
+        
+        if(familia.getSex()){
+            this.product.setSex(comboGenero.getSelectedItem().toString());
+        }
+        
+        if(familia.getSize()){
+            this.product.setSize(comboTalla.getSelectedItem().toString());
+        }
+    }
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         if (noValido()) {
             return;
         }
-        System.out.println(txtNombre.getText() + " - "
-                + txtCodigo.getText() + " - "
-                + txtStockActual.getText() + " - "
-                + txtStockMinimo.getText() + " - "
-                + checkActivo.isSelected() + " - "
-                + txtPrecioCompra.getText() + " - "
-                + txtPrecioVenta.getText() + " - "
-        );
 
         String impuesto = ((Impuesto) this.comboImpuesto.getSelectedItem()).getValue();
         System.out.println("impuesto >>> " + impuesto);
@@ -476,23 +516,17 @@ public class productosForm extends javax.swing.JDialog {
             this.product.setPercentageIva(new BigDecimal("12.00"));
         }
 
-        this.product.setName(txtNombre.getText());
+         this.product.setName(txtNombre.getText());
         this.product.setCode(txtCodigo.getText());
         this.product.setStock(new BigDecimal(txtStockActual.getText()));
         this.product.setMinvalue(new BigDecimal(txtStockMinimo.getText()));
         this.product.setActive(checkActivo.isSelected());
         this.product.setPurchaseprice(new BigDecimal(txtPrecioCompra.getText()));
         this.product.setSaleprice(new BigDecimal(txtPrecioVenta.getText()));
-        this.product.setFamily((Family)comboFamilia.getSelectedItem());
-        System.out.println(this.product.getName() + " - "
-                + this.product.getCode() + " - "
-                + this.product.getStock() + " - "
-                + this.product.getMinvalue() + " - "
-                + this.product.getActive() + " - "
-                + this.product.getPurchaseprice() + " - "
-                + this.product.getSaleprice()
-        );
-
+        this.product.setFamily((Family) comboFamilia.getSelectedItem());
+        
+        fijarValoresFamilia();
+            
         if (this.product.getId() == null) {
             System.out.println("product >>>>  " + this.product);
             products.crear(this.product);
@@ -533,6 +567,21 @@ public class productosForm extends javax.swing.JDialog {
     private boolean noValido() {
         boolean error = false;
         StringBuilder mensaje = new StringBuilder();
+        if (Utilitario.campoVacio(txtCodigo.getText())) {
+            error = true;
+            mensaje.append("- Campo Codigo  es obligatorio \n");
+        }
+
+        if (Utilitario.campoVacio(txtPrecioCompra.getText())) {
+            error = true;
+            mensaje.append("- Campo Precio compra  es obligatorio \n");
+        }
+
+        if (Utilitario.campoVacio(txtPrecioVenta.getText())) {
+            error = true;
+            mensaje.append("- Campo Precio venta  es obligatorio \n");
+        }
+
         String codigo = txtCodigo.getText();
         if (validarCodigo(codigo)) {
             error = true;
@@ -547,14 +596,32 @@ public class productosForm extends javax.swing.JDialog {
 
         if (Utilitario.campoVacio(txtStockActual.getText())) {
             error = true;
-            mensaje.append("- Campo Precio Compra es obligatorio \n");
+            mensaje.append("- Campo Stock actual es obligatorio \n");
         }
 
         if (Utilitario.campoVacio(txtStockMinimo.getText())) {
             error = true;
-            mensaje.append("- Campo Precio Venta es obligatorio \n");
+            mensaje.append("- Campo Stock minimo  es obligatorio \n");
         }
 
+        Family family = (Family) comboFamilia.getSelectedItem();
+        if (family.getMeasure()) {
+            if (Utilitario.campoVacio(inputMedida.getText())) {
+                error = true;
+                mensaje.append("- Campo Medida  es obligatorio \n");
+            }
+        }
+        
+        if(family.getModel()){
+             if (Utilitario.campoVacio(inputModelo.getText())) {
+                error = true;
+                mensaje.append("- Campo Modelo  es obligatorio \n");
+            }
+        }
+
+        if(!mensaje.toString().isEmpty()){
+            JOptionPane.showMessageDialog(this, mensaje, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         return error;
     }
 
@@ -640,6 +707,7 @@ public class productosForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

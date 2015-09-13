@@ -81,6 +81,23 @@ public class Product implements Serializable {
     @JoinColumn(name = "familia_id")
     private Family family;
 
+    @Column(name = "talla")
+    private String size;
+    @Column(name = "genero")
+    private String sex;
+    
+    @Column(name = "calidad")
+    private String quality;
+    
+    @Column(name = "medida")
+    private String measure;
+    
+    @Column(name = "color")
+    private String color; 
+    
+    @Column(name = "modelo")
+    private String model;
+
     public Product() {
     }
 
@@ -234,8 +251,58 @@ public class Product implements Serializable {
     public String getNombre() {
         return name;
     }
-    
-      public String getFamilia() {
+
+    public String getFamilia() {
         return family.getName();
     }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getQuality() {
+        return quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+    
+    
 }

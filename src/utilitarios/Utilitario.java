@@ -57,14 +57,53 @@ public class Utilitario {
         } catch (Exception err) {
             cedulaCorrecta = false;
         }
+        System.out.println("CEDULA"+cedulaCorrecta);
         return cedulaCorrecta;
     }
 
-    /**
-     *
-     * @param campo
-     * @return
-     */
+    public static boolean valida(String x) {
+        int suma = 0;
+        if (x.length() == 9) {
+            System.out.println("Ingrese su cedula de 10 digitos");
+            return false;
+        } else {
+            int a[] = new int[x.length() / 2];
+            int b[] = new int[(x.length() / 2)];
+            int c = 0;
+            int d = 1;
+            for (int i = 0; i < x.length() / 2; i++) {
+                a[i] = Integer.parseInt(String.valueOf(x.charAt(c)));
+                c = c + 2;
+                if (i < (x.length() / 2) - 1) {
+                    b[i] = Integer.parseInt(String.valueOf(x.charAt(d)));
+                    d = d + 2;
+                }
+            }
+
+            for (int i = 0; i < a.length; i++) {
+                a[i] = a[i] * 2;
+                if (a[i] > 9) {
+                    a[i] = a[i] - 9;
+                }
+                suma = suma + a[i] + b[i];
+            }
+            int aux = suma / 10;
+            int dec = (aux + 1) * 10;
+            if ((dec - suma) == Integer.parseInt(String.valueOf(x.charAt(x.length() - 1)))) {
+                return true;
+            } else if (suma % 10 == 0 && x.charAt(x.length() - 1) == '0') {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+    }
+        /**
+         *
+         * @param campo
+         * @return
+         */
     public static boolean campoVacio(String campo) {
 //        return (campo.trim().isEmpty()) ? true : false;
         return (campo.trim().isEmpty());
@@ -72,36 +111,36 @@ public class Utilitario {
 
     /**
      * Encriptar la clave del usuario
+     *
      * @param clave
      * @return
      * @throws UnsupportedEncodingException
-     * @throws NoSuchAlgorithmException 
+     * @throws NoSuchAlgorithmException
      */
     public static String encriptarClave(String clave) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(clave.getBytes());
- 
+
         byte byteData[] = md.digest();
- 
+
         //convert the byte to hex format method 1
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < byteData.length; i++) {
-         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
         }
- 
+
         System.out.println("Digest(in hex format):: " + sb.toString());
- 
+
         //convert the byte to hex format method 2
         StringBuffer hexString = new StringBuffer();
-    	for (int i=0;i<byteData.length;i++) {
-    		String hex=Integer.toHexString(0xff & byteData[i]);
-   	     	if(hex.length()==1) hexString.append('0');
-   	     	hexString.append(hex);
-    	}
-    	return  hexString.toString();
+        for (int i = 0; i < byteData.length; i++) {
+            String hex = Integer.toHexString(0xff & byteData[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
-    
-    
-    
-    
+
 }

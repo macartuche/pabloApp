@@ -5,6 +5,7 @@
  */
 package ventanas;
 
+import entities.Users;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import ventanas.administracion.UsuarioForm;
 import ventanas.administracion.configuraciones;
 import ventanas.administracion.usuarios;
 import ventanas.compras.Compras;
@@ -34,11 +36,90 @@ import ventanas.ventas.ventas;
 public class mainForm extends javax.swing.JFrame {
 
     public static List<Integer> pestanasAbiertas;
+
+    private void createSubTree(javax.swing.tree.DefaultMutableTreeNode root,
+            javax.swing.tree.DefaultMutableTreeNode sub, String key, String name) {
+
+        if (UsuarioForm.llaves.containsKey(key) && UsuarioForm.llaves.get(key) == 1) {
+            javax.swing.tree.DefaultMutableTreeNode nuevo = new javax.swing.tree.DefaultMutableTreeNode(name);
+            sub.add(nuevo);
+            root.add(sub);
+        }
+    }
+
+    private void createTree(Users user) {
+        //crear el mapa de permisos
+        UsuarioForm.createHashMap(user.getPermissions());
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Inventario");
+        createSubTree(treeNode1, treeNode2, "familia", "Familia");
+        createSubTree(treeNode1, treeNode2, "producto", "Productos");
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ventas");
+        createSubTree(treeNode1, treeNode3, "clientes", "Clientes");
+        createSubTree(treeNode1, treeNode3, "factura", "Facturas de venta");
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Cuentas");
+         createSubTree(treeNode1, treeNode4, "ctas", "Cuentas por cobrar");
+         
+        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Reportes");
+        createSubTree(treeNode1, treeNode5, "reporteVentas", "Ventas realizadas");
+        createSubTree(treeNode1, treeNode5, "reporteCta", "Ctas por cobrar");
+        createSubTree(treeNode1, treeNode5, "reporteMas", "Productos más vendidos");
+        
+        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Administración");
+    createSubTree(treeNode1, treeNode6, "usuarios", "Usuarios");
+    createSubTree(treeNode1, treeNode6, "configuracion", "Configuraciones");
+        //dibujar de acuerdo al caso
+//        if (UsuarioForm.llaves.containsKey("producto") && UsuarioForm.llaves.get("producto") == 1) {
+//            javax.swing.tree.DefaultMutableTreeNode prod = new javax.swing.tree.DefaultMutableTreeNode("Productos");
+//            treeNode2.add(prod);
+//            treeNode1.add(treeNode2);
+//        }
+//
+//        if (UsuarioForm.llaves.containsKey("clientes") && UsuarioForm.llaves.get("clientes") == 1) {
+//            javax.swing.tree.DefaultMutableTreeNode prod = new javax.swing.tree.DefaultMutableTreeNode("Productos");
+//            treeNode2.add(prod);
+//            treeNode1.add(treeNode2);
+//        }
+//
+////        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Productos");
+////        treeNode2.add(treeNode3);
+////        treeNode1.add(treeNode2);
+//        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Ventas");
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Clientes");
+//        treeNode2.add(treeNode3);
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Facturas de venta");
+//        treeNode2.add(treeNode3);
+//        treeNode1.add(treeNode2);
+//        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Cuentas");
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Cuentas por cobrar");
+//        treeNode2.add(treeNode3);
+//        treeNode1.add(treeNode2);
+//        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Reportes");
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ventas realizadas");
+//        treeNode2.add(treeNode3);
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ctas por cobrar");
+//        treeNode2.add(treeNode3);
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Productos más vendidos");
+//        treeNode2.add(treeNode3);
+//        treeNode1.add(treeNode2);
+//        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Administración");
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Usuarios");
+//        treeNode2.add(treeNode3);
+//        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Configuraciones");
+//        treeNode2.add(treeNode3);
+//        treeNode1.add(treeNode2);
+        arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+    }
+
     /**
      * Creates new form mainForm
      */
-    public mainForm() {
+    public mainForm(Users user) {
         initComponents();
+        createTree(user);
         pestanasAbiertas = new ArrayList<>();
 //        pestanias.setUI(new CustomTabbedPaneUI());
         arbol.addTreeSelectionListener(new TreeSelectionListener() {
@@ -60,49 +141,49 @@ public class mainForm extends javax.swing.JFrame {
 //                        break;
                     case "Clientes":
                         clientes panel = new clientes();
-                        crearPestana(panel, "Clientes ",1); 
+                        crearPestana(panel, "Clientes ", 1);
                         break;
                     case "Facturas de venta":
                         ventas ven = new ventas();
-                        crearPestana(ven, "Facturas de venta",2);  
-                        break; 
+                        crearPestana(ven, "Facturas de venta", 2);
+                        break;
                     case "Cuentas por cobrar":
                         ctasCobrar ctaCobrar = new ctasCobrar();
-                        crearPestana(ctaCobrar, "Cuentas por cobrar",3);
+                        crearPestana(ctaCobrar, "Cuentas por cobrar", 3);
                         break;
                     case "Cuentas por pagar":
                         CtasPagar ctaPagar = new CtasPagar();
-                        crearPestana(ctaPagar, "Cuentas por pagar",4);
+                        crearPestana(ctaPagar, "Cuentas por pagar", 4);
                         break;
-                    case "Productos": 
+                    case "Productos":
                         products prod = new products();
-                        crearPestana(prod, "Productos ",5);
+                        crearPestana(prod, "Productos ", 5);
                         break;
-                
+
                     case "Usuarios":
                         usuarios pan = new usuarios();
-                        crearPestana(pan, "Usuarios     ",6);
+                        crearPestana(pan, "Usuarios     ", 6);
                         break;
-                    case "Familia": 
+                    case "Familia":
                         grupos grup = new grupos();
-                        crearPestana(grup, "Grupos de productos  ",7);
+                        crearPestana(grup, "Grupos de productos  ", 7);
                         break;
-                       case "Configuraciones": 
+                    case "Configuraciones":
                         configuraciones config = new configuraciones();
-                        crearPestana(config, "Configuraciones ",8);
+                        crearPestana(config, "Configuraciones ", 8);
                         break;
-                       case "Ventas realizadas":
-                           reporteVentas ventas = new reporteVentas();
-                           crearPestana(ventas, "Ventas realizadas  ",9);
-                           break;
-                       case "Ctas por cobrar":
-                           reporteCobros cobros = new reporteCobros();
-                           crearPestana(cobros, "Ctas por cobrar  ",10);
-                           break;
-                       case "Productos más vendidos":
-                           reporteMasVendido masvendido = new reporteMasVendido();
-                           crearPestana(masvendido, "Productos más vendidos", 11);
-                           break;
+                    case "Ventas realizadas":
+                        reporteVentas ventas = new reporteVentas();
+                        crearPestana(ventas, "Ventas realizadas  ", 9);
+                        break;
+                    case "Ctas por cobrar":
+                        reporteCobros cobros = new reporteCobros();
+                        crearPestana(cobros, "Ctas por cobrar  ", 10);
+                        break;
+                    case "Productos más vendidos":
+                        reporteMasVendido masvendido = new reporteMasVendido();
+                        crearPestana(masvendido, "Productos más vendidos", 11);
+                        break;
                 }
             }
         });
@@ -112,15 +193,16 @@ public class mainForm extends javax.swing.JFrame {
 
     /**
      * verifica si la pestana ha sido abierta
+     *
      * @param panel
      * @param titulo
-     * @param pestana 
+     * @param pestana
      */
     private void crearPestana(JPanel panel, String titulo, Integer pestana) {
-        if(!pestanasAbiertas.contains(pestana)){
+        if (!pestanasAbiertas.contains(pestana)) {
             pestanasAbiertas.add(pestana);
-              pestanias.add(titulo, panel);
-        } 
+            pestanias.add(titulo, panel);
+        }
     }
 
     /**
@@ -153,36 +235,6 @@ public class mainForm extends javax.swing.JFrame {
 
         arbol.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Productos");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Familia");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Productos");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Ventas");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Clientes");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Facturas de venta");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Cuentas");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Cuentas por cobrar");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Reportes");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ventas realizadas");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ctas por cobrar");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Productos más vendidos");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Administración");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Usuarios");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Configuraciones");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
         arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         arbol.setMaximumSize(new java.awt.Dimension(180, 114));
         arbol.setPreferredSize(new java.awt.Dimension(150, 114));
@@ -208,7 +260,7 @@ public class mainForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(jLabel2)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(538, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,7 +295,7 @@ public class mainForm extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                 .addGap(15, 15, 15))
         );
 
@@ -254,9 +306,10 @@ public class mainForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_arbolMouseClicked
 
-    public static void CerrarPestana(Integer numeroPestana){
+    public static void CerrarPestana(Integer numeroPestana) {
         pestanasAbiertas.remove(numeroPestana);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -267,13 +320,7 @@ public class mainForm extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-                    javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//                    break;
-//                }
-//            }
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(mainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -288,7 +335,7 @@ public class mainForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mainForm().setVisible(true);
+//                new mainForm().setVisible(true);
             }
         });
     }

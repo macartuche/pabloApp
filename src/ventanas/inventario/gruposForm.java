@@ -6,6 +6,7 @@
 package ventanas.inventario;
 
 import entities.Family;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,8 +14,10 @@ import javax.swing.JOptionPane;
  * @author macbookpro
  */
 public class gruposForm extends javax.swing.JDialog {
+
     private Family family;
     private Boolean atLeastOne = false;
+
     /**
      * Creates new form productosForm
      */
@@ -25,10 +28,10 @@ public class gruposForm extends javax.swing.JDialog {
         fijarDatos();
     }
 
-    private void fijarDatos(){
+    private void fijarDatos() {
         this.nameTxt.setText(this.family.getName());
         this.descriptionTxt.setText(this.family.getDescription());
-        
+
         this.modeloCheck.setSelected(this.family.getModel());
         this.colorCheck.setSelected(this.family.getColor());
         this.calidadCheck.setSelected(this.family.getQuality());
@@ -36,6 +39,7 @@ public class gruposForm extends javax.swing.JDialog {
         this.generoCheck.setSelected(this.family.getSex());
         this.medidaCheck.setSelected(this.family.getMeasure());
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,6 +73,7 @@ public class gruposForm extends javax.swing.JDialog {
         modeloCheck = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Familia de productos");
@@ -170,7 +175,10 @@ public class gruposForm extends javax.swing.JDialog {
         });
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel11.setText("Características");
+        jLabel11.setText("Características*");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 2, 10)); // NOI18N
+        jLabel12.setText("Los campos marcados con (*) son obligatorios");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -178,63 +186,68 @@ public class gruposForm extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(tallaCheck))
+                                .addContainerGap()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(colorCheck)))
-                        .addGap(30, 30, 30)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(calidadCheck))
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(tallaCheck))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(colorCheck)))
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(calidadCheck))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(generoCheck)))
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(medidaCheck))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(modeloCheck))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(generoCheck)))
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addContainerGap()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(medidaCheck))
+                                .addContainerGap()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(modeloCheck))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                                .addContainerGap()
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -288,13 +301,14 @@ public class gruposForm extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(27, 27, 27))
+                            .addComponent(jButton2)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tallaCheck))
-                        .addGap(103, 103, 103))))
+                        .addGap(76, 76, 76)))
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -312,63 +326,67 @@ public class gruposForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    private Boolean valid(){
-        Boolean isValid=true;
+    private Boolean valid() {
+        Boolean isValid = true;
         String name = nameTxt.getText();
-        String msj ="";
-        
-        if(name==null  ||  name.isEmpty()){
+        String msj = "";
+
+        if (name == null || name.isEmpty()) {
             msj += "- Campo nombre obligatorio \n";
-            isValid= false;
+            isValid = false;
         }
-        
-        System.out.println("=>"+atLeastOne);
-        if( !atLeastOne ){
-             msj += "- Debe seleccionar al menos una característica del producto \n";
-            isValid= false;
-        } 
-        
-        if(!msj.isEmpty()){
+
+        System.out.println("=>" + atLeastOne);
+        if (!tallaCheck.isSelected() && !colorCheck.isSelected() && !calidadCheck.isSelected()
+                && !medidaCheck.isSelected() && !generoCheck.isSelected() && !modeloCheck.isSelected()) {
+            msj += "- Debe seleccionar al menos una característica de la familia \n";
+            isValid = false;
+        }
+        if (!atLeastOne) {
+
+        }
+
+        if (!msj.isEmpty()) {
             JOptionPane.showMessageDialog(this, msj, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         return isValid;
     }
-    
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       if ( !valid()){
-           return;
-       }
-       
-       this.family.setName(nameTxt.getText());
-       this.family.setDescription(descriptionTxt.getText());
-       
-       this.family.setColor(colorCheck.isSelected());
-       this.family.setQuality(calidadCheck.isSelected());
-       this.family.setMeasure(medidaCheck.isSelected());
-       this.family.setSex(generoCheck.isSelected());
-      this.family.setSize(tallaCheck.isSelected());
-      this.family.setModel(modeloCheck.isSelected());
-      
-       if(this.family.getId()==null){
-           grupos.create(family);
-           this.dispose();
-       }else{
-           grupos.edit(family);
-           this.dispose();
-       }
+        if (!valid()) {
+            return;
+        }
+
+        this.family.setName(nameTxt.getText());
+        this.family.setDescription(descriptionTxt.getText());
+
+        this.family.setColor(colorCheck.isSelected());
+        this.family.setQuality(calidadCheck.isSelected());
+        this.family.setMeasure(medidaCheck.isSelected());
+        this.family.setSex(generoCheck.isSelected());
+        this.family.setSize(tallaCheck.isSelected());
+        this.family.setModel(modeloCheck.isSelected());
+
+        if (this.family.getId() == null) {
+            grupos.create(family);
+            this.dispose();
+        } else {
+            grupos.edit(family);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      this.family=null;
+        this.family = null;
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tallaCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tallaCheckActionPerformed
-       atLeastOne = true;
+        atLeastOne = true;
     }//GEN-LAST:event_tallaCheckActionPerformed
 
     private void calidadCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calidadCheckActionPerformed
@@ -380,7 +398,7 @@ public class gruposForm extends javax.swing.JDialog {
     }//GEN-LAST:event_generoCheckActionPerformed
 
     private void medidaCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medidaCheckActionPerformed
-       atLeastOne = true;
+        atLeastOne = true;
     }//GEN-LAST:event_medidaCheckActionPerformed
 
     private void modeloCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeloCheckActionPerformed
@@ -420,7 +438,6 @@ public class gruposForm extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-     
     }
 
     public Family getFamily() {
@@ -437,7 +454,7 @@ public class gruposForm extends javax.swing.JDialog {
 
     public void setAtLeastOne(Boolean atLeastOne) {
         this.atLeastOne = atLeastOne;
-    } 
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox calidadCheck;
     private javax.swing.JCheckBox colorCheck;
@@ -447,6 +464,7 @@ public class gruposForm extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
