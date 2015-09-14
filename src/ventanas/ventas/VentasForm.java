@@ -45,7 +45,7 @@ import javax.swing.text.JTextComponent;
  * @author macbookpro
  */
 public class VentasForm extends javax.swing.JDialog implements ActionListener, KeyListener {
-    
+
     static BillingJpaController controller = null;
     static DetailBillingJpaController controllerDetail = null;
     static ClientProviderJpaController controllerClient = null;
@@ -72,7 +72,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         super(parent, modal);
         initComponents();
     }
-    
+
     public VentasForm(java.awt.Frame parent, boolean modal, Billing b) {
         super(parent, modal);
         initComponents();
@@ -86,9 +86,9 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         fijarEntidad();
         verTabla();
     }
-    
+
     private void verTabla() {
-        
+
         System.out.println("AAA");
         dBTable1.createControlPanel();
         fijarDatos();
@@ -101,7 +101,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
 //        }
 
     }
-    
+
     private void fijarDatos() {
         try {
 //            resultados.setText("Resultados: " + l.size());
@@ -118,7 +118,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void fijarEntidad() {
         details = billing.getDetailBillingList();
         if (billing.getId() != null) {
@@ -161,7 +161,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         txtTelefono = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        butonAgregarFila = new javax.swing.JButton();
+        btnAgregarDetalle = new javax.swing.JButton();
         txtNombres = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -185,6 +185,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         jLabel10 = new javax.swing.JLabel();
         lblDescuento = new javax.swing.JLabel();
         btnAgregarCliente = new javax.swing.JButton();
+        btnRemoverDetalle = new javax.swing.JButton();
 
         jLabel19.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel19.setText("0,00");
@@ -221,11 +222,11 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Detalle");
 
-        butonAgregarFila.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        butonAgregarFila.setText("Agregar filas");
-        butonAgregarFila.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarDetalle.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnAgregarDetalle.setText("Agregar detalle");
+        btnAgregarDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butonAgregarFilaActionPerformed(evt);
+                btnAgregarDetalleActionPerformed(evt);
             }
         });
 
@@ -301,6 +302,14 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             }
         });
 
+        btnRemoverDetalle.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnRemoverDetalle.setText("Remover detalle");
+        btnRemoverDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverDetalleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -316,7 +325,9 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                         .addGap(9, 9, 9)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(butonAgregarFila, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRemoverDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAgregarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -413,7 +424,9 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addComponent(dBTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(butonAgregarFila))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAgregarDetalle)
+                        .addComponent(btnRemoverDetalle)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -475,11 +488,11 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         try {
-            
+
             if (!noValido()) {
-                
+
                 if (billing.getId() == null) {
-                    
+
                     System.out.println("INTRO >>> ");
 //            controller.create(billing);
 //            controller.createBilling(billing);
@@ -499,26 +512,26 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
                     account.setBalance(billing.getTotal());
                     account.setTotal(billing.getTotal());
                     account.setDateCreation(new Date());
-                    
+
                     controllerAccount.create(account);
                     System.out.println("Paso");
                     this.dispose();
-                    
+
                 } else {
-                    
+
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, mensaje,
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-            
+
         } catch (Exception ex) {
             Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
-    
+
     private void generarSecuencial() {
         String secuencial;
         Map<String, Object> variables = new HashMap<>();
@@ -541,21 +554,21 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             secuencial = formatoSecuencial(numSecuencial);
             System.out.println("secuencial >>> " + secuencial);
         }
-        
+
         billing.setShop_id("001");
         billing.setEmissionpoint_id("001");
         billing.setSequential(secuencial);
         billing.setNumber(billing.getShop_id() + "-" + billing.getEmissionpoint_id() + "-" + billing.getSequential());
-        
+
     }
-    
+
     private String formatoSecuencial(int numero) {
         Formatter fmt = new Formatter();
         fmt.format("%09d", numero);
         System.out.println("El numero formateado " + fmt);
         return fmt.toString();
     }
-    
+
     private void actualizarSecuencial() {
         try {
             Map<String, Object> variables = new HashMap<>();
@@ -567,7 +580,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             Logger.getLogger(VentasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void actualizarStock() {
         try {
             BigDecimal nuevoStock;
@@ -585,15 +598,15 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         }
     }
 
-    private void butonAgregarFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butonAgregarFilaActionPerformed
+    private void btnAgregarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDetalleActionPerformed
         // TODO add your handling code here:
         d = new DetailBilling();
         abrirVentana();
-    }//GEN-LAST:event_butonAgregarFilaActionPerformed
+    }//GEN-LAST:event_btnAgregarDetalleActionPerformed
 
     private void btnAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarClienteActionPerformed
         // TODO add your handling code here:
-        
+
         ClientProvider cp = new ClientProvider();
         cp.setClient(Boolean.TRUE);
         cp.setActiveclient(Boolean.TRUE);
@@ -603,9 +616,39 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         cp.getPersonId().setSex("M");
         ClienteForm dialog = new ClienteForm(new javax.swing.JFrame(), true, cp);
         dialog.setVisible(Boolean.TRUE);
-        
+
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
-    
+
+    private void btnRemoverDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverDetalleActionPerformed
+        // TODO add your handling code here:
+
+        if (details.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int indice = dBTable1.getSelectedRow();
+//        if (!b.getState().equals("GENERADA")) {
+//            JOptionPane.showMessageDialog(this, "Sólo se pueden modificar facturas en estado \"GENERADA\".", "ERROR", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+
+        int confirmado = JOptionPane.showOptionDialog(this,
+                "  Desea remover el detalle de la factura!.\n"
+                + " \n", "Alerta",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No", "Cancelar"}, "Si");
+
+        System.out.println("CONFIMADO >>> " + confirmado);
+        if (JOptionPane.OK_OPTION == confirmado) {
+            System.out.println("si");
+            details.remove(indice);
+            fijarDatos();
+        } else {
+            System.out.println("no");
+
+        }
+    }//GEN-LAST:event_btnRemoverDetalleActionPerformed
+
     private void abrirVentana() {
 
 //        ItemForm dialog = new ItemForm(new javax.swing.JFrame(), true, d, billing.getDetailBillingList());
@@ -626,7 +669,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
 //        });
         System.out.println("SSSSSSSSSSSSS");
         fijarDatos();
-        
+
     }
 
     /**
@@ -667,17 +710,17 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             }
         });
     }
-    
+
     private Billing billing;
-    
+
     public Billing getBilling() {
         return billing;
     }
-    
+
     public void setBilling(Billing billing) {
         this.billing = billing;
     }
-    
+
     @SuppressWarnings("UnusedAssignment")
     private void calcularTotales() {
         BigDecimal total = BigDecimal.ZERO;
@@ -703,7 +746,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             }
         }
         total = subTotal.add(iva12);
-        
+
         billing.setType("FACTURA");
         billing.setState("GENERADA");
         billing.setSubtotal(subTotal);
@@ -718,7 +761,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         billing.setSequential(null);
         billing.setEmissionpoint_id(null);
         billing.setShop_id(null);
-        
+
         lblSubtotal.setText(subTotal.toString());
         lblBaseIva0.setText(baseIva0.toString());
 //        lblValorIva0.setText(iva0.toString());
@@ -726,9 +769,9 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         lblValorIva12.setText(iva12.toString());
         lblDescuento.setText(descuento.toString());
         lblTotal.setText(total.toString());
-        
+
     }
-    
+
     private boolean noValido() {
         Boolean error = Boolean.FALSE;
 //        StringBuilder mensaje = new StringBuilder();
@@ -738,21 +781,22 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             mensaje = "- Seleccione un cliente. \n";
             return error;
         }
-        
+
         if (billing.getDetailBillingList().isEmpty()) {
             error = Boolean.TRUE;
             mensaje = "- Agregue al menos un detalle a la factura. \n";
             return error;
         }
-        
+
         return error;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarCliente;
+    private javax.swing.JButton btnAgregarDetalle;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton butonAgregarFila;
+    private javax.swing.JButton btnRemoverDetalle;
     private javax.swing.JComboBox combito;
     private static quick.dbtable.DBTable dBTable1;
     private javax.swing.JLabel jLabel1;
@@ -799,15 +843,15 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             txtTelefono.setText(cliente.getPersonId().getPhone());
         }
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println("released");
@@ -826,7 +870,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         } catch (Exception ex) {
         }
     }
-    
+
     private void buscarClientes(String criterio) {
         System.out.println("INTRO BUSCAR >>>");
         if (!criterio.trim().isEmpty()) {
@@ -840,7 +884,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
             list = listaClientes(clients);
         }
     }
-    
+
     public final List<String> listaClientes(List<ClientProvider> lis) {
         List<String> result = new ArrayList<>();
         String var;
@@ -852,13 +896,13 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         }
         return result;
     }
-    
+
     private static void setSuggestionModel(JComboBox comboBox, ComboBoxModel mdl, String str) {
         comboBox.setModel(mdl);
         comboBox.setSelectedIndex(-1);
         ((JTextField) comboBox.getEditor().getEditorComponent()).setText(str);
     }
-    
+
     private static ComboBoxModel getSuggestedModel(Vector list, String text) {
         DefaultComboBoxModel m = new DefaultComboBoxModel();
         for (Object obj : list) {
@@ -869,7 +913,7 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         }
         return m;
     }
-    
+
     private static ComboBoxModel getModelComboBox(List<String> list) {
         DefaultComboBoxModel m = new DefaultComboBoxModel();
         for (String val : list) {
@@ -877,5 +921,5 @@ public class VentasForm extends javax.swing.JDialog implements ActionListener, K
         }
         return m;
     }
-    
+
 }

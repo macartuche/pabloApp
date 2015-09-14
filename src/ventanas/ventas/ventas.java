@@ -374,6 +374,7 @@ public class ventas extends javax.swing.JPanel {
                 }
                 b.setState("ANULADA");
                 controller.edit(b);
+                verTabla();
             } else {
                 System.out.println("no");
 
@@ -395,6 +396,9 @@ public class ventas extends javax.swing.JPanel {
 
     private void btnPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagoActionPerformed
         // TODO add your handling code here:
+        
+        
+        
     }//GEN-LAST:event_btnPagoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
