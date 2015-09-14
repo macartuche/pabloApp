@@ -17,7 +17,7 @@ public class EntityManagerProj {
 
     protected EntityManagerFactory emf;
     protected EntityManager em;
-    private static final String PERSISTENCE_UNIT_NAME = "pabloPU";
+    private static final String PERSISTENCE_UNIT_NAME = "pabloAppPU";
 
     public EntityManagerProj() {
         emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);

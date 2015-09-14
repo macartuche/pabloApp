@@ -7,8 +7,12 @@ package ventanas.ventas;
 
 import controllers.BillingJpaController;
 import controllers.PersonJpaController;
+import controllers.ProductJpaController;
+import controllers.exceptions.NonexistentEntityException;
 import entities.Billing;
 import entities.DetailBilling;
+import entities.Product;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +30,7 @@ public class ventas extends javax.swing.JPanel {
 
     static BillingJpaController controller = null;
     static PersonJpaController controllerPerson = null;
+    static ProductJpaController controllerProducto = null;
     public static List<Billing> ventas;
 
     /**
@@ -35,6 +40,7 @@ public class ventas extends javax.swing.JPanel {
         initComponents();
         controller = new BillingJpaController();
         controllerPerson = new PersonJpaController();
+        controllerProducto = new ProductJpaController();
         verTabla();
     }
 
@@ -323,23 +329,65 @@ public class ventas extends javax.swing.JPanel {
 
     private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
         // TODO add your handling code here:
-
-        int indice = dBTable1.getSelectedRow();
-        if (indice < 0) {
-            JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
-        } else {
-
-            Billing b = ventas.get(indice);
-
-            if (b.getState().equals("GENERADA")) {
-                abrirVentana(b);
-            } else {
-                JOptionPane.showMessageDialog(this, "Sólo de pueden modificar facturas en estado \"GENERADA\".", "ERROR", JOptionPane.ERROR_MESSAGE);
+        try {
+//        int indice = dBTable1.getSelectedRow();
+//        System.out.println("indice >>> " + indice);
+//        if (!(indice > 0)) {
+            if (ventas.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
-        }
+            int indice = dBTable1.getSelectedRow();
+            Billing b = ventas.get(indice);
+            if (!b.getState().equals("GENERADA")) {
+//                abrirVentana(b);
+                JOptionPane.showMessageDialog(this, "Sólo se pueden modificar facturas en estado \"GENERADA\".", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
+//        int confirmado = JOptionPane.showConfirmDialog(this, " Nota.. \n "
+//                + "  \n "
+//                + "  Desea anular la factura con número,      \n"
+//                + "   " + b.getNumber() + "!.\n"
+//                + " \n", "Alerta", 1);
+            int confirmado = JOptionPane.showOptionDialog(btnAnular,
+                    "  Desea anular la factura con número,      \n"
+                    + "   " + b.getNumber() + "!.\n"
+                    + " \n", "Alerta",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No", "Cancelar"}, "Si");
+
+            System.out.println("CONFIMADO >>> " + confirmado);
+            if (JOptionPane.OK_OPTION == confirmado) {
+                System.out.println("si");
+                List<DetailBilling> listaDetalle = b.getDetailBillingList();
+                BigDecimal cantidad;
+                Product product;
+                for (DetailBilling detalle : listaDetalle) {
+
+                    cantidad = detalle.getQuantity();
+                    product = detalle.getProductId();
+                    cantidad = cantidad.add(product.getStock());
+                    product.setStock(cantidad);
+                    controllerProducto.edit(product);
+
+                }
+                b.setState("ANULADA");
+                controller.edit(b);
+            } else {
+                System.out.println("no");
+
+            }
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAnularActionPerformed
+
+    private void actualizarProductosPorFacturaAnulada() {
+
+    }
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         // TODO add your handling code here:
