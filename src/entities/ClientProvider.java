@@ -70,6 +70,7 @@ public class ClientProvider implements Serializable {
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person personId;
+     
 
     public ClientProvider() {
     }
@@ -174,6 +175,6 @@ public class ClientProvider implements Serializable {
 
     public String getEstado() {
         return (activeclient) ? "Activo" : "Inactivo";
-    }
-
+    } 
+ 
 }

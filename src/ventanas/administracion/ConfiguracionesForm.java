@@ -6,6 +6,7 @@
 package ventanas.administracion;
 
 import entities.Configurations;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -211,6 +212,12 @@ public class ConfiguracionesForm extends javax.swing.JDialog {
             error=true;
              mensaje.append("- Campo Código  es  obligatorio \n");
         } 
+        
+        if(!mensaje.toString().isEmpty()){
+            JOptionPane.showMessageDialog(this, mensaje, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
         return error;
     }
 

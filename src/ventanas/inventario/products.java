@@ -282,7 +282,24 @@ public class products extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar1ActionPerformed
-        // TODO add your handling code here:
+       int indice = dBTable1.getSelectedRow();
+        if (indice < 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Product f = products.get(indice);
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(this, "Desea activar/desactivar el registro", "Confirmación", dialogButton);
+            if (dialogResult == 0) {
+                //System.out.println("Yes option");
+                Boolean state =  (f.getActive())? false: true;
+                f.setActive(state);
+                actualizar(f);
+                fijarDatos();
+            } else {
+                //System.out.println("No Option");
+            }
+
+        }
     }//GEN-LAST:event_btnEditar1ActionPerformed
 
     public static void crear(Product p) {
@@ -304,6 +321,7 @@ public class products extends javax.swing.JPanel {
 
     public static void verTabla() {
         dBTable1.createControlPanel();
+        dBTable1.setEditable(false);
         products = controller.findProductEntities();
         fijarDatos();
 
@@ -312,11 +330,12 @@ public class products extends javax.swing.JPanel {
     private static void fijarDatos() {
         try {
             resultados.setText("Resultados: " + products.size());
-            String methodNames[] = {"getName", "getCode", "getActive", "getStock", "getMinvalue", "getPurchaseprice", "getSaleprice"};
+            String methodNames[] = {"getNombre", "getFamilia","getCodigo",  "getStock", "getMinimo", "getPrecioCompra", "getPrecioVenta","getEstado"};
             dBTable1.refreshDataObject(products, methodNames);
-            dBTable1.getColumn(0).setPreferredWidth(100);
-            dBTable1.getColumn(1).setPreferredWidth(300);
-            dBTable1.getColumn(2).setPreferredWidth(200);
+            dBTable1.getColumn(0).setPreferredWidth(200);
+            dBTable1.getColumn(0).setPreferredWidth(200);
+            dBTable1.getColumn(1).setPreferredWidth(100);
+            dBTable1.getColumn(2).setPreferredWidth(100);
             dBTable1.getColumn(3).setPreferredWidth(100);
             dBTable1.getColumn(4).setPreferredWidth(100);
             dBTable1.getColumn(5).setPreferredWidth(100);

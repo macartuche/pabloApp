@@ -60,6 +60,9 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "rol")
     private String rol;
+    
+    @Column(name = "permisos")
+    private String permissions;
 
     public Users() {
     }
@@ -169,5 +172,15 @@ public class Users implements Serializable {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(String permissions) {
+        this.permissions = permissions;
+    }
+    
+    
 
 }

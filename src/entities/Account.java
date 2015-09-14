@@ -159,6 +159,10 @@ public class Account implements Serializable {
     public BigDecimal getSaldo() {
         return balance;
     }
+    
+        public void setSaldo(BigDecimal balance) {
+        this.balance=balance;
+    }
  
     public String getFactura() {
         return billingId.getNumber();
