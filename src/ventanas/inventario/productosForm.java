@@ -58,7 +58,7 @@ public class productosForm extends javax.swing.JDialog {
         } else {
             Family family = (Family) comboFamilia.getSelectedItem();
             enableCombos(family);
-            
+
             //fijar valores de combos
             comboCalidad.setSelectedItem(this.product.getQuality());
             comboTalla.setSelectedItem(this.product.getSize());
@@ -467,38 +467,39 @@ public class productosForm extends javax.swing.JDialog {
         bindingGroup.bind();
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fijarValoresFamilia(){
-        Family familia = (Family)comboFamilia.getSelectedItem();
+    private void fijarValoresFamilia() {
+        Family familia = (Family) comboFamilia.getSelectedItem();
         this.product.setMeasure("");
         this.product.setModel("");
         this.product.setColor("");
         this.product.setSize("");
         this.product.setSex("");
         this.product.setQuality("");
-        
-        if(familia.getMeasure()){
+
+        if (familia.getMeasure()) {
             this.product.setMeasure(inputMedida.getText());
         }
-        
-        if(familia.getColor()){
+
+        if (familia.getColor()) {
             this.product.setColor(comboColor.getSelectedItem().toString());
         }
-        
-        if(familia.getQuality()){
+
+        if (familia.getQuality()) {
             this.product.setQuality(comboCalidad.getSelectedItem().toString());
         }
-        
-        if(familia.getModel()){
+
+        if (familia.getModel()) {
             this.product.setModel(inputModelo.getText());
         }
-        
-        if(familia.getSex()){
+
+        if (familia.getSex()) {
             this.product.setSex(comboGenero.getSelectedItem().toString());
         }
-        
-        if(familia.getSize()){
+
+        if (familia.getSize()) {
             this.product.setSize(comboTalla.getSelectedItem().toString());
         }
     }
@@ -517,7 +518,7 @@ public class productosForm extends javax.swing.JDialog {
             this.product.setPercentageIva(new BigDecimal("12.00"));
         }
 
-         this.product.setName(txtNombre.getText());
+        this.product.setName(txtNombre.getText());
         this.product.setCode(txtCodigo.getText());
         this.product.setStock(new BigDecimal(txtStockActual.getText()));
         this.product.setMinvalue(new BigDecimal(txtStockMinimo.getText()));
@@ -525,9 +526,9 @@ public class productosForm extends javax.swing.JDialog {
         this.product.setPurchaseprice(new BigDecimal(txtPrecioCompra.getText()));
         this.product.setSaleprice(new BigDecimal(txtPrecioVenta.getText()));
         this.product.setFamily((Family) comboFamilia.getSelectedItem());
-        
+
         fijarValoresFamilia();
-            
+
         if (this.product.getId() == null) {
             System.out.println("product >>>>  " + this.product);
             products.crear(this.product);
@@ -583,6 +584,18 @@ public class productosForm extends javax.swing.JDialog {
             mensaje.append("- Campo Precio venta  es obligatorio \n");
         }
 
+        //validar que sea numero mayor a cero
+        if (!Utilitario.numeroMayorCero(txtPrecioVenta.getText())) {
+            error = true;
+            mensaje.append("- Campo Precio venta  debe ser numérico y mayor a cero  \n");
+        }
+
+        //validar que sea numero mayor a cero
+        if (!Utilitario.numeroMayorCero(txtPrecioCompra.getText())) {
+            error = true;
+            mensaje.append("- Campo Precio compra  debe ser numérico y mayor a cero  \n");
+        }
+
         String codigo = txtCodigo.getText();
         if (validarCodigo(codigo)) {
             error = true;
@@ -604,6 +617,19 @@ public class productosForm extends javax.swing.JDialog {
             error = true;
             mensaje.append("- Campo Stock minimo  es obligatorio \n");
         }
+        
+                //validar que sea numero mayor a cero
+        if (!Utilitario.numeroMayorCero(txtStockMinimo.getText())) {
+            error = true;
+            mensaje.append("- Campo Stock mínimo  debe ser numérico y mayor a cero  \n");
+        }
+
+        //validar que sea numero mayor a cero
+        if (!Utilitario.numeroMayorCero(txtStockActual.getText())) {
+            error = true;
+            mensaje.append("- Campo Stock actual  debe ser numérico y mayor a cero  \n");
+        }
+
 
         Family family = (Family) comboFamilia.getSelectedItem();
         if (family.getMeasure()) {
@@ -612,15 +638,15 @@ public class productosForm extends javax.swing.JDialog {
                 mensaje.append("- Campo Medida  es obligatorio \n");
             }
         }
-        
-        if(family.getModel()){
-             if (Utilitario.campoVacio(inputModelo.getText())) {
+
+        if (family.getModel()) {
+            if (Utilitario.campoVacio(inputModelo.getText())) {
                 error = true;
                 mensaje.append("- Campo Modelo  es obligatorio \n");
             }
         }
 
-        if(!mensaje.toString().isEmpty()){
+        if (!mensaje.toString().isEmpty()) {
             JOptionPane.showMessageDialog(this, mensaje, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return error;

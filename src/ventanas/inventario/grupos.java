@@ -268,11 +268,11 @@ public class grupos extends javax.swing.JPanel {
     private void abrirVentana(final Family family) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                gruposForm dialog = new gruposForm(new javax.swing.JFrame(), true, family);
+                final gruposForm dialog = new gruposForm(new javax.swing.JFrame(), true, family);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                        dialog.dispose();
                     }
                 });
                 dialog.setVisible(true);
@@ -322,6 +322,7 @@ public class grupos extends javax.swing.JPanel {
     public static void verTabla() {
         dBTable1.createControlPanel();
         families = controller.findFamilyEntities();
+        dBTable1.setEditable(false);
         fijarDatos();
 
     }

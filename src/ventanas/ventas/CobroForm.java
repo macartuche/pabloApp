@@ -201,6 +201,7 @@ public class CobroForm extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void paymentTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paymentTxtKeyPressed

@@ -143,4 +143,17 @@ public class Utilitario {
         return hexString.toString();
     }
 
+    public static boolean numeroMayorCero(String text) {
+    
+        try {
+            double value = Double.parseDouble(text);
+            if(value <1){
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }
