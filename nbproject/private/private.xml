@@ -5,20 +5,9 @@
         <group>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/inventario/productosForm.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/UsuarioForm.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/META-INF/persistence.xml</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/ventas/ItemForm.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/inventario/products.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/reportes/reporteProductoMasVendido.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/CustomTabbedPaneUI.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/reportes/reporteCobros.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/controllers/EntityManagerProj.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/ventas/VentasForm.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/ConfiguracionesForm.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/usuarios.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/inventario/gruposForm.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/controllers/AccountJpaController.java</file>
-            <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/configuraciones.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/LoginApp.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/mainForm.java</file>
+            <file>file:/Users/macbookpro/pabloApp/src/entities/Users.java</file>
         </group>
     </open-files>
 </project-private>
