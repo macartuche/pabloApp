@@ -240,7 +240,7 @@
                               <Component id="btnNuevo" min="-2" pref="67" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnPago" min="-2" pref="69" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnAnular" min="-2" pref="65" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                               <Component id="btnImprimir" min="-2" pref="71" max="-2" attributes="0"/>

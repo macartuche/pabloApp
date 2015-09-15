@@ -13,6 +13,7 @@ import entities.Configurations;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
@@ -325,6 +326,13 @@ public class ctasCobrar extends javax.swing.JPanel {
                System.out.println("==>"+quotesNumber);
                 //Determinar el valor de la cuota
                 BigDecimal quote = account.getTotal().divide(new BigDecimal(quotesNumber),2, RoundingMode.HALF_UP);
+                
+                //verificar si falta un ctvo en 
+                BigDecimal fictVar  = account.getBalance().subtract(quote); 
+                if(fictVar.compareTo(new BigDecimal("0.01")) == 0){
+                    quote = quote.add(new BigDecimal("0.01"));
+                }
+                
                 final BigDecimal finalQuote = quote.setScale(2, RoundingMode.HALF_UP);
                 java.awt.EventQueue.invokeLater(new Runnable() { 
                     @Override
@@ -442,8 +450,7 @@ public class ctasCobrar extends javax.swing.JPanel {
             Account account = accounts.get(indice);
             System.out.println("=>"+account.getState());
             //se abre la venta si no esta pagada la cuetna
-            if (!account.getState().equals("Pagada")) {
-                System.out.println("AQUI");
+            if (!account.getState().equals("Pagada")) { 
                 abrirVentana(account);
             } else {
                 JOptionPane.showMessageDialog(this, "La cuenta ya está cancelada", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -462,6 +469,7 @@ public class ctasCobrar extends javax.swing.JPanel {
 
     public static void verTabla() {
         dBTable1.createControlPanel();
+        dBTable1.setEditable(false);
         accounts = controller.findAccountEntities();
         fijarDatos(accounts);
 

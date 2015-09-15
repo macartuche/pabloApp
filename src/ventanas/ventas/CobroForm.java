@@ -6,28 +6,48 @@
 package ventanas.ventas;
 
 import controllers.AccountJpaController;
+import controllers.BillingJpaController;
 import controllers.PaymentJpaController;
 import entities.Account;
+import entities.Billing;
 import entities.Payment;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import ventanas.reportes.reporteCobros;
 
 /**
  *
  * @author macbookpro
  */
 public class CobroForm extends javax.swing.JDialog {
-    private  Account account;
+
+    private Account account;
     private BigDecimal quote;
     private PaymentJpaController paymentController;
     private AccountJpaController accountController;
+    private BillingJpaController billingController;
 
     /**
      * Creates new form CobroForm
+     *
      * @param parent
      * @param modal
      * @param account
@@ -39,19 +59,21 @@ public class CobroForm extends javax.swing.JDialog {
         this.account = account;
         this.quote = quote;
         fijarDatos();
-                       System.out.println("bal cons: "+this.account.getBalance());
+        System.out.println("bal cons: " + this.account.getBalance());
         paymentController = new PaymentJpaController();
-        accountController = new AccountJpaController(); 
+        accountController = new AccountJpaController();
+        billingController = new BillingJpaController();
     }
 
     /**
-     * 
+     *
      */
-    private void fijarDatos(){
+    private void fijarDatos() {
         this.saldoLbl.setText(this.quote.toString());
         this.paymentTxt.setText("00.00");
         this.changeTxt.setText("00.00");
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -205,65 +227,98 @@ public class CobroForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void paymentTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paymentTxtKeyPressed
-     
+
     }//GEN-LAST:event_paymentTxtKeyPressed
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
         try {
             //solo grabar los valores
             //grabar el abono
+
+            BigDecimal newBalance = this.account.getBalance().subtract(this.quote);
+            
+            if (newBalance.compareTo(BigDecimal.ZERO) == 0) {
+                account.setState("Pagada");
+                
+                //actualizar la factura
+                Billing billing = account.getBillingId();
+                billing.setState("Pagada");
+                billingController.edit(billing);
+            }
+            
+            account.setBalance(newBalance);
+            accountController.edit(this.account);
+
             Payment payment = new Payment();
             payment.setAccountId(this.account);
             payment.setValue(this.quote);
             payment.setBalance(account.getBalance());
             payment.setDatePayment(new Date());
             paymentController.create(payment);
-            
-            BigDecimal newBalance = this.account.getBalance().subtract(this.quote);
-            if(newBalance.compareTo(BigDecimal.ZERO)==0){
-                account.setState("Pagada");
-            }
-            account.setBalance(newBalance); 
-            accountController.edit(this.account);
+
             ctasCobrar.registerPayment();
             this.dispose();
+
+            System.out.println("A===>" + payment.getAccountId().getFactura());
+            payment.setAccountId(account);
+             imprimirAbono(payment);
         } catch (Exception ex) {
             Logger.getLogger(CobroForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_registerBtnActionPerformed
 
+    private void imprimirAbono(Payment payment) {
+        String reportPath = "/Users/macbookpro/pabloApp/src/ventanas/reportes/jasper/abono.jasper";
+        try {
+            List<Payment> pagos = new ArrayList<>();
+            pagos.add(payment);
+
+            FileInputStream fis = new FileInputStream(reportPath);
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream);
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(pagos);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, beanCollectionDataSource);
+            // view report to UI
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(reporteCobros.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(reporteCobros.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void paymentTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paymentTxtKeyReleased
-       String value = paymentTxt.getText();
-       if(value.isEmpty()){
+        String value = paymentTxt.getText();
+        if (value.isEmpty()) {
             this.registerBtn.setEnabled(false);
             return;
-       }
-        System.out.println("value "+value);
-        try{
-               Double converted = Double.parseDouble(value);
-               BigDecimal change = new BigDecimal(converted).subtract(this.quote);
-               change = change.setScale(2, BigDecimal.ROUND_HALF_UP);
-               this.changeTxt.setText(change.toString());
-         
-               
-               System.out.println("bal: "+this.account.getBalance());
-               System.out.println("Cuota: "+quote);
-               
-               System.out.println("=>"+change.compareTo(BigDecimal.ZERO)); 
-               if(change.compareTo(BigDecimal.ZERO)<0 || change.compareTo(BigDecimal.ZERO)==0){
-                          this.registerBtn.setEnabled(false); 
-               }else{ 
-                         this.registerBtn.setEnabled(true);
-               }
-        }catch(Exception e){
-            System.out.println("=>"+e);
+        }
+        System.out.println("value " + value);
+        try {
+            Double converted = Double.parseDouble(value);
+            BigDecimal change = new BigDecimal(converted).subtract(this.quote);
+            change = change.setScale(2, BigDecimal.ROUND_HALF_UP);
+            this.changeTxt.setText(change.toString());
+
+            System.out.println("bal: " + this.account.getBalance());
+            System.out.println("Cuota: " + quote);
+
+            System.out.println("=>" + change.compareTo(BigDecimal.ZERO));
+            if (change.compareTo(BigDecimal.ZERO) < 0 || change.compareTo(BigDecimal.ZERO) == 0) {
+                this.registerBtn.setEnabled(false);
+            } else {
+                this.registerBtn.setEnabled(true);
+            }
+        } catch (Exception e) {
+            System.out.println("=>" + e);
             JOptionPane.showMessageDialog(this, "Ingrese valores correctos", "Error", JOptionPane.ERROR_MESSAGE);
             this.registerBtn.setEnabled(false);
         }
     }//GEN-LAST:event_paymentTxtKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -323,8 +378,8 @@ public class CobroForm extends javax.swing.JDialog {
 
     public void setQuote(BigDecimal quote) {
         this.quote = quote;
-    } 
-    
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField changeTxt;
     private javax.swing.JButton jButton1;
