@@ -3,11 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/inventario/productosForm.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/UsuarioForm.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/administracion/LoginApp.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/ventanas/mainForm.java</file>
             <file>file:/Users/macbookpro/pabloApp/src/entities/Users.java</file>
+=======
+            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/controllers/EntityManagerProj.java</file>
+            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/ventas/ItemForm.java</file>
+            <file>file:/home/josimar/NetBeansProjects/pabloApp/src/ventanas/ventas/ventas.java</file>
+>>>>>>> origin/master
         </group>
     </open-files>
 </project-private>
