@@ -65,6 +65,12 @@ public class LoginApp extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jLabel3.setText("Clave:");
 
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+
         jButton1.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jButton1.setText("Ingresar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +141,7 @@ public class LoginApp extends javax.swing.JDialog {
         System.exit(1);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void acceso() {
         //validar el usuario y clave
 
         String usuario = username.getText();
@@ -162,8 +168,15 @@ public class LoginApp extends javax.swing.JDialog {
             Logger.getLogger(LoginApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        acceso();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        acceso();
+    }//GEN-LAST:event_passwordActionPerformed
 
     private void abrirPrincipal(final Users user) {
         try {

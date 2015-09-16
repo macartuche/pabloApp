@@ -13,6 +13,7 @@ import java.awt.Frame;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,7 +32,7 @@ public class Payments extends javax.swing.JDialog {
         controller = new PaymentJpaController();
         this.account = account;
         totaldebt.setText(account.getTotal().toString());
-        verTabla();
+        verTabla(account);
     }
 
     public Payments(Frame owner, String title, boolean modal) {
@@ -43,9 +44,13 @@ public class Payments extends javax.swing.JDialog {
         initComponents();
     }
     
-    public static void verTabla() {
+    public static void verTabla(Account account) {
         dBTable1.createControlPanel();
-        payments = controller.findPaymentEntities();
+        dBTable1.setEditable(false);
+        System.out.println("=>"+account.getId());
+       Query query = controller.getEm().createQuery("SELECT p FROM Payment p WHERE p.accountId =:account ");
+        query.setParameter("account", account);
+        List<Payment> payments = query.getResultList();
         fijarDatos(payments);
 
     }
