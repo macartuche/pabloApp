@@ -403,10 +403,25 @@ public class ventas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagoActionPerformed
-        // TODO add your handling code here:
-        
-        
-        
+        if (ventas.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int indice = dBTable1.getSelectedRow();
+        Billing b = ventas.get(indice);
+        if (!b.getState().equals("GENERADA")) {
+//                abrirVentana(b);
+            JOptionPane.showMessageDialog(this, "Sólo se pueden pagar facturas en estado \"GENERADA\".", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        CobroFacturaForm dialog = new CobroFacturaForm(new javax.swing.JFrame(), Boolean.TRUE, b);
+        dialog.setVisible(true);
+        System.out.println(">");
+        verTabla();
+        System.out.println(">>");
+
     }//GEN-LAST:event_btnPagoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed

@@ -6,8 +6,10 @@
 package ventanas.ventas;
 
 import controllers.AccountJpaController;
+import controllers.BillingJpaController;
 import controllers.PaymentJpaController;
 import entities.Account;
+import entities.Billing;
 import entities.Payment;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,13 +23,17 @@ import javax.swing.JOptionPane;
  * @author macbookpro
  */
 public class CobroFacturaForm extends javax.swing.JDialog {
-    private  Account account;
+
+    private Billing billing;
+    private Account account;
     private BigDecimal quote;
     private PaymentJpaController paymentController;
     private AccountJpaController accountController;
+    private BillingJpaController billingController;
 
     /**
      * Creates new form CobroForm
+     *
      * @param parent
      * @param modal
      * @param account
@@ -39,19 +45,33 @@ public class CobroFacturaForm extends javax.swing.JDialog {
         this.account = account;
         this.quote = quote;
         fijarDatos();
-                       System.out.println("bal cons: "+this.account.getBalance());
+        System.out.println("bal cons: " + this.account.getBalance());
         paymentController = new PaymentJpaController();
-        accountController = new AccountJpaController(); 
+        accountController = new AccountJpaController();
+    }
+
+    public CobroFacturaForm(java.awt.Frame parent, boolean modal, Billing billing) {
+        super(parent, modal);
+        initComponents();
+        this.billing = billing;
+        this.account = billing.getAccountCollection().get(0);
+        this.quote = billing.getTotal();
+        fijarDatos();
+        System.out.println("bal cons: " + this.account.getBalance());
+        paymentController = new PaymentJpaController();
+        accountController = new AccountJpaController();
+        billingController = new BillingJpaController();
     }
 
     /**
-     * 
+     *
      */
-    private void fijarDatos(){
-        this.saldoLbl.setText(this.quote.toString());
-        this.paymentTxt.setText("00.00");
-        this.changeTxt.setText("00.00");
+    private void fijarDatos() {
+        this.lblSaldo.setText(this.quote.toString());
+        this.txtPago.setText("00.00");
+        this.txtCambio.setText("00.00");
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,12 +87,12 @@ public class CobroFacturaForm extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        changeTxt = new javax.swing.JTextField();
-        paymentTxt = new javax.swing.JTextField();
-        registerBtn = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        txtCambio = new javax.swing.JTextField();
+        txtPago = new javax.swing.JTextField();
+        btnRegistrarPago = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        saldoLbl = new javax.swing.JLabel();
+        lblSaldo = new javax.swing.JLabel();
 
         jButton2.setText("Registrar pago");
 
@@ -91,45 +111,45 @@ public class CobroFacturaForm extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         jLabel3.setText("Cambio:");
 
-        changeTxt.setEditable(false);
-        changeTxt.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
-        changeTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        changeTxt.setText("5,00");
+        txtCambio.setEditable(false);
+        txtCambio.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
+        txtCambio.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCambio.setText("5,00");
 
-        paymentTxt.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
-        paymentTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        paymentTxt.setText("70,00");
-        paymentTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPago.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
+        txtPago.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtPago.setText("70,00");
+        txtPago.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                paymentTxtKeyPressed(evt);
+                txtPagoKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                paymentTxtKeyReleased(evt);
+                txtPagoKeyReleased(evt);
             }
         });
 
-        registerBtn.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        registerBtn.setText("Registrar pago");
-        registerBtn.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarPago.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        btnRegistrarPago.setText("Registrar pago");
+        btnRegistrarPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerBtnActionPerformed(evt);
+                btnRegistrarPagoActionPerformed(evt);
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         jLabel5.setText("Total Factura");
 
-        saldoLbl.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
-        saldoLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        saldoLbl.setText("65,00");
+        lblSaldo.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
+        lblSaldo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSaldo.setText("65,00");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -146,22 +166,22 @@ public class CobroFacturaForm extends javax.swing.JDialog {
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(registerBtn)
+                                    .addComponent(btnRegistrarPago)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(changeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(paymentTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(12, Short.MAX_VALUE))
+                                        .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saldoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -174,19 +194,19 @@ public class CobroFacturaForm extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saldoLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paymentTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(registerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -203,11 +223,11 @@ public class CobroFacturaForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void paymentTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paymentTxtKeyPressed
-     
-    }//GEN-LAST:event_paymentTxtKeyPressed
+    private void txtPagoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagoKeyPressed
 
-    private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
+    }//GEN-LAST:event_txtPagoKeyPressed
+
+    private void btnRegistrarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPagoActionPerformed
         try {
             //solo grabar los valores
             //grabar el abono
@@ -217,53 +237,54 @@ public class CobroFacturaForm extends javax.swing.JDialog {
             payment.setBalance(account.getBalance());
             payment.setDatePayment(new Date());
             paymentController.create(payment);
-            
+
             BigDecimal newBalance = this.account.getBalance().subtract(this.quote);
-            if(newBalance.compareTo(BigDecimal.ZERO)==0){
+            if (newBalance.compareTo(BigDecimal.ZERO) == 0) {
                 account.setState("Pagada");
             }
-            account.setBalance(newBalance); 
+            account.setBalance(newBalance);
             accountController.edit(this.account);
-            ctasCobrar.registerPayment();
+            billing.setState("PAGADA");
+            billingController.edit(billing);
+//            ctasCobrar.registerPayment();
             this.dispose();
         } catch (Exception ex) {
             Logger.getLogger(CobroFacturaForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_registerBtnActionPerformed
+    }//GEN-LAST:event_btnRegistrarPagoActionPerformed
 
-    private void paymentTxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paymentTxtKeyReleased
-       String value = paymentTxt.getText();
-       if(value.isEmpty()){
-            this.registerBtn.setEnabled(false);
+    private void txtPagoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagoKeyReleased
+        String value = txtPago.getText();
+        if (value.isEmpty()) {
+            this.btnRegistrarPago.setEnabled(false);
             return;
-       }
-        System.out.println("value "+value);
-        try{
-               Double converted = Double.parseDouble(value);
-               BigDecimal change = new BigDecimal(converted).subtract(this.quote);
-               change = change.setScale(2, BigDecimal.ROUND_HALF_UP);
-               this.changeTxt.setText(change.toString());
-         
-               
-               System.out.println("bal: "+this.account.getBalance());
-               System.out.println("Cuota: "+quote);
-               
-               System.out.println("=>"+change.compareTo(BigDecimal.ZERO)); 
-               if(change.compareTo(BigDecimal.ZERO)<0 || change.compareTo(BigDecimal.ZERO)==0){
-                          this.registerBtn.setEnabled(false); 
-               }else{ 
-                         this.registerBtn.setEnabled(true);
-               }
-        }catch(Exception e){
-            System.out.println("=>"+e);
-            JOptionPane.showMessageDialog(this, "Ingrese valores correctos", "Error", JOptionPane.ERROR_MESSAGE);
-            this.registerBtn.setEnabled(false);
         }
-    }//GEN-LAST:event_paymentTxtKeyReleased
+        System.out.println("value " + value);
+        try {
+            Double converted = Double.parseDouble(value);
+            BigDecimal change = new BigDecimal(converted).subtract(this.quote);
+            change = change.setScale(2, BigDecimal.ROUND_HALF_UP);
+            this.txtCambio.setText(change.toString());
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+            System.out.println("bal: " + this.account.getBalance());
+            System.out.println("Cuota: " + quote);
+
+            System.out.println("=>" + change.compareTo(BigDecimal.ZERO));
+            if (change.compareTo(BigDecimal.ZERO) < 0 || change.compareTo(BigDecimal.ZERO) == 0) {
+                this.btnRegistrarPago.setEnabled(false);
+            } else {
+                this.btnRegistrarPago.setEnabled(true);
+            }
+        } catch (Exception e) {
+            System.out.println("=>" + e);
+            JOptionPane.showMessageDialog(this, "Ingrese valores correctos", "Error", JOptionPane.ERROR_MESSAGE);
+            this.btnRegistrarPago.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtPagoKeyReleased
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,11 +359,11 @@ public class CobroFacturaForm extends javax.swing.JDialog {
 
     public void setQuote(BigDecimal quote) {
         this.quote = quote;
-    } 
-    
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField changeTxt;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnRegistrarPago;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -350,8 +371,8 @@ public class CobroFacturaForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField paymentTxt;
-    private javax.swing.JButton registerBtn;
-    private javax.swing.JLabel saldoLbl;
+    private javax.swing.JLabel lblSaldo;
+    private javax.swing.JTextField txtCambio;
+    private javax.swing.JTextField txtPago;
     // End of variables declaration//GEN-END:variables
 }
